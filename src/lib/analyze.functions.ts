@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { generateText, Output } from "ai";
+import { generateText } from "ai";
 import { z } from "zod";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
 
@@ -19,6 +19,51 @@ const AnalysisSchema = z.object({
     fat: z.string(),
   }),
 });
+
+function extractAnalysis(text: string): z.infer<typeof AnalysisSchema> {
+  let cleaned = text.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start === -1 || end === -1) throw new Error("AI did not return JSON");
+  cleaned = cleaned.slice(start, end + 1)
+    .replace(/,\s*}/g, "}")
+    .replace(/,\s*]/g, "]")
+    .replace(/[\x00-\x1F\x7F]/g, " ");
+
+  let obj: unknown;
+  try {
+    obj = JSON.parse(cleaned);
+  } catch {
+    let repaired = cleaned;
+    let braces = 0, brackets = 0;
+    for (const c of repaired) {
+      if (c === "{") braces++;
+      else if (c === "}") braces--;
+      else if (c === "[") brackets++;
+      else if (c === "]") brackets--;
+    }
+    while (brackets-- > 0) repaired += "]";
+    while (braces-- > 0) repaired += "}";
+    obj = JSON.parse(repaired);
+  }
+
+  const lenient = AnalysisSchema.partial().extend({
+    status: z.enum(["safe", "warning", "danger"]).catch("warning"),
+    title: z.string().catch(""),
+    summary: z.string().catch(""),
+  }).parse(obj);
+
+  return {
+    status: lenient.status ?? "warning",
+    title: lenient.title ?? "",
+    summary: lenient.summary ?? "",
+    ingredients: lenient.ingredients ?? [],
+    allergens_detected: lenient.allergens_detected ?? [],
+    risks: lenient.risks ?? [],
+    recommendations: lenient.recommendations ?? [],
+    nutrition_estimate: lenient.nutrition_estimate ?? { calories: "", protein: "", carbs: "", fat: "" },
+  };
+}
 
 const InputSchema = z.object({
   imageBase64: z.string().min(20),
@@ -62,7 +107,9 @@ Decide status:
 Provide a brief title for the item.
 Estimate nutrition per typical serving as short strings (e.g. "~250 kcal").
 Recommendations should be informational (e.g. "Etiketi kontrol edin"), never medical advice.
-Keep arrays short (max ~8 entries each). Be specific, not generic.`;
+Keep arrays short (max ~8 entries each). Be specific, not generic.
+Respond ONLY with a single valid JSON object (no markdown, no commentary) matching exactly this shape:
+{"status":"safe|warning|danger","title":string,"summary":string,"ingredients":string[],"allergens_detected":string[],"risks":string[],"recommendations":string[],"nutrition_estimate":{"calories":string,"protein":string,"carbs":string,"fat":string}}`;
 
     const gateway = createLovableAiGatewayProvider(apiKey);
     const model = gateway("google/gemini-3-flash-preview");
@@ -77,15 +124,14 @@ Keep arrays short (max ~8 entries each). Be specific, not generic.`;
         {
           role: "user",
           content: [
-            { type: "text", text: data.type === "product" ? "Analyze this product/label." : "Analyze this meal." },
+            { type: "text", text: data.type === "product" ? "Analyze this product/label. Return only the JSON object." : "Analyze this meal. Return only the JSON object." },
             { type: "image", image: dataUrl },
           ],
         },
       ],
-      experimental_output: Output.object({ schema: AnalysisSchema }),
     });
 
-    const parsed = result.experimental_output;
+    const parsed = extractAnalysis(result.text);
 
     const { data: inserted, error } = await supabase
       .from("analyses")
