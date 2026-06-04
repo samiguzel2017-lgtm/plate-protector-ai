@@ -167,9 +167,15 @@
   }
 
   .font-serif {
-    font-family: var(--font-serif);
-    font-feature-settings: "liga", "dlig";
-    letter-spacing: -0.01em;
+    font-family: var(--font-display);
+    font-feature-settings: "cv11", "ss01";
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
   }
 }
 
