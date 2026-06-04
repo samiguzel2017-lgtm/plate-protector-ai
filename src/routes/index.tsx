@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Disclaimer } from "@/components/Disclaimer";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Camera, HeartPulse, ShieldCheck, History, Sparkles } from "lucide-react";
+import { ArrowRight, Camera, HeartPulse, ShieldCheck, History, Star, Flame, Wheat, Droplet, Beef, Activity, Plus, Minus, ScanLine } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
