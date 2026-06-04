@@ -20,6 +20,51 @@ const AnalysisSchema = z.object({
   }),
 });
 
+function extractAnalysis(text: string): z.infer<typeof AnalysisSchema> {
+  let cleaned = text.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start === -1 || end === -1) throw new Error("AI did not return JSON");
+  cleaned = cleaned.slice(start, end + 1)
+    .replace(/,\s*}/g, "}")
+    .replace(/,\s*]/g, "]")
+    .replace(/[\x00-\x1F\x7F]/g, " ");
+
+  let obj: unknown;
+  try {
+    obj = JSON.parse(cleaned);
+  } catch {
+    let repaired = cleaned;
+    let braces = 0, brackets = 0;
+    for (const c of repaired) {
+      if (c === "{") braces++;
+      else if (c === "}") braces--;
+      else if (c === "[") brackets++;
+      else if (c === "]") brackets--;
+    }
+    while (brackets-- > 0) repaired += "]";
+    while (braces-- > 0) repaired += "}";
+    obj = JSON.parse(repaired);
+  }
+
+  const lenient = AnalysisSchema.partial().extend({
+    status: z.enum(["safe", "warning", "danger"]).catch("warning"),
+    title: z.string().catch(""),
+    summary: z.string().catch(""),
+  }).parse(obj);
+
+  return {
+    status: lenient.status ?? "warning",
+    title: lenient.title ?? "",
+    summary: lenient.summary ?? "",
+    ingredients: lenient.ingredients ?? [],
+    allergens_detected: lenient.allergens_detected ?? [],
+    risks: lenient.risks ?? [],
+    recommendations: lenient.recommendations ?? [],
+    nutrition_estimate: lenient.nutrition_estimate ?? { calories: "", protein: "", carbs: "", fat: "" },
+  };
+}
+
 const InputSchema = z.object({
   imageBase64: z.string().min(20),
   imageUrl: z.string().min(1),
