@@ -92,18 +92,18 @@ function Landing() {
               </div>
 
               <h1
-                className="mb-6 text-[3.25rem] font-bold leading-[0.95] tracking-[-0.03em] md:text-7xl lg:text-[5.25rem]"
-                style={{ color: INK, fontFamily: "var(--font-serif)" }}
+                className="mb-6 text-[3.25rem] font-extrabold leading-[0.98] tracking-[-0.035em] md:text-[5rem] lg:text-[5.75rem]"
+                style={{ color: INK, fontFamily: "var(--font-display)" }}
               >
                 Beslenme
                 <br />
-                <span className="italic font-normal" style={{ color: MOSS }}>
+                <span className="font-extrabold" style={{ color: MOSS_DEEP }}>
                   bilincinizi
                 </span>{" "}
                 <span className="relative inline-block">
                   yeniden
                   <span
-                    className="absolute -bottom-1 left-0 h-[6px] w-full rounded-full"
+                    className="absolute -bottom-1 left-0 h-[7px] w-full rounded-full"
                     style={{ background: `linear-gradient(90deg, ${LIME}, transparent)` }}
                   />
                 </span>
@@ -112,8 +112,8 @@ function Landing() {
               </h1>
 
               <p
-                className="mb-10 max-w-lg text-base leading-relaxed md:text-lg"
-                style={{ color: SAGE_MUTED }}
+                className="mb-10 max-w-lg text-[15px] font-normal leading-[1.7] tracking-[-0.005em] md:text-[17px]"
+                style={{ color: INK_SOFT, fontFamily: "var(--font-sans)" }}
               >
                 {t("hero.sub")}
               </p>
