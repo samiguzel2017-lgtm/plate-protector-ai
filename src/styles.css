@@ -61,10 +61,10 @@
 
   /* Background system — warm off-white, paper feel */
   --background: oklch(0.985 0.005 90);
-  --foreground: oklch(0.18 0.04 250);
+  --foreground: oklch(0.18 0.005 250);
   --surface: oklch(1 0 0);
-  --surface-muted: oklch(0.965 0.008 240);
-  --ink: oklch(0.18 0.04 250);
+  --surface-muted: oklch(0.965 0.005 240);
+  --ink: oklch(0.16 0.005 250);
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.18 0.04 250);
