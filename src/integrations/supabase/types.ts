@@ -14,7 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      analyses: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string
+          result: Json
+          status: Database["public"]["Enums"]["analysis_status"]
+          title: string | null
+          type: Database["public"]["Enums"]["analysis_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url: string
+          result: Json
+          status: Database["public"]["Enums"]["analysis_status"]
+          title?: string | null
+          type?: Database["public"]["Enums"]["analysis_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string
+          result?: Json
+          status?: Database["public"]["Enums"]["analysis_status"]
+          title?: string | null
+          type?: Database["public"]["Enums"]["analysis_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      health_profiles: {
+        Row: {
+          allergies: string[]
+          conditions: string[]
+          diet_preferences: string[]
+          notes: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          allergies?: string[]
+          conditions?: string[]
+          diet_preferences?: string[]
+          notes?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          allergies?: string[]
+          conditions?: string[]
+          diet_preferences?: string[]
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          language: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+          language?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          language?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +106,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      analysis_status: "safe" | "warning" | "danger"
+      analysis_type: "product" | "meal"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +234,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      analysis_status: ["safe", "warning", "danger"],
+      analysis_type: ["product", "meal"],
+    },
   },
 } as const
