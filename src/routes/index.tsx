@@ -30,15 +30,16 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-// Modern Editorial Organic palette
-const CANVAS = "oklch(0.985 0.012 92)";
-const INK = "oklch(0.22 0.04 152)";
+// Modern Editorial Organic palette — refined ink + sage
+const CANVAS = "oklch(0.985 0.008 92)";
+const INK = "oklch(0.16 0.005 250)";
+const INK_SOFT = "oklch(0.32 0.008 250)";
 const MOSS = "oklch(0.42 0.08 152)";
-const MOSS_DEEP = "oklch(0.32 0.07 152)";
+const MOSS_DEEP = "oklch(0.28 0.06 152)";
 const SAGE_SOFT = "oklch(0.94 0.022 140)";
-const SAGE_LINE = "oklch(0.88 0.028 140)";
-const SAGE_MUTED = "oklch(0.5 0.04 150)";
-const LIME = "oklch(0.78 0.18 130)";
+const SAGE_LINE = "oklch(0.9 0.015 140)";
+const SAGE_MUTED = "oklch(0.5 0.015 240)";
+const LIME = "oklch(0.82 0.18 130)";
 const EMBER = "oklch(0.68 0.16 35)";
 
 function Landing() {
