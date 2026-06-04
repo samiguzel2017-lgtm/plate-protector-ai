@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { generateText, Output } from "ai";
+import { generateText } from "ai";
 import { z } from "zod";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
 
@@ -62,7 +62,9 @@ Decide status:
 Provide a brief title for the item.
 Estimate nutrition per typical serving as short strings (e.g. "~250 kcal").
 Recommendations should be informational (e.g. "Etiketi kontrol edin"), never medical advice.
-Keep arrays short (max ~8 entries each). Be specific, not generic.`;
+Keep arrays short (max ~8 entries each). Be specific, not generic.
+Respond ONLY with a single valid JSON object (no markdown, no commentary) matching exactly this shape:
+{"status":"safe|warning|danger","title":string,"summary":string,"ingredients":string[],"allergens_detected":string[],"risks":string[],"recommendations":string[],"nutrition_estimate":{"calories":string,"protein":string,"carbs":string,"fat":string}}`;
 
     const gateway = createLovableAiGatewayProvider(apiKey);
     const model = gateway("google/gemini-3-flash-preview");
@@ -77,15 +79,14 @@ Keep arrays short (max ~8 entries each). Be specific, not generic.`;
         {
           role: "user",
           content: [
-            { type: "text", text: data.type === "product" ? "Analyze this product/label." : "Analyze this meal." },
+            { type: "text", text: data.type === "product" ? "Analyze this product/label. Return only the JSON object." : "Analyze this meal. Return only the JSON object." },
             { type: "image", image: dataUrl },
           ],
         },
       ],
-      experimental_output: Output.object({ schema: AnalysisSchema }),
     });
 
-    const parsed = result.experimental_output;
+    const parsed = extractAnalysis(result.text);
 
     const { data: inserted, error } = await supabase
       .from("analyses")
