@@ -23,8 +23,10 @@ const tr: Dict = {
   "cta.start": "Hemen Başla",
   "cta.learn": "Nasıl çalıştığını gör",
 
-  "hero.title": "Tükettiğiniz her gıda, sağlık profilinize göre.",
-  "hero.sub": "Etiketi veya yemeği fotoğraflayın. Yapay zekâ, alerjilerinize, hastalıklarınıza ve beslenme tercihlerinize göre saniyeler içinde uygunluğu değerlendirir.",
+  "hero.title": "Alentra AI ile tanışın: Sadece bir fotoğrafla sağlığınızı koruyun.",
+  "hero.sub": "Sağlık profilinize göre kişiselleştirilmiş gıda analizi. Etiketi veya yemeği fotoğraflayın; alerjenler, içerikler ve besin değerleri saniyeler içinde ekranınıza gelsin.",
+  "hero.social": "Binlerce kullanıcı tarafından tercih edildi ve",
+
 
   "feat.title": "Sağlığınızı koruyan dört temel yetenek",
   "feat.profile.t": "Kişisel Sağlık Profili",
