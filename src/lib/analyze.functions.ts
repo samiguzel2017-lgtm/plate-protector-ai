@@ -117,21 +117,38 @@ Respond ONLY with a single valid JSON object (no markdown, no commentary) matchi
     let dataUrl = data.imageBase64;
     if (!dataUrl.startsWith("data:")) dataUrl = `data:image/jpeg;base64,${dataUrl}`;
 
-    const result = await generateText({
-      model,
-      system,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: data.type === "product" ? "Analyze this product/label. Return only the JSON object." : "Analyze this meal. Return only the JSON object." },
-            { type: "image", image: dataUrl },
-          ],
-        },
-      ],
-    });
+    let parsed: z.infer<typeof AnalysisSchema>;
+    try {
+      const result = await generateText({
+        model,
+        system,
+        messages: [
+          {
+            role: "user",
+            content: [
+              { type: "text", text: data.type === "product" ? "Analyze this product/label. Return only the JSON object." : "Analyze this meal. Return only the JSON object." },
+              { type: "image", image: dataUrl },
+            ],
+          },
+        ],
+      });
 
-    const parsed = extractAnalysis(result.text);
+      parsed = extractAnalysis(result.text);
+    } catch (error) {
+      console.error("Alentra image analysis failed", error);
+      parsed = {
+        status: "warning",
+        title: data.language === "tr" ? "Analiz tamamlanamadı" : "Analysis unavailable",
+        summary: data.language === "tr"
+          ? "AI yanıtı beklenen formatta alınamadı. Ürün etiketini ve içerik listesini dikkatlice kontrol edin."
+          : "The AI response could not be read in the expected format. Please review the label and ingredient list carefully.",
+        ingredients: [],
+        allergens_detected: [],
+        risks: [data.language === "tr" ? "Görsel analizi doğrulanamadı" : "Image analysis could not be verified"],
+        recommendations: [data.language === "tr" ? "Şüpheli durumlarda ürünü tüketmeden önce uzman görüşü alın." : "When uncertain, consult a qualified professional before consuming."],
+        nutrition_estimate: { calories: "", protein: "", carbs: "", fat: "" },
+      };
+    }
 
     const { data: inserted, error } = await supabase
       .from("analyses")
