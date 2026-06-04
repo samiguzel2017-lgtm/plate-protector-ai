@@ -20,22 +20,34 @@ const AnalysisSchema = z.object({
   }),
 });
 
+function removeControlCharacters(value: string) {
+  return Array.from(value)
+    .filter((char) => {
+      const code = char.charCodeAt(0);
+      return code === 9 || code === 10 || code === 13 || code >= 32;
+    })
+    .join("");
+}
+
 function extractAnalysis(text: string): z.infer<typeof AnalysisSchema> {
-  let cleaned = text.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+  let cleaned = text
+    .replace(/```json\s*/gi, "")
+    .replace(/```\s*/g, "")
+    .trim();
   const start = cleaned.indexOf("{");
   const end = cleaned.lastIndexOf("}");
   if (start === -1 || end === -1) throw new Error("AI did not return JSON");
-  cleaned = cleaned.slice(start, end + 1)
+  cleaned = removeControlCharacters(cleaned.slice(start, end + 1))
     .replace(/,\s*}/g, "}")
-    .replace(/,\s*]/g, "]")
-    .replace(/[\x00-\x1F\x7F]/g, " ");
+    .replace(/,\s*]/g, "]");
 
   let obj: unknown;
   try {
     obj = JSON.parse(cleaned);
   } catch {
     let repaired = cleaned;
-    let braces = 0, brackets = 0;
+    let braces = 0;
+    let brackets = 0;
     for (const c of repaired) {
       if (c === "{") braces++;
       else if (c === "}") braces--;
@@ -47,11 +59,13 @@ function extractAnalysis(text: string): z.infer<typeof AnalysisSchema> {
     obj = JSON.parse(repaired);
   }
 
-  const lenient = AnalysisSchema.partial().extend({
-    status: z.enum(["safe", "warning", "danger"]).catch("warning"),
-    title: z.string().catch(""),
-    summary: z.string().catch(""),
-  }).parse(obj);
+  const lenient = AnalysisSchema.partial()
+    .extend({
+      status: z.enum(["safe", "warning", "danger"]).catch("warning"),
+      title: z.string().catch(""),
+      summary: z.string().catch(""),
+    })
+    .parse(obj);
 
   return {
     status: lenient.status ?? "warning",
@@ -61,7 +75,12 @@ function extractAnalysis(text: string): z.infer<typeof AnalysisSchema> {
     allergens_detected: lenient.allergens_detected ?? [],
     risks: lenient.risks ?? [],
     recommendations: lenient.recommendations ?? [],
-    nutrition_estimate: lenient.nutrition_estimate ?? { calories: "", protein: "", carbs: "", fat: "" },
+    nutrition_estimate: lenient.nutrition_estimate ?? {
+      calories: "",
+      protein: "",
+      carbs: "",
+      fat: "",
+    },
   };
 }
 
