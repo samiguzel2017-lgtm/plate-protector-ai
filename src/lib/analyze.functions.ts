@@ -20,22 +20,34 @@ const AnalysisSchema = z.object({
   }),
 });
 
+function removeControlCharacters(value: string) {
+  return Array.from(value)
+    .filter((char) => {
+      const code = char.charCodeAt(0);
+      return code === 9 || code === 10 || code === 13 || code >= 32;
+    })
+    .join("");
+}
+
 function extractAnalysis(text: string): z.infer<typeof AnalysisSchema> {
-  let cleaned = text.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+  let cleaned = text
+    .replace(/```json\s*/gi, "")
+    .replace(/```\s*/g, "")
+    .trim();
   const start = cleaned.indexOf("{");
   const end = cleaned.lastIndexOf("}");
   if (start === -1 || end === -1) throw new Error("AI did not return JSON");
-  cleaned = cleaned.slice(start, end + 1)
+  cleaned = removeControlCharacters(cleaned.slice(start, end + 1))
     .replace(/,\s*}/g, "}")
-    .replace(/,\s*]/g, "]")
-    .replace(/[\x00-\x1F\x7F]/g, " ");
+    .replace(/,\s*]/g, "]");
 
   let obj: unknown;
   try {
     obj = JSON.parse(cleaned);
   } catch {
     let repaired = cleaned;
-    let braces = 0, brackets = 0;
+    let braces = 0;
+    let brackets = 0;
     for (const c of repaired) {
       if (c === "{") braces++;
       else if (c === "}") braces--;
@@ -47,11 +59,13 @@ function extractAnalysis(text: string): z.infer<typeof AnalysisSchema> {
     obj = JSON.parse(repaired);
   }
 
-  const lenient = AnalysisSchema.partial().extend({
-    status: z.enum(["safe", "warning", "danger"]).catch("warning"),
-    title: z.string().catch(""),
-    summary: z.string().catch(""),
-  }).parse(obj);
+  const lenient = AnalysisSchema.partial()
+    .extend({
+      status: z.enum(["safe", "warning", "danger"]).catch("warning"),
+      title: z.string().catch(""),
+      summary: z.string().catch(""),
+    })
+    .parse(obj);
 
   return {
     status: lenient.status ?? "warning",
@@ -61,7 +75,12 @@ function extractAnalysis(text: string): z.infer<typeof AnalysisSchema> {
     allergens_detected: lenient.allergens_detected ?? [],
     risks: lenient.risks ?? [],
     recommendations: lenient.recommendations ?? [],
-    nutrition_estimate: lenient.nutrition_estimate ?? { calories: "", protein: "", carbs: "", fat: "" },
+    nutrition_estimate: lenient.nutrition_estimate ?? {
+      calories: "",
+      protein: "",
+      carbs: "",
+      fat: "",
+    },
   };
 }
 
@@ -87,12 +106,13 @@ export const analyzeImage = createServerFn({ method: "POST" })
       .maybeSingle();
 
     const allergies = (hp?.allergies ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
-    const conditions = (hp?.conditions ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
-    const diet = (hp?.diet_preferences ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
+    const conditions =
+      (hp?.conditions ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
+    const diet =
+      (hp?.diet_preferences ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
 
-    const langInstruction = data.language === "tr"
-      ? "TÜM yanıtı Türkçe yaz."
-      : "Write the entire response in English.";
+    const langInstruction =
+      data.language === "tr" ? "TÜM yanıtı Türkçe yaz." : "Write the entire response in English.";
 
     const system = `You are Alentra AI, a food-safety assistant for a specific user.
 ${langInstruction}
@@ -117,21 +137,53 @@ Respond ONLY with a single valid JSON object (no markdown, no commentary) matchi
     let dataUrl = data.imageBase64;
     if (!dataUrl.startsWith("data:")) dataUrl = `data:image/jpeg;base64,${dataUrl}`;
 
-    const result = await generateText({
-      model,
-      system,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: data.type === "product" ? "Analyze this product/label. Return only the JSON object." : "Analyze this meal. Return only the JSON object." },
-            { type: "image", image: dataUrl },
-          ],
-        },
-      ],
-    });
+    let parsed: z.infer<typeof AnalysisSchema>;
+    try {
+      const result = await generateText({
+        model,
+        system,
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text:
+                  data.type === "product"
+                    ? "Analyze this product/label. Return only the JSON object."
+                    : "Analyze this meal. Return only the JSON object.",
+              },
+              { type: "image", image: dataUrl },
+            ],
+          },
+        ],
+      });
 
-    const parsed = extractAnalysis(result.text);
+      parsed = extractAnalysis(result.text);
+    } catch (error) {
+      console.error("Alentra image analysis failed", error);
+      parsed = {
+        status: "warning",
+        title: data.language === "tr" ? "Analiz tamamlanamadı" : "Analysis unavailable",
+        summary:
+          data.language === "tr"
+            ? "AI yanıtı beklenen formatta alınamadı. Ürün etiketini ve içerik listesini dikkatlice kontrol edin."
+            : "The AI response could not be read in the expected format. Please review the label and ingredient list carefully.",
+        ingredients: [],
+        allergens_detected: [],
+        risks: [
+          data.language === "tr"
+            ? "Görsel analizi doğrulanamadı"
+            : "Image analysis could not be verified",
+        ],
+        recommendations: [
+          data.language === "tr"
+            ? "Şüpheli durumlarda ürünü tüketmeden önce uzman görüşü alın."
+            : "When uncertain, consult a qualified professional before consuming.",
+        ],
+        nutrition_estimate: { calories: "", protein: "", carbs: "", fat: "" },
+      };
+    }
 
     const { data: inserted, error } = await supabase
       .from("analyses")
