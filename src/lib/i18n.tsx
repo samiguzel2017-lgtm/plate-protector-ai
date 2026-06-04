@@ -23,8 +23,10 @@ const tr: Dict = {
   "cta.start": "Hemen Başla",
   "cta.learn": "Nasıl çalıştığını gör",
 
-  "hero.title": "Tükettiğiniz her gıda, sağlık profilinize göre.",
-  "hero.sub": "Etiketi veya yemeği fotoğraflayın. Yapay zekâ, alerjilerinize, hastalıklarınıza ve beslenme tercihlerinize göre saniyeler içinde uygunluğu değerlendirir.",
+  "hero.title": "Alentra AI ile tanışın: Sadece bir fotoğrafla sağlığınızı koruyun.",
+  "hero.sub": "Sağlık profilinize göre kişiselleştirilmiş gıda analizi. Etiketi veya yemeği fotoğraflayın; alerjenler, içerikler ve besin değerleri saniyeler içinde ekranınıza gelsin.",
+  "hero.social": "Binlerce kullanıcı tarafından tercih edildi ve",
+
 
   "feat.title": "Sağlığınızı koruyan dört temel yetenek",
   "feat.profile.t": "Kişisel Sağlık Profili",
@@ -147,8 +149,10 @@ const en: Dict = {
   "cta.start": "Get Started",
   "cta.learn": "See how it works",
 
-  "hero.title": "Every food, evaluated against your health.",
-  "hero.sub": "Photograph a label or meal. Our AI assesses fit against your allergies, conditions and dietary preferences in seconds.",
+  "hero.title": "Meet Alentra AI: Protect your health with just a photo.",
+  "hero.sub": "Personalized food analysis tailored to your health profile. Snap a label or meal and see allergens, ingredients and nutrition in seconds.",
+  "hero.social": "Trusted by thousands of users, rated",
+
 
   "feat.title": "Four capabilities that protect your health",
   "feat.profile.t": "Personal Health Profile",
