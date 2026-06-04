@@ -24,19 +24,31 @@ function Landing() {
       <main>
         {/* HERO */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(60%_60%_at_50%_0%,oklch(0.94_0.04_220)_0%,transparent_70%)]" />
-          <div className="container-x grid gap-12 pt-14 pb-20 md:grid-cols-[1.15fr_1fr] md:gap-16 md:pt-20">
+          <div className="absolute inset-x-0 top-0 -z-10 h-[620px] bg-[radial-gradient(70%_60%_at_50%_0%,oklch(0.94_0.04_220)_0%,transparent_70%)]" />
+          <div className="container-x grid gap-10 pt-12 pb-20 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:pt-20">
             <div className="space-y-7">
-              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground">
-                <Sparkles className="h-3.5 w-3.5 text-[oklch(0.55_0.12_148)]" />
-                {t("brand.intro")}
-              </span>
-              <h1 className="font-serif text-5xl leading-[1.05] text-foreground md:text-6xl">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <div className="flex -space-x-1.5">
+                  {[0,1,2,3].map((i) => (
+                    <div key={i} className="h-6 w-6 rounded-full border-2 border-background bg-gradient-to-br from-[oklch(0.85_0.08_220)] to-[oklch(0.75_0.1_148)]" />
+                  ))}
+                </div>
+                <span>{t("hero.social")}</span>
+                <span className="inline-flex items-center gap-0.5 text-[oklch(0.75_0.15_85)]">
+                  {[0,1,2,3,4].map((i) => (
+                    <Star key={i} className="h-3 w-3 fill-current" />
+                  ))}
+                </span>
+                <span className="text-foreground">4.9</span>
+              </div>
+
+              <h1 className="font-serif text-5xl leading-[1.02] tracking-tight text-foreground md:text-6xl lg:text-7xl">
                 {t("hero.title")}
               </h1>
               <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
                 {t("hero.sub")}
               </p>
+
               <div className="flex flex-wrap items-center gap-3">
                 <Link to="/auth">
                   <Button size="lg" className="rounded-full">
@@ -48,14 +60,20 @@ function Landing() {
                   <Button size="lg" variant="ghost" className="rounded-full">{t("cta.learn")}</Button>
                 </a>
               </div>
+
               <Disclaimer className="max-w-xl" />
             </div>
-            <div className="relative">
-              <div className="absolute -inset-6 -z-10 rounded-3xl bg-gradient-to-br from-[oklch(0.94_0.03_220)] to-[oklch(0.96_0.06_148)] blur-2xl opacity-70" />
-              <HeroCard />
+
+            <div className="relative flex items-center justify-center">
+              <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-[oklch(0.94_0.03_220)] to-[oklch(0.96_0.06_148)] blur-2xl opacity-70" />
+              <PhoneMockup />
+              <NutritionFloat />
+              <IngredientBubble label="Kalori" value="615" icon={Flame} className="-left-2 top-8 hidden md:flex" />
+              <IngredientBubble label="Protein" value="11g" icon={Beef} className="-left-4 bottom-32 hidden md:flex" />
             </div>
           </div>
         </section>
+
 
         {/* FEATURES */}
         <section id="features" className="container-x py-20">
