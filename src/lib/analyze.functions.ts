@@ -105,13 +105,11 @@ export const analyzeImage = createServerFn({ method: "POST" })
       .eq("user_id", userId)
       .maybeSingle();
 
-    const allergies =
-      (hp?.allergies ?? []).join(", ") ||
+    const allergies = (hp?.allergies ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
+    const conditions = (hp?.conditions ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
+    const diet =
+      (hp?.diet_preferences ?? []).join(", ") ||
       (data.language === "tr" ? "yok" : "none");
-    const conditions =
-      (hp?.conditions ?? []).join(", ") ||
-      (data.language === "tr" ? "yok" : "none");
-    const diet = (hp?.diet_preferences ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
 
     const langInstruction =
       data.language === "tr" ? "TÜM yanıtı Türkçe yaz." : "Write the entire response in English.";
