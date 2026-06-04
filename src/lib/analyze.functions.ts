@@ -109,8 +109,7 @@ export const analyzeImage = createServerFn({ method: "POST" })
     const conditions =
       (hp?.conditions ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
     const diet =
-      (hp?.diet_preferences ?? []).join(", ") ||
-      (data.language === "tr" ? "yok" : "none");
+      (hp?.diet_preferences ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
 
     const langInstruction =
       data.language === "tr" ? "TÜM yanıtı Türkçe yaz." : "Write the entire response in English.";
