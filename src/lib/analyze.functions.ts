@@ -105,13 +105,16 @@ export const analyzeImage = createServerFn({ method: "POST" })
       .eq("user_id", userId)
       .maybeSingle();
 
-    const allergies = (hp?.allergies ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
-    const conditions = (hp?.conditions ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
+    const allergies =
+      (hp?.allergies ?? []).join(", ") ||
+      (data.language === "tr" ? "yok" : "none");
+    const conditions =
+      (hp?.conditions ?? []).join(", ") ||
+      (data.language === "tr" ? "yok" : "none");
     const diet = (hp?.diet_preferences ?? []).join(", ") || (data.language === "tr" ? "yok" : "none");
 
-    const langInstruction = data.language === "tr"
-      ? "TÜM yanıtı Türkçe yaz."
-      : "Write the entire response in English.";
+    const langInstruction =
+      data.language === "tr" ? "TÜM yanıtı Türkçe yaz." : "Write the entire response in English.";
 
     const system = `You are Alentra AI, a food-safety assistant for a specific user.
 ${langInstruction}
@@ -145,7 +148,13 @@ Respond ONLY with a single valid JSON object (no markdown, no commentary) matchi
           {
             role: "user",
             content: [
-              { type: "text", text: data.type === "product" ? "Analyze this product/label. Return only the JSON object." : "Analyze this meal. Return only the JSON object." },
+              {
+                type: "text",
+                text:
+                  data.type === "product"
+                    ? "Analyze this product/label. Return only the JSON object."
+                    : "Analyze this meal. Return only the JSON object.",
+              },
               { type: "image", image: dataUrl },
             ],
           },
@@ -158,13 +167,22 @@ Respond ONLY with a single valid JSON object (no markdown, no commentary) matchi
       parsed = {
         status: "warning",
         title: data.language === "tr" ? "Analiz tamamlanamadı" : "Analysis unavailable",
-        summary: data.language === "tr"
-          ? "AI yanıtı beklenen formatta alınamadı. Ürün etiketini ve içerik listesini dikkatlice kontrol edin."
-          : "The AI response could not be read in the expected format. Please review the label and ingredient list carefully.",
+        summary:
+          data.language === "tr"
+            ? "AI yanıtı beklenen formatta alınamadı. Ürün etiketini ve içerik listesini dikkatlice kontrol edin."
+            : "The AI response could not be read in the expected format. Please review the label and ingredient list carefully.",
         ingredients: [],
         allergens_detected: [],
-        risks: [data.language === "tr" ? "Görsel analizi doğrulanamadı" : "Image analysis could not be verified"],
-        recommendations: [data.language === "tr" ? "Şüpheli durumlarda ürünü tüketmeden önce uzman görüşü alın." : "When uncertain, consult a qualified professional before consuming."],
+        risks: [
+          data.language === "tr"
+            ? "Görsel analizi doğrulanamadı"
+            : "Image analysis could not be verified",
+        ],
+        recommendations: [
+          data.language === "tr"
+            ? "Şüpheli durumlarda ürünü tüketmeden önce uzman görüşü alın."
+            : "When uncertain, consult a qualified professional before consuming.",
+        ],
         nutrition_estimate: { calories: "", protein: "", carbs: "", fat: "" },
       };
     }
