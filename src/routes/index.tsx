@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Disclaimer } from "@/components/Disclaimer";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Camera, HeartPulse, ShieldCheck, History, Star, Flame, Wheat, Droplet, Beef, Activity, Plus, Minus, ScanLine } from "lucide-react";
+import { ArrowRight, Camera, HeartPulse, ShieldCheck, History, Play } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,64 +16,111 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
+// Editorial Organic palette (hero only)
+const CREAM = "oklch(0.985 0.012 92)";
+const INK = "oklch(0.28 0.04 152)";
+const MOSS = "oklch(0.38 0.06 152)";
+const SAGE_SOFT = "oklch(0.92 0.025 140)";
+const SAGE_LINE = "oklch(0.87 0.03 140)";
+const SAGE_MUTED = "oklch(0.55 0.04 150)";
+const SAGE_DOT_1 = "oklch(0.72 0.05 145)";
+const SAGE_DOT_2 = "oklch(0.78 0.07 140)";
+const SAGE_DOT_3 = "oklch(0.55 0.1 145)";
+const EMBER = "oklch(0.68 0.16 35)";
+
 function Landing() {
   const { t } = useI18n();
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <main>
-        {/* HERO */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-x-0 top-0 -z-10 h-[620px] bg-[radial-gradient(70%_60%_at_50%_0%,oklch(0.94_0.04_220)_0%,transparent_70%)]" />
-          <div className="container-x grid gap-10 pt-12 pb-20 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:pt-20">
-            <div className="space-y-7">
-              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <div className="flex -space-x-1.5">
-                  {[0,1,2,3].map((i) => (
-                    <div key={i} className="h-6 w-6 rounded-full border-2 border-background bg-gradient-to-br from-[oklch(0.85_0.08_220)] to-[oklch(0.75_0.1_148)]" />
-                  ))}
+        {/* HERO — Editorial Organic */}
+        <section className="relative overflow-hidden" style={{ backgroundColor: CREAM }}>
+          <div className="container-x grid items-center gap-12 pt-14 pb-24 lg:grid-cols-12 lg:gap-10 lg:pt-20">
+            {/* Content */}
+            <div className="z-10 lg:col-span-6">
+              <div
+                className="mb-8 inline-flex items-center gap-2 rounded-full border px-3 py-1"
+                style={{ backgroundColor: SAGE_SOFT, borderColor: SAGE_LINE }}
+              >
+                <div className="flex -space-x-2">
+                  <span className="h-6 w-6 rounded-full border-2" style={{ background: SAGE_DOT_1, borderColor: CREAM }} />
+                  <span className="h-6 w-6 rounded-full border-2" style={{ background: SAGE_DOT_2, borderColor: CREAM }} />
+                  <span className="h-6 w-6 rounded-full border-2" style={{ background: SAGE_DOT_3, borderColor: CREAM }} />
                 </div>
-                <span>{t("hero.social")}</span>
-                <span className="inline-flex items-center gap-0.5 text-[oklch(0.75_0.15_85)]">
-                  {[0,1,2,3,4].map((i) => (
-                    <Star key={i} className="h-3 w-3 fill-current" />
-                  ))}
+                <span className="text-[11px] font-medium uppercase tracking-tight" style={{ color: MOSS }}>
+                  {t("hero.social")}
                 </span>
-                <span className="text-foreground">4.9</span>
               </div>
 
-              <h1 className="font-serif text-5xl leading-[1.02] tracking-tight text-foreground md:text-6xl lg:text-7xl">
-                {t("hero.title")}
+              <h1
+                className="mb-7 font-serif text-5xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl"
+                style={{ color: INK }}
+              >
+                Beslenme <br />
+                <span className="font-normal italic">bilincinizi</span> <br />
+                yeniden tanımlayın.
               </h1>
-              <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+
+              <p className="mb-9 max-w-lg text-base leading-relaxed md:text-lg" style={{ color: SAGE_MUTED }}>
                 {t("hero.sub")}
               </p>
 
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-5">
                 <Link to="/auth">
-                  <Button size="lg" className="rounded-full">
+                  <Button
+                    size="lg"
+                    className="group rounded-full px-7 shadow-lg"
+                    style={{ backgroundColor: MOSS, color: CREAM }}
+                  >
                     {t("cta.start")}
-                    <ArrowRight className="ml-1 h-4 w-4" />
+                    <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
-                <a href="#how">
-                  <Button size="lg" variant="ghost" className="rounded-full">{t("cta.learn")}</Button>
+                <a href="#how" className="group flex items-center gap-3 font-medium" style={{ color: MOSS }}>
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-full border transition-colors group-hover:bg-[oklch(0.92_0.025_140)]"
+                    style={{ borderColor: SAGE_LINE }}
+                  >
+                    <Play className="h-3.5 w-3.5 fill-current" />
+                  </span>
+                  {t("cta.learn")}
                 </a>
               </div>
 
-              <Disclaimer className="max-w-xl" />
+              <Disclaimer className="mt-8 max-w-lg" />
             </div>
 
-            <div className="relative flex items-center justify-center">
-              <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-[oklch(0.94_0.03_220)] to-[oklch(0.96_0.06_148)] blur-2xl opacity-70" />
-              <PhoneMockup />
-              <NutritionFloat />
-              <IngredientBubble label="Kalori" value="615" icon={Flame} className="-left-2 top-8 hidden md:flex" />
-              <IngredientBubble label="Protein" value="11g" icon={Beef} className="-left-4 bottom-32 hidden md:flex" />
+            {/* Visual */}
+            <div className="relative flex justify-center lg:col-span-6">
+              {/* Floating card: Protein */}
+              <FloatCard
+                className="absolute -left-2 top-10 z-20 animate-bounce-slow md:-left-8"
+                accent={MOSS}
+                label="Protein"
+                value="24.5"
+                unit="gram"
+              />
+              {/* Floating card: Kalori */}
+              <FloatCard
+                className="absolute -right-2 top-1/2 z-20 animate-bounce-slow-delay md:-right-6"
+                accent={EMBER}
+                label="Kalori"
+                value="482"
+                unit="kcal"
+              />
+
+              <div className="relative">
+                {/* Glow */}
+                <div
+                  className="pointer-events-none absolute inset-0 -z-10 rounded-full opacity-50 blur-[110px]"
+                  style={{ background: SAGE_DOT_2 }}
+                />
+                <PhoneMockup />
+              </div>
             </div>
           </div>
         </section>
-
 
         {/* FEATURES */}
         <section id="features" className="container-x py-20">
@@ -126,6 +173,14 @@ function Landing() {
         </section>
       </main>
       <SiteFooter />
+
+      <style>{`
+        @keyframes scanLine { 0%,100% { top: 18%; opacity: .55; } 50% { top: 78%; opacity: 1; } }
+        @keyframes bounceSlow { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        .animate-scan-line { animation: scanLine 3s ease-in-out infinite; }
+        .animate-bounce-slow { animation: bounceSlow 4s ease-in-out infinite; }
+        .animate-bounce-slow-delay { animation: bounceSlow 4s ease-in-out .7s infinite; }
+      `}</style>
     </div>
   );
 }
@@ -142,101 +197,109 @@ function FeatureCard({ icon: Icon, t, d }: { icon: any; t: string; d: string }) 
   );
 }
 
+function FloatCard({
+  className = "",
+  accent,
+  label,
+  value,
+  unit,
+}: {
+  className?: string;
+  accent: string;
+  label: string;
+  value: string;
+  unit: string;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border bg-white/90 p-4 shadow-xl backdrop-blur-md ${className}`}
+      style={{ borderColor: "oklch(1 0 0 / 0.5)" }}
+    >
+      <div
+        className="mb-1 text-[10px] font-bold uppercase tracking-wider"
+        style={{ color: accent }}
+      >
+        {label}
+      </div>
+      <div className="flex items-baseline gap-1">
+        <span className="text-2xl font-bold" style={{ color: INK }}>{value}</span>
+        <span className="text-xs font-medium" style={{ color: SAGE_MUTED }}>{unit}</span>
+      </div>
+    </div>
+  );
+}
+
 function PhoneMockup() {
   return (
-    <div className="relative mx-auto w-[300px] rounded-[2.75rem] border-[10px] border-foreground/90 bg-foreground/90 shadow-[0_30px_80px_-30px_oklch(0.3_0.06_255_/_0.45)] sm:w-[340px]">
-      <div className="relative overflow-hidden rounded-[2rem] bg-surface">
-        {/* status bar */}
-        <div className="flex items-center justify-between px-6 pt-3 pb-1 text-[11px] font-semibold text-foreground">
-          <span>9:41</span>
-          <span className="flex items-center gap-1 text-muted-foreground">
-            <span className="h-1 w-3 rounded-full bg-foreground/60" />
-            <span className="h-2 w-3 rounded-sm bg-foreground/60" />
-          </span>
-        </div>
-        {/* header */}
-        <div className="flex items-center justify-between px-5 py-3">
-          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-muted text-foreground">
-            <ArrowRight className="h-4 w-4 -scale-x-100" />
-          </button>
-          <p className="font-medium text-sm text-foreground">Scanner</p>
-          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-muted text-muted-foreground">
-            <Plus className="h-4 w-4 rotate-90" />
-          </button>
-        </div>
-        {/* food image area */}
-        <div className="relative mx-4 aspect-[3/4] overflow-hidden rounded-2xl bg-gradient-to-br from-[oklch(0.85_0.06_60)] via-[oklch(0.7_0.12_45)] to-[oklch(0.45_0.08_30)]">
-          {/* scan frame */}
-          <div className="absolute inset-6">
-            <Corner className="left-0 top-0" />
-            <Corner className="right-0 top-0 rotate-90" />
-            <Corner className="left-0 bottom-0 -rotate-90" />
-            <Corner className="right-0 bottom-0 rotate-180" />
+    <div
+      className="relative h-[600px] w-[300px] rounded-[3.5rem] p-3 shadow-2xl"
+      style={{ backgroundColor: INK, border: `8px solid ${MOSS}` }}
+    >
+      {/* Notch */}
+      <div
+        className="absolute left-1/2 top-0 z-30 h-7 w-32 -translate-x-1/2 rounded-b-3xl"
+        style={{ backgroundColor: INK }}
+      />
+      <div className="relative h-full w-full overflow-hidden rounded-[2.5rem] bg-black">
+        {/* Food image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600')",
+          }}
+        />
+        {/* Top scrim + mode pill */}
+        <div className="absolute inset-x-0 top-0 z-10 flex flex-col items-center bg-gradient-to-b from-black/45 to-transparent pt-14">
+          <div className="rounded-full border border-white/20 bg-white/20 px-4 py-1 text-[12px] font-medium text-white backdrop-blur-md">
+            Tarama Modu: Gıda
           </div>
-          {/* scanning line */}
-          <div className="absolute inset-x-6 top-1/2 h-0.5 bg-[oklch(0.85_0.18_148)] shadow-[0_0_18px_oklch(0.85_0.18_148)]" />
         </div>
-        {/* bottom action */}
-        <div className="mt-4 mb-5 flex items-center justify-center gap-6 px-6">
-          <span className="rounded-full bg-surface-muted px-3 py-1.5 text-xs font-medium text-foreground">Yemek Tara</span>
-          <button className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-foreground/20 bg-surface">
-            <ScanLine className="h-5 w-5 text-foreground" />
-          </button>
-          <span className="text-xs text-muted-foreground">Galeri</span>
+        {/* Target brackets */}
+        <div className="absolute inset-16 rounded-3xl border-2 border-white/40">
+          <span className="absolute -left-1 -top-1 h-8 w-8 border-l-4 border-t-4 border-white" />
+          <span className="absolute -right-1 -top-1 h-8 w-8 border-r-4 border-t-4 border-white" />
+          <span className="absolute -bottom-1 -left-1 h-8 w-8 border-b-4 border-l-4 border-white" />
+          <span className="absolute -bottom-1 -right-1 h-8 w-8 border-b-4 border-r-4 border-white" />
+        </div>
+        {/* Scanner line */}
+        <div className="animate-scan-line absolute inset-x-0 h-0.5 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
+
+        {/* Analysis result */}
+        <div className="absolute inset-x-0 bottom-0 z-20 rounded-t-3xl bg-white/95 p-6 backdrop-blur-xl">
+          <div className="mx-auto mb-4 h-1 w-10 rounded-full" style={{ backgroundColor: SAGE_LINE }} />
+          <div className="mb-4 flex items-start justify-between">
+            <div>
+              <h3 className="font-serif text-lg font-bold" style={{ color: INK }}>Kinoalı Izgara Somon</h3>
+              <p className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: SAGE_DOT_1 }}>
+                Akdeniz Mutfağı
+              </p>
+            </div>
+            <span
+              className="rounded px-2 py-1 text-[10px] font-bold"
+              style={{ backgroundColor: SAGE_SOFT, color: MOSS }}
+            >
+              AI ANALİZİ
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div
+              className="rounded-xl border p-3"
+              style={{ borderColor: `${SAGE_LINE}66`, backgroundColor: "oklch(0.98 0.01 140)" }}
+            >
+              <span className="mb-1 block text-[10px]" style={{ color: SAGE_MUTED }}>Karbonhidrat</span>
+              <span className="text-sm font-bold" style={{ color: INK }}>18g</span>
+            </div>
+            <div
+              className="rounded-xl border p-3"
+              style={{ borderColor: `${SAGE_LINE}66`, backgroundColor: "oklch(0.98 0.01 140)" }}
+            >
+              <span className="mb-1 block text-[10px]" style={{ color: SAGE_MUTED }}>Doymuş Yağ</span>
+              <span className="text-sm font-bold" style={{ color: INK }}>4.2g</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-function Corner({ className = "" }: { className?: string }) {
-  return (
-    <span className={`absolute h-5 w-5 border-l-2 border-t-2 border-white ${className}`} />
-  );
-}
-
-function NutritionFloat() {
-  return (
-    <div className="absolute -right-3 bottom-10 hidden w-[230px] rounded-2xl border border-border bg-surface p-4 shadow-[0_20px_45px_-20px_oklch(0.3_0.06_255_/_0.4)] sm:block md:-right-6">
-      <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Breakfast</p>
-      <div className="mt-1 flex items-start justify-between gap-2">
-        <p className="font-serif text-sm leading-tight text-foreground">Yaban mersinli pankek</p>
-        <div className="flex items-center gap-1">
-          <button className="flex h-5 w-5 items-center justify-center rounded-full border border-border text-muted-foreground"><Minus className="h-3 w-3" /></button>
-          <span className="text-xs font-medium">1</span>
-          <button className="flex h-5 w-5 items-center justify-center rounded-full border border-border text-muted-foreground"><Plus className="h-3 w-3" /></button>
-        </div>
-      </div>
-      <div className="mt-3 space-y-2 text-[11px]">
-        <NRow icon={Flame} label="Kalori" value="615" color="oklch(0.65_0.2_27)" />
-        <NRow icon={Wheat} label="Karb." value="93g" color="oklch(0.7_0.16_85)" />
-        <NRow icon={Beef} label="Protein" value="11g" color="oklch(0.6_0.14_15)" />
-        <NRow icon={Droplet} label="Yağ" value="21g" color="oklch(0.7_0.12_230)" />
-        <div className="flex items-center justify-between border-t border-border pt-2">
-          <span className="flex items-center gap-1.5 text-foreground"><Activity className="h-3 w-3 text-[oklch(0.55_0.16_148)]" />Sağlık skoru</span>
-          <span className="font-medium">7/10</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function NRow({ icon: Icon, label, value, color }: { icon: any; label: string; value: string; color: string }) {
-  return (
-    <div className="flex items-center justify-between">
-      <span className="flex items-center gap-1.5 text-muted-foreground"><Icon className="h-3 w-3" style={{ color }} />{label}</span>
-      <span className="font-medium text-foreground">{value}</span>
-    </div>
-  );
-}
-
-function IngredientBubble({ label, value, icon: Icon, className = "" }: { label: string; value: string; icon: any; className?: string }) {
-  return (
-    <div className={`absolute z-10 flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 shadow-md ${className}`}>
-      <Icon className="h-3.5 w-3.5 text-[oklch(0.55_0.16_148)]" />
-      <span className="text-[11px] text-muted-foreground">{label}</span>
-      <span className="text-xs font-semibold text-foreground">{value}</span>
-    </div>
-  );
-}
-
