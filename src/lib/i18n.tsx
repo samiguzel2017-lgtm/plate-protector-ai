@@ -51,7 +51,12 @@ const tr: Dict = {
 
   "footer.rights": "Tüm hakları saklıdır.",
   "footer.product": "Ürün",
-  "footer.legal": "Bilgilendirme",
+  "footer.legal": "Yasal",
+  "footer.company": "Şirket",
+  "footer.privacy": "Gizlilik Politikası",
+  "footer.terms": "Kullanım Şartları",
+  "footer.about": "Hakkımızda",
+  "footer.contact": "İletişim",
 
   "auth.title": "Hesabınıza giriş yapın",
   "auth.title.signup": "Yeni hesap oluşturun",
@@ -177,7 +182,12 @@ const en: Dict = {
 
   "footer.rights": "All rights reserved.",
   "footer.product": "Product",
-  "footer.legal": "Information",
+  "footer.legal": "Legal",
+  "footer.company": "Company",
+  "footer.privacy": "Privacy Policy",
+  "footer.terms": "Terms of Service",
+  "footer.about": "About Us",
+  "footer.contact": "Contact Us",
 
   "auth.title": "Sign in to your account",
   "auth.title.signup": "Create a new account",
