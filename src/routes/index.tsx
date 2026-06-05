@@ -1,17 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { Disclaimer } from "@/components/Disclaimer";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import {
-  HeartPulse,
   ShieldCheck,
   Sparkles,
-  Flame,
-  Star,
-  Moon,
+  ScanLine,
+  Camera,
+  HeartPulse,
+  Leaf,
+  AlertTriangle,
+  Check,
   ChevronRight,
+  Flame,
+  Moon,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -21,24 +24,25 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Kişisel sağlık profiline göre gıda analizi. Etiketi veya yemeği fotoğraflayın, saniyeler içinde güvenli/dikkat/uygun değil kararını alın.",
+          "Kişisel sağlık profiline göre gıda analizi. Etiketi, barkodu veya yemeği tarayın; saniyeler içinde güvenli/dikkat/uygun değil kararını alın.",
       },
     ],
   }),
   component: Landing,
 });
 
-// Cal-AI inspired palette — cream canvas + crisp ink + warm accents
-const CANVAS = "#FBF9F1";
-const CANVAS_DEEP = "#F4EFE0";
-const INK = "#0E0E0E";
-const INK_SOFT = "#4A4A4A";
-const LINE = "#E8E2CF";
-const MOSS = "#1F6B3A";
-const LIME = "#C8F25C";
-const EMBER = "#F26B3A";
-const BERRY = "#E94B7B";
-const SKY = "#3B82F6";
+/* Unified Forest & Sage palette */
+const FOREST = "#1B4332";
+const MOSS = "#2D6A4F";
+const SAGE = "#52B788";
+const MINT = "#B7E4C7";
+const CANVAS = "#F8F9FA";
+const CARD = "#FBFBFA";
+const INK = "#1A1F2C";
+const INK_SOFT = "#4B5563";
+const LINE = "#E5E7E4";
+const CHARCOAL = "#1A1F2C";
+const LAVENDER_AMBIENT = "linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 45%, #DBEAFE 100%)";
 
 function Landing() {
   const { t } = useI18n();
@@ -47,38 +51,34 @@ function Landing() {
       <SiteHeader />
       <main className="font-sans" style={{ color: INK }}>
         {/* ============ HERO ============ */}
-        <section className="relative overflow-hidden" style={{ backgroundColor: CANVAS }}>
-          <div className="container-x grid items-center gap-12 pt-10 pb-20 lg:grid-cols-12 lg:gap-8 lg:pt-16 lg:pb-28">
-            {/* LEFT — Content */}
+        <section className="relative overflow-hidden">
+          <div
+            className="pointer-events-none absolute inset-0 -z-10"
+            style={{
+              background: `radial-gradient(60% 50% at 80% 0%, ${MINT}55 0%, transparent 65%), radial-gradient(50% 40% at 0% 100%, ${MINT}33 0%, transparent 70%)`,
+            }}
+          />
+
+          <div className="container-x grid items-center gap-14 pt-12 pb-24 lg:grid-cols-12 lg:gap-10 lg:pt-20 lg:pb-32">
+            {/* LEFT */}
             <div className="lg:col-span-6">
-              {/* Social proof */}
-              <div className="mb-8 inline-flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  {[BERRY, EMBER, MOSS].map((c, i) => (
-                    <span
-                      key={i}
-                      className="h-8 w-8 rounded-full ring-2"
-                      style={{ background: c, borderColor: CANVAS, boxShadow: `0 0 0 2px ${CANVAS}` }}
-                    />
-                  ))}
-                </div>
-                <p className="text-sm font-medium" style={{ color: INK_SOFT }}>
-                  10.000+ kullanıcı tarafından beğenildi ·{" "}
-                  <span className="inline-flex items-center gap-1 font-semibold" style={{ color: INK }}>
-                    <Star className="h-3.5 w-3.5 fill-current" style={{ color: "#F5B400" }} /> 4,9
-                  </span>
-                </p>
-              </div>
+              <span
+                className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]"
+                style={{ borderColor: LINE, color: MOSS, backgroundColor: "#fff" }}
+              >
+                <Leaf className="h-3.5 w-3.5" />
+                Kişisel Gıda Güvenliği
+              </span>
 
               <h1
-                className="text-[2.75rem] font-extrabold leading-[1.02] tracking-[-0.035em] md:text-[4.25rem] lg:text-[5.25rem]"
+                className="mt-7 text-[2.75rem] font-extrabold leading-[1.02] tracking-[-0.035em] md:text-[4.25rem] lg:text-[5.25rem]"
                 style={{ color: INK, fontFamily: "var(--font-display)" }}
               >
-                Alentra AI ile tanışın:
+                Fotoğrafını çek,
                 <br />
-                <span className="inline-block">Sadece bir</span>{" "}
+                <span style={{ color: FOREST }}>sağlığını</span>{" "}
                 <span className="relative inline-block">
-                  fotoğrafla
+                  koru.
                   <svg
                     className="absolute -bottom-2 left-0 w-full"
                     height="14"
@@ -88,15 +88,13 @@ function Landing() {
                   >
                     <path
                       d="M2 9 C 70 2, 150 12, 298 5"
-                      stroke={LIME}
+                      stroke={SAGE}
                       strokeWidth="6"
                       strokeLinecap="round"
                       fill="none"
                     />
                   </svg>
                 </span>
-                <br />
-                sağlığınızı koruyun.
               </h1>
 
               <p
@@ -106,156 +104,172 @@ function Landing() {
                 {t("hero.sub")}
               </p>
 
-              {/* CTAs */}
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <Link to="/auth">
-                  <StoreButton variant="dark" topLine="HEMEN" mainLine="Ücretsiz Başla" icon="apple" />
+                  <Button
+                    size="lg"
+                    className="h-12 rounded-2xl px-7 text-[15px] font-semibold shadow-[0_12px_30px_-12px_rgba(27,67,50,0.45)]"
+                    style={{ backgroundColor: FOREST, color: "#fff" }}
+                  >
+                    Ücretsiz Başla
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
                 </Link>
                 <a href="#how">
-                  <StoreButton variant="dark" topLine="DETAYLAR" mainLine="Nasıl Çalışır" icon="play" />
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-12 rounded-2xl border-2 px-7 text-[15px] font-semibold"
+                    style={{ borderColor: LINE, color: INK, backgroundColor: "#fff" }}
+                  >
+                    Nasıl Çalışır
+                  </Button>
                 </a>
               </div>
 
-              <Disclaimer className="mt-8 max-w-lg" />
+              {/* Trust micro */}
+              <div className="mt-10 flex items-center gap-6 text-[13px] font-medium" style={{ color: INK_SOFT }}>
+                <span className="inline-flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4" style={{ color: MOSS }} /> Profile özel analiz
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <ScanLine className="h-4 w-4" style={{ color: MOSS }} /> Barkod & QR desteği
+                </span>
+              </div>
             </div>
 
-            {/* RIGHT — Tilted phone duo */}
+            {/* RIGHT — overlapping phones */}
             <div className="relative flex min-h-[600px] items-center justify-center lg:col-span-6">
-              {/* Ambient blob */}
-              <div
-                className="pointer-events-none absolute inset-0 -z-10"
-                style={{
-                  background: `radial-gradient(55% 50% at 60% 45%, ${LIME}33 0%, transparent 70%), radial-gradient(45% 40% at 20% 80%, ${EMBER}1f 0%, transparent 70%)`,
-                }}
-              />
-
-              {/* Phone A — Scanner */}
-              <div className="relative" style={{ transform: "rotate(-6deg)" }}>
+              <div className="relative" style={{ transform: "rotate(-5deg)" }}>
                 <PhoneScanner />
               </div>
-
-              {/* Floating chip: Syrup */}
-              <FloatChip
-                className="absolute left-[8%] top-[28%]"
-                label="Şurup"
-                value="12g"
-                tone={EMBER}
-              />
-
-              {/* Phone B — Nutrition */}
-              <div
-                className="absolute right-0 top-6 hidden md:block"
-                style={{ transform: "rotate(7deg)" }}
-              >
-                <PhoneNutrition />
+              <div className="absolute right-0 top-10 hidden md:block" style={{ transform: "rotate(6deg)" }}>
+                <PhoneVerdict />
               </div>
-
-              {/* Floating chip: Blueberries */}
-              <FloatChip
-                className="absolute right-[4%] top-[6%]"
-                label="Yaban mersini"
-                value="8 adet"
-                tone={BERRY}
-              />
-              {/* Floating chip: Pancakes */}
-              <FloatChip
-                className="absolute right-[6%] top-[34%]"
-                label="Pankek"
-                value="595 kcal"
-                tone={MOSS}
-              />
-
-              {/* Connector squiggle */}
-              <svg
-                className="pointer-events-none absolute left-[44%] top-[44%] hidden md:block"
-                width="120"
-                height="40"
-                viewBox="0 0 120 40"
-                fill="none"
-              >
-                <path
-                  d="M2 20 Q 30 0, 60 20 T 115 20"
-                  stroke={INK}
-                  strokeWidth="2"
-                  strokeDasharray="0 0"
-                  fill="none"
-                  strokeLinecap="round"
-                />
-                <path d="M105 14 L 117 20 L 105 26" stroke={INK} strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </div>
           </div>
         </section>
 
-        {/* ============ FEATURE 1 — Photo tracking ============ */}
-        <section id="features" className="relative" style={{ backgroundColor: CANVAS }}>
-          <div className="container-x grid items-center gap-12 py-20 lg:grid-cols-2 lg:gap-20 lg:py-28">
+        {/* ============ FEATURE 1 ============ */}
+        <section id="features" className="relative">
+          <div className="container-x grid items-center gap-14 py-24 lg:grid-cols-2 lg:gap-20">
             <div className="relative flex items-center justify-center">
               <div
                 className="pointer-events-none absolute inset-0"
-                style={{ background: `radial-gradient(50% 50% at 50% 50%, ${LIME}22, transparent 70%)` }}
+                style={{ background: `radial-gradient(55% 55% at 50% 50%, ${MINT}55, transparent 70%)` }}
               />
-              <div style={{ transform: "rotate(-4deg)" }}>
-                <PhoneSalmon />
+              <div style={{ transform: "rotate(-3deg)" }}>
+                <PhoneAllergy />
               </div>
+
+              {/* Floating allergy chip */}
+              <FloatChip
+                className="absolute -left-2 top-12 md:left-6"
+                icon={AlertTriangle}
+                label="Alerjen"
+                value="Gluten"
+                tone="danger"
+              />
+              <FloatChip
+                className="absolute -right-2 bottom-16 md:right-4"
+                icon={Check}
+                label="Profil uyumlu"
+                value="Laktozsuz"
+                tone="safe"
+              />
             </div>
 
             <div className="space-y-5">
+              <span
+                className="text-[11px] font-bold uppercase tracking-[0.18em]"
+                style={{ color: MOSS }}
+              >
+                ÖZELLİKLER
+              </span>
+              <h2
+                className="text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.03em] md:text-[3rem]"
+                style={{ color: INK, fontFamily: "var(--font-display)" }}
+              >
+                Profiline göre düşünen
+                <br />
+                <span style={{ color: FOREST }}>gerçek</span> bir asistan.
+              </h2>
               <FeatureBlock
-                title="Yiyeceklerinizi sadece bir fotoğrafla takip edin"
-                desc="Alentra AI ile fotoğraf çekin; yapay zekâmız porsiyon hacmini hesaplar, kalori, protein, karbonhidrat ve yağ içeriğini saniyeler içinde ayrıştırır."
+                icon={HeartPulse}
+                title="Kişisel sağlık profili"
+                desc="Alerjiler, kronik durumlar ve beslenme tercihleri tek bir yerde. Her analiz otomatik olarak sana göre çalışır."
                 highlighted
               />
               <FeatureBlock
-                title="1 milyondan fazla gıda içeren veritabanında arama yapın"
-                desc="Geniş veritabanından yiyecekleri hızlıca bulun ve kaydedin. İsim, marka ile arama yapın ya da barkod tarayarak anında besin değerlerine ulaşın."
+                icon={Camera}
+                title="Fotoğraftan anında analiz"
+                desc="Etiketi veya yemeği fotoğrafla, yapay zekâ içerikleri tanır ve riskleri saniyeler içinde özetler."
               />
               <FeatureBlock
-                title="Eksiksiz ilerleme takibi ve yapay zekâ önerileri"
-                desc="Kilonuzu, ölçümlerinizi ve beslenme hedeflerinizi takip edin. Hedeflerinize ulaşmanız için kişiselleştirilmiş öneriler alın."
+                icon={ScanLine}
+                title="Barkod & QR ile evrensel veri"
+                desc="Open Food Facts üzerinden milyonlarca ürünü tara; profiline göre Yeşil / Sarı / Kırmızı kararı al."
               />
             </div>
           </div>
         </section>
 
-        {/* ============ FEATURE 2 — Dark mode showcase ============ */}
-        <section className="relative overflow-hidden" style={{ backgroundColor: "#EAF2F8" }}>
-          <div className="container-x grid items-center gap-12 py-20 lg:grid-cols-2 lg:py-28">
-            <div>
-              <span
-                className="text-[11px] font-bold uppercase tracking-[0.18em]"
-                style={{ color: EMBER }}
-              >
-                YENİ ÖZELLİK
-              </span>
-              <h2
-                className="mt-4 text-[2.5rem] font-extrabold leading-[1.05] tracking-[-0.03em] md:text-[3.75rem]"
-                style={{ color: INK, fontFamily: "var(--font-display)" }}
-              >
-                Şık bir takip deneyimi için Karanlık Mod{" "}
-                <span className="inline-block align-middle">
-                  <Moon className="inline h-9 w-9" style={{ color: "#F5B400" }} />
-                  <Sparkles className="ml-1 inline h-7 w-7" style={{ color: BERRY }} />
-                </span>
-              </h2>
-              <p className="mt-5 max-w-md text-[15px]" style={{ color: INK_SOFT }}>
-                Her hafta yeni özellikler ekleniyor :)
-              </p>
-            </div>
-
-            <div className="relative flex items-center justify-end">
-              <div style={{ transform: "rotate(8deg)" }}>
-                <PhoneDark />
+        {/* ============ DARK MODE SHOWCASE ============ */}
+        <section className="relative overflow-hidden">
+          <div className="container-x py-24">
+            <div
+              className="relative overflow-hidden rounded-[2.5rem] p-10 md:p-16"
+              style={{ background: LAVENDER_AMBIENT }}
+            >
+              <div className="grid items-center gap-12 lg:grid-cols-2">
+                <div>
+                  <span
+                    className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em]"
+                    style={{ backgroundColor: CHARCOAL, color: "#fff" }}
+                  >
+                    <Moon className="h-3 w-3" /> Karanlık Mod
+                  </span>
+                  <h2
+                    className="mt-5 text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.03em] md:text-[3.25rem]"
+                    style={{ color: INK, fontFamily: "var(--font-display)" }}
+                  >
+                    Premium takip deneyimi,
+                    <br />
+                    <span style={{ color: FOREST }}>tüm gün rahat gözler için.</span>
+                  </h2>
+                  <p className="mt-5 max-w-md text-[15px] leading-relaxed" style={{ color: INK_SOFT }}>
+                    Gün boyu kalori, makro ve risk takibi. Düşük ışıkta bile yormayan karanlık arayüz; profiline göre filtrelenmiş net göstergeler.
+                  </p>
+                  <div className="mt-7">
+                    <Link to="/auth">
+                      <Button
+                        size="lg"
+                        className="h-12 rounded-2xl px-7 text-[15px] font-semibold"
+                        style={{ backgroundColor: CHARCOAL, color: "#fff" }}
+                      >
+                        Şimdi dene
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+                <div className="relative flex items-center justify-center lg:justify-end">
+                  <div style={{ transform: "rotate(5deg)" }}>
+                    <PhoneDark />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ============ HOW (kept, restyled) ============ */}
+        {/* ============ HOW ============ */}
         <section id="how" className="container-x py-24">
           <div className="mb-12 max-w-2xl">
+            <span className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: MOSS }}>
+              NASIL ÇALIŞIR
+            </span>
             <h2
-              className="text-[2.25rem] font-extrabold tracking-[-0.03em] md:text-[3rem]"
+              className="mt-3 text-[2.25rem] font-extrabold tracking-[-0.03em] md:text-[3rem]"
               style={{ fontFamily: "var(--font-display)", color: INK }}
             >
               {t("how.title")}
@@ -265,12 +279,12 @@ function Landing() {
             {[1, 2, 3].map((n) => (
               <div
                 key={n}
-                className="rounded-3xl border bg-white p-8 transition-transform hover:-translate-y-1"
-                style={{ borderColor: LINE }}
+                className="rounded-3xl border p-8 transition-all hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(27,67,50,0.25)]"
+                style={{ borderColor: LINE, backgroundColor: CARD }}
               >
                 <div
-                  className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl text-lg font-extrabold"
-                  style={{ backgroundColor: INK, color: LIME, fontFamily: "var(--font-display)" }}
+                  className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-lg font-extrabold"
+                  style={{ backgroundColor: FOREST, color: "#fff", fontFamily: "var(--font-display)" }}
                 >
                   {n}
                 </div>
@@ -292,11 +306,15 @@ function Landing() {
         <section className="container-x pb-24">
           <div
             className="relative overflow-hidden rounded-[2.5rem] p-10 md:p-16"
-            style={{ backgroundColor: INK, color: CANVAS }}
+            style={{ backgroundColor: FOREST, color: "#fff" }}
           >
             <div
               className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full"
-              style={{ background: `radial-gradient(circle, ${LIME}66, transparent 70%)` }}
+              style={{ background: `radial-gradient(circle, ${SAGE}88, transparent 70%)` }}
+            />
+            <div
+              className="pointer-events-none absolute -left-16 -bottom-16 h-64 w-64 rounded-full"
+              style={{ background: `radial-gradient(circle, ${MINT}55, transparent 70%)` }}
             />
             <div className="relative grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end">
               <div>
@@ -304,13 +322,21 @@ function Landing() {
                   className="text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.03em] md:text-[3.5rem]"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
-                  Bugün başla. <span style={{ color: LIME }}>Bilinçli ye.</span>
+                  Bugün başla.{" "}
+                  <span style={{ color: SAGE }}>Bilinçli ye.</span>
                 </h2>
-                <p className="mt-3 max-w-lg text-sm opacity-80">{t("hero.sub")}</p>
+                <p className="mt-3 max-w-lg text-sm opacity-85">{t("hero.sub")}</p>
               </div>
               <div className="flex flex-wrap gap-3 md:justify-end">
                 <Link to="/auth">
-                  <StoreButton variant="light" topLine="HEMEN" mainLine="Ücretsiz Başla" icon="apple" />
+                  <Button
+                    size="lg"
+                    className="h-12 rounded-2xl px-7 text-[15px] font-semibold"
+                    style={{ backgroundColor: "#fff", color: FOREST }}
+                  >
+                    Ücretsiz Başla
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
                 </Link>
               </div>
             </div>
@@ -325,94 +351,78 @@ function Landing() {
 /* ---------- Reusable bits ---------- */
 
 function FeatureBlock({
+  icon: Icon,
   title,
   desc,
   highlighted = false,
 }: {
+  icon: any;
   title: string;
   desc: string;
   highlighted?: boolean;
 }) {
   return (
     <div
-      className="rounded-3xl border bg-white p-7 transition-shadow"
+      className="rounded-3xl border p-6 transition-shadow"
       style={{
-        borderColor: highlighted ? "#D8D2BD" : LINE,
-        boxShadow: highlighted ? "0 24px 60px -30px rgba(0,0,0,0.18)" : "none",
+        borderColor: highlighted ? "#D8E5DC" : LINE,
+        backgroundColor: highlighted ? "#FFFFFF" : CARD,
+        boxShadow: highlighted ? "0 24px 60px -30px rgba(27,67,50,0.18)" : "none",
       }}
     >
-      <h3
-        className="text-[20px] font-extrabold tracking-[-0.015em] md:text-[22px]"
-        style={{ fontFamily: "var(--font-display)", color: INK }}
-      >
-        {title}
-      </h3>
-      <p className="mt-3 text-[14.5px] leading-relaxed" style={{ color: INK_SOFT }}>
-        {desc}
-      </p>
-    </div>
-  );
-}
-
-function StoreButton({
-  variant,
-  topLine,
-  mainLine,
-  icon,
-}: {
-  variant: "dark" | "light";
-  topLine: string;
-  mainLine: string;
-  icon: "apple" | "play";
-}) {
-  const isDark = variant === "dark";
-  return (
-    <button
-      className="group inline-flex items-center gap-3 rounded-2xl px-5 py-3 transition-transform hover:-translate-y-0.5"
-      style={{
-        backgroundColor: isDark ? INK : "#fff",
-        color: isDark ? CANVAS : INK,
-        boxShadow: isDark ? "0 12px 30px -12px rgba(0,0,0,0.45)" : "0 8px 22px -10px rgba(0,0,0,0.2)",
-      }}
-    >
-      <span className="flex h-7 w-7 items-center justify-center">
-        {icon === "apple" ? (
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
-            <path d="M16.365 1.43c0 1.14-.45 2.22-1.2 3.02-.83.9-2.13 1.6-3.18 1.51-.13-1.1.44-2.27 1.2-3.02.85-.86 2.27-1.5 3.18-1.51zM20.5 17.05c-.55 1.27-.82 1.84-1.53 2.97-.99 1.57-2.39 3.53-4.12 3.54-1.54.02-1.93-1-4.02-1-2.09 0-2.52.99-4.06.99-1.73.02-3.05-1.77-4.04-3.34C.34 16.96-.31 12.5 1.76 9.7c1.46-1.98 3.78-2.95 5.96-2.95 2.22 0 3.62 1.21 5.46 1.21 1.78 0 2.86-1.21 5.43-1.21 1.94 0 4 .98 5.46 2.67-4.79 2.62-4.01 9.46-3.57 7.63z" />
-          </svg>
-        ) : (
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
-            <path d="M5 3.5v17l13-8.5L5 3.5z" />
-          </svg>
-        )}
-      </span>
-      <span className="flex flex-col items-start leading-none">
-        <span className="text-[9px] font-semibold uppercase tracking-[0.14em] opacity-80">
-          {topLine}
+      <div className="flex items-start gap-4">
+        <span
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
+          style={{ backgroundColor: `${SAGE}22`, color: FOREST }}
+        >
+          <Icon className="h-5 w-5" />
         </span>
-        <span className="mt-1 text-[15px] font-bold tracking-tight">{mainLine}</span>
-      </span>
-    </button>
+        <div>
+          <h3
+            className="text-[17px] font-extrabold tracking-[-0.015em] md:text-[18px]"
+            style={{ fontFamily: "var(--font-display)", color: INK }}
+          >
+            {title}
+          </h3>
+          <p className="mt-1.5 text-[14px] leading-relaxed" style={{ color: INK_SOFT }}>
+            {desc}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
 function FloatChip({
   className = "",
+  icon: Icon,
   label,
   value,
   tone,
 }: {
   className?: string;
+  icon: any;
   label: string;
   value: string;
-  tone: string;
+  tone: "safe" | "warning" | "danger";
 }) {
+  const map = {
+    safe: { fg: FOREST, bg: MINT },
+    warning: { fg: "#92400E", bg: "#FEF3C7" },
+    danger: { fg: "#991B1B", bg: "#FEE2E2" },
+  } as const;
+  const c = map[tone];
   return (
     <div
-      className={`z-20 flex items-center gap-2 rounded-2xl border bg-white py-2 pl-2.5 pr-3.5 shadow-xl ${className}`}
+      className={`z-20 flex items-center gap-2.5 rounded-2xl border bg-white py-2 pl-2 pr-3.5 shadow-xl ${className}`}
       style={{ borderColor: LINE }}
     >
-      <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: tone }} />
+      <span
+        className="flex h-8 w-8 items-center justify-center rounded-xl"
+        style={{ backgroundColor: c.bg, color: c.fg }}
+      >
+        <Icon className="h-4 w-4" />
+      </span>
       <div className="leading-tight">
         <div className="text-[10px] font-medium uppercase tracking-wider" style={{ color: INK_SOFT }}>
           {label}
@@ -430,12 +440,12 @@ function FloatChip({
 function PhoneFrame({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
     <div
-      className="relative h-[560px] w-[270px] rounded-[2.8rem] p-[6px] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.35)]"
+      className="relative h-[560px] w-[270px] rounded-[2.8rem] p-[6px] shadow-[0_40px_80px_-30px_rgba(15,30,25,0.4)]"
       style={{ background: "linear-gradient(160deg, #2a2a2a, #0a0a0a)" }}
     >
       <div
         className="relative h-full w-full overflow-hidden rounded-[2.45rem]"
-        style={{ backgroundColor: dark ? "#0A0A0A" : "#fff" }}
+        style={{ backgroundColor: dark ? CHARCOAL : "#fff" }}
       >
         <div className="absolute left-1/2 top-2 z-40 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
         {children}
@@ -446,210 +456,233 @@ function PhoneFrame({ children, dark = false }: { children: React.ReactNode; dar
 
 function PhoneScanner() {
   return (
-    <PhoneFrame>
-      {/* Food image bg */}
+    <PhoneFrame dark>
+      {/* Dim camera bg */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center opacity-70"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&q=80&w=600')",
+            "url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600')",
         }}
       />
-      <div className="absolute inset-x-0 top-0 z-10 h-32 bg-gradient-to-b from-black/55 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 z-10 h-40 bg-gradient-to-t from-black/55 to-transparent" />
+      <div className="absolute inset-0 bg-black/45" />
 
       {/* Top bar */}
       <div className="absolute inset-x-0 top-12 z-20 flex items-center justify-between px-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 backdrop-blur-md">
-          <ChevronRight className="h-4 w-4 rotate-180 text-white" />
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-md">
+          <ScanLine className="h-3 w-3" style={{ color: SAGE }} />
+          Barkod tara
         </div>
-        <div className="text-[12px] font-semibold text-white">Scanner</div>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 backdrop-blur-md">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 backdrop-blur-md">
           <Sparkles className="h-3.5 w-3.5 text-white" />
         </div>
       </div>
 
-      {/* Target brackets */}
-      <div className="absolute left-8 right-8 top-24 bottom-[200px] rounded-2xl">
-        <span className="absolute left-0 top-0 h-6 w-6 border-l-[3px] border-t-[3px] border-white" />
-        <span className="absolute right-0 top-0 h-6 w-6 border-r-[3px] border-t-[3px] border-white" />
-        <span className="absolute bottom-0 left-0 h-6 w-6 border-b-[3px] border-l-[3px] border-white" />
-        <span className="absolute bottom-0 right-0 h-6 w-6 border-b-[3px] border-r-[3px] border-white" />
+      {/* Reticle */}
+      <div className="absolute inset-x-8 top-[28%] z-20 h-[180px]">
+        <div className="relative h-full w-full rounded-3xl border-2 border-white/70">
+          <span className="absolute -left-1 -top-1 h-6 w-6 rounded-tl-2xl border-l-[3px] border-t-[3px]" style={{ borderColor: SAGE }} />
+          <span className="absolute -right-1 -top-1 h-6 w-6 rounded-tr-2xl border-r-[3px] border-t-[3px]" style={{ borderColor: SAGE }} />
+          <span className="absolute -bottom-1 -left-1 h-6 w-6 rounded-bl-2xl border-b-[3px] border-l-[3px]" style={{ borderColor: SAGE }} />
+          <span className="absolute -bottom-1 -right-1 h-6 w-6 rounded-br-2xl border-b-[3px] border-r-[3px]" style={{ borderColor: SAGE }} />
+          {/* Laser */}
+          <span
+            className="scanner-laser absolute left-3 right-3 top-1/2 h-[2px] rounded-full"
+            style={{ backgroundColor: SAGE, boxShadow: `0 0 18px 2px ${SAGE}` }}
+          />
+        </div>
+      </div>
+
+      {/* Pretend barcode lines */}
+      <div className="absolute left-12 right-12 top-[42%] z-10 flex h-16 items-center justify-between opacity-90">
+        {Array.from({ length: 22 }).map((_, i) => (
+          <span
+            key={i}
+            className="block h-full bg-white"
+            style={{ width: `${1 + ((i * 7) % 4)}px` }}
+          />
+        ))}
       </div>
 
       {/* Bottom toolbar */}
-      <div className="absolute inset-x-4 bottom-20 z-30 flex items-center gap-2 rounded-full border border-white/20 bg-white/15 px-3 py-2 backdrop-blur-xl">
-        <span className="rounded-full bg-white px-3 py-1 text-[10px] font-bold" style={{ color: INK }}>
-          Yemek tara
+      <div className="absolute inset-x-4 bottom-20 z-30 flex items-center gap-1 rounded-full border border-white/15 bg-white/10 px-2 py-2 backdrop-blur-xl">
+        <span className="rounded-full px-3 py-1 text-[10px] font-bold" style={{ backgroundColor: SAGE, color: CHARCOAL }}>
+          Barkod
         </span>
-        <span className="text-[10px] font-semibold text-white/80">Barkod</span>
-        <span className="text-[10px] font-semibold text-white/80">Galeri</span>
-        <span className="ml-auto text-[10px] font-semibold text-white/80">Tarif</span>
+        <span className="px-3 text-[10px] font-semibold text-white/75">Yemek</span>
+        <span className="px-3 text-[10px] font-semibold text-white/75">Etiket</span>
+        <span className="ml-auto px-3 text-[10px] font-semibold text-white/75">Galeri</span>
       </div>
 
       {/* Shutter */}
       <div className="absolute inset-x-0 bottom-6 z-30 flex justify-center">
-        <div className="h-14 w-14 rounded-full border-[3px] border-white bg-white/90" />
+        <div className="h-14 w-14 rounded-full border-[3px] border-white" style={{ backgroundColor: SAGE }} />
       </div>
     </PhoneFrame>
   );
 }
 
-function PhoneNutrition() {
+function PhoneVerdict() {
   return (
     <PhoneFrame>
       <div
-        className="absolute inset-x-0 top-0 h-[55%] bg-cover bg-center"
+        className="absolute inset-x-0 top-0 h-[42%] bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&q=80&w=600')",
+            "url('https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&q=80&w=600')",
         }}
       />
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/45 to-transparent" />
-
-      {/* Top bar */}
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/45 to-transparent" />
       <div className="absolute inset-x-0 top-12 z-20 flex items-center justify-between px-4 text-white">
         <ChevronRight className="h-4 w-4 rotate-180" />
-        <div className="text-[12px] font-semibold">Nutrition</div>
+        <div className="text-[12px] font-semibold">Analiz Raporu</div>
         <Sparkles className="h-3.5 w-3.5" />
       </div>
 
       {/* Sheet */}
-      <div className="absolute inset-x-0 bottom-0 z-30 rounded-t-[1.8rem] bg-white p-4">
+      <div className="absolute inset-x-0 bottom-0 top-[38%] z-30 rounded-t-[1.8rem] bg-white p-4">
         <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ backgroundColor: LINE }} />
+
         <div className="mb-3 flex items-center justify-between">
           <div>
             <div className="text-[9px] font-bold uppercase tracking-[0.16em]" style={{ color: INK_SOFT }}>
-              Kahvaltı
+              Barkod 869…
             </div>
             <div className="text-[15px] font-extrabold leading-tight" style={{ color: INK, fontFamily: "var(--font-display)" }}>
-              Pankek &<br />yaban mersini
+              Granola bar
+              <br />
+              fındıklı
             </div>
           </div>
-          <div className="flex items-center gap-1 rounded-full border px-2 py-1 text-[11px] font-bold" style={{ borderColor: LINE, color: INK }}>
-            <span>−</span>
-            <span className="px-1">1</span>
-            <span>+</span>
-          </div>
+          <span
+            className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-extrabold"
+            style={{ backgroundColor: MINT, color: FOREST }}
+          >
+            <Check className="h-3 w-3" /> Güvenli
+          </span>
         </div>
 
+        {/* Macro pills */}
         <div className="grid grid-cols-2 gap-2">
-          <MacroCell icon={Flame} color={EMBER} label="Kalori" value="615" />
-          <MacroCell icon={Sparkles} color="#C8A24A" label="Karb." value="93g" />
-          <MacroCell icon={HeartPulse} color={BERRY} label="Protein" value="11g" />
-          <MacroCell icon={ShieldCheck} color={SKY} label="Yağ" value="21g" />
+          <MacroCell icon={Flame} label="Enerji" value="412 kcal" />
+          <MacroCell icon={HeartPulse} label="Protein" value="9.2g" />
+          <MacroCell icon={Leaf} label="Lif" value="6.1g" />
+          <MacroCell icon={ShieldCheck} label="Tuz" value="0.4g" />
         </div>
 
         <div className="mt-3 rounded-2xl border p-3" style={{ borderColor: LINE }}>
           <div className="flex items-center justify-between text-[11px]">
             <span className="font-semibold" style={{ color: INK }}>
-              Sağlık skoru
+              Profil uyumu
             </span>
-            <span className="font-extrabold" style={{ color: INK }}>
-              7/10
+            <span className="font-extrabold" style={{ color: FOREST }}>
+              9/10
             </span>
           </div>
-          <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: CANVAS_DEEP }}>
-            <div className="h-full rounded-full" style={{ width: "70%", backgroundColor: MOSS }} />
+          <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#EFF1EE" }}>
+            <div className="h-full rounded-full" style={{ width: "90%", backgroundColor: SAGE }} />
           </div>
-        </div>
-
-        <div className="mt-3 flex items-center gap-2">
-          <button
-            className="flex-1 rounded-full border py-2 text-[11px] font-bold"
-            style={{ borderColor: LINE, color: INK }}
-          >
-            ✦ Düzelt
-          </button>
-          <button
-            className="flex-1 rounded-full py-2 text-[11px] font-bold"
-            style={{ backgroundColor: INK, color: CANVAS }}
-          >
-            Bitti
-          </button>
         </div>
       </div>
     </PhoneFrame>
   );
 }
 
-function MacroCell({ icon: Icon, color, label, value }: any) {
+function MacroCell({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
   return (
     <div className="flex items-center gap-2 rounded-2xl border p-2.5" style={{ borderColor: LINE }}>
-      <span className="flex h-8 w-8 items-center justify-center rounded-xl" style={{ backgroundColor: `${color}1f`, color }}>
+      <span
+        className="flex h-8 w-8 items-center justify-center rounded-xl"
+        style={{ backgroundColor: `${SAGE}22`, color: FOREST }}
+      >
         <Icon className="h-4 w-4" />
       </span>
       <div className="leading-tight">
-        <div className="text-[9px] uppercase tracking-wider" style={{ color: INK_SOFT }}>{label}</div>
-        <div className="text-[13px] font-extrabold" style={{ color: INK }}>{value}</div>
+        <div className="text-[9px] uppercase tracking-wider" style={{ color: INK_SOFT }}>
+          {label}
+        </div>
+        <div className="text-[13px] font-extrabold" style={{ color: INK }}>
+          {value}
+        </div>
       </div>
     </div>
   );
 }
 
-function PhoneSalmon() {
+function PhoneAllergy() {
   return (
     <PhoneFrame>
       <div
-        className="absolute inset-x-0 top-0 h-[48%] bg-cover bg-center"
+        className="absolute inset-x-0 top-0 h-[38%] bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=600')",
+            "url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=600')",
         }}
       />
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent" />
       <div className="absolute inset-x-0 top-12 z-20 flex items-center justify-between px-4 text-white">
         <ChevronRight className="h-4 w-4 rotate-180" />
-        <div className="text-[12px] font-semibold">Nutrition</div>
+        <div className="text-[12px] font-semibold">Analiz</div>
         <Sparkles className="h-3.5 w-3.5" />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-30 rounded-t-[1.8rem] bg-white p-4">
-        <div className="mb-2 flex items-center gap-2 text-[10px]" style={{ color: INK_SOFT }}>
-          <span>🔖</span>
-          <span className="font-semibold">12:46 PM</span>
-        </div>
+      <div className="absolute inset-x-0 bottom-0 top-[34%] z-30 rounded-t-[1.8rem] bg-white p-4">
+        <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ backgroundColor: LINE }} />
         <div className="mb-3 flex items-start justify-between gap-3">
           <h4
             className="text-[16px] font-extrabold leading-tight"
             style={{ color: INK, fontFamily: "var(--font-display)" }}
           >
-            Somon ve Brokoli<br />Fırın Tepsisi
+            Tam buğdaylı
+            <br />ekmek
           </h4>
-          <span className="rounded-full border px-2 py-1 text-[10px] font-bold" style={{ borderColor: LINE, color: INK }}>
-            1 ✎
+          <span
+            className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-extrabold"
+            style={{ backgroundColor: "#FEE2E2", color: "#991B1B" }}
+          >
+            <AlertTriangle className="h-3 w-3" /> Uygun değil
           </span>
         </div>
 
-        <div className="mb-2 flex items-center gap-2 rounded-2xl border p-2.5" style={{ borderColor: LINE }}>
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl" style={{ backgroundColor: `${EMBER}1f`, color: EMBER }}>
-            <Flame className="h-4 w-4" />
-          </span>
-          <div className="leading-tight">
-            <div className="text-[9px] uppercase tracking-wider" style={{ color: INK_SOFT }}>Calories</div>
-            <div className="text-[15px] font-extrabold" style={{ color: INK }}>621</div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          <MacroCell icon={HeartPulse} color={BERRY} label="Protein" value="52g" />
-          <MacroCell icon={Sparkles} color="#C8A24A" label="Karb." value="20g" />
-          <MacroCell icon={ShieldCheck} color={SKY} label="Yağ" value="36g" />
+        <div className="space-y-2">
+          <RiskRow tone="danger" label="Gluten içerir" detail="Çölyak profilin ile uyumsuz" />
+          <RiskRow tone="warning" label="Yüksek sodyum" detail="100g'da 1.2g tuz" />
+          <RiskRow tone="safe" label="Laktoz" detail="Tespit edilmedi" />
         </div>
 
         <div className="mt-3 rounded-2xl border p-3" style={{ borderColor: LINE }}>
           <div className="flex items-center justify-between text-[11px]">
-            <span className="inline-flex items-center gap-1 font-semibold" style={{ color: INK }}>
-              <HeartPulse className="h-3.5 w-3.5" style={{ color: BERRY }} /> Sağlık Skoru
+            <span className="font-semibold" style={{ color: INK }}>
+              Risk skoru
             </span>
-            <span className="font-extrabold" style={{ color: INK }}>7/10</span>
+            <span className="font-extrabold" style={{ color: "#991B1B" }}>3/10</span>
           </div>
-          <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: CANVAS_DEEP }}>
-            <div className="h-full rounded-full" style={{ width: "70%", backgroundColor: MOSS }} />
+          <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#EFF1EE" }}>
+            <div className="h-full rounded-full" style={{ width: "30%", backgroundColor: "#DC2626" }} />
           </div>
         </div>
       </div>
     </PhoneFrame>
+  );
+}
+
+function RiskRow({ tone, label, detail }: { tone: "safe" | "warning" | "danger"; label: string; detail: string }) {
+  const map = {
+    safe: { bg: MINT, fg: FOREST, icon: Check },
+    warning: { bg: "#FEF3C7", fg: "#92400E", icon: AlertTriangle },
+    danger: { bg: "#FEE2E2", fg: "#991B1B", icon: AlertTriangle },
+  } as const;
+  const c = map[tone];
+  const Icon = c.icon;
+  return (
+    <div className="flex items-center gap-2.5 rounded-xl border px-2.5 py-2" style={{ borderColor: LINE }}>
+      <span className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ backgroundColor: c.bg, color: c.fg }}>
+        <Icon className="h-3.5 w-3.5" />
+      </span>
+      <div className="leading-tight">
+        <div className="text-[12px] font-bold" style={{ color: INK }}>{label}</div>
+        <div className="text-[10px]" style={{ color: INK_SOFT }}>{detail}</div>
+      </div>
+    </div>
   );
 }
 
@@ -659,23 +692,20 @@ function PhoneDark() {
       <div className="absolute inset-0 p-5 pt-12 text-white">
         <div className="mt-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-lg">🍎</span>
+            <span className="flex h-7 w-7 items-center justify-center rounded-xl" style={{ backgroundColor: `${SAGE}33`, color: SAGE }}>
+              <Leaf className="h-3.5 w-3.5" />
+            </span>
             <span className="font-extrabold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
               Alentra
             </span>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="rounded-lg bg-white/10 px-2 py-1 text-[10px]">📷</span>
-            <span className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2 py-1 text-[10px]">
-              <Flame className="h-3 w-3" style={{ color: EMBER }} /> 15
-            </span>
-          </div>
+          <span className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2 py-1 text-[10px]">
+            <Flame className="h-3 w-3" style={{ color: SAGE }} /> 15
+          </span>
         </div>
 
         <div className="mt-4 flex items-center gap-3 text-[11px]">
-          <span className="border-b-2 pb-1 font-bold" style={{ borderColor: LIME }}>
-            Bugün
-          </span>
+          <span className="border-b-2 pb-1 font-bold" style={{ borderColor: SAGE }}>Bugün</span>
           <span className="opacity-50">Dün</span>
         </div>
 
@@ -683,25 +713,25 @@ function PhoneDark() {
           <div className="flex items-start justify-between">
             <div>
               <div className="text-[2rem] font-extrabold leading-none" style={{ fontFamily: "var(--font-display)" }}>
-                2500
+                1.250
               </div>
               <div className="mt-1 text-[10px] opacity-70">Kalan kalori</div>
             </div>
             <div className="relative h-14 w-14">
               <svg viewBox="0 0 36 36" className="h-full w-full -rotate-90">
                 <circle cx="18" cy="18" r="15" stroke="rgba(255,255,255,0.1)" strokeWidth="3" fill="none" />
-                <circle cx="18" cy="18" r="15" stroke={LIME} strokeWidth="3" fill="none" strokeDasharray="70 100" strokeLinecap="round" />
+                <circle cx="18" cy="18" r="15" stroke={SAGE} strokeWidth="3" fill="none" strokeDasharray="62 100" strokeLinecap="round" />
               </svg>
-              <Flame className="absolute inset-0 m-auto h-4 w-4" />
+              <Flame className="absolute inset-0 m-auto h-4 w-4" style={{ color: SAGE }} />
             </div>
           </div>
         </div>
 
         <div className="mt-3 grid grid-cols-3 gap-2">
           {[
-            { v: "45g", l: "Protein", c: EMBER, p: 90 },
-            { v: "89g", l: "Karb.", c: "#C8A24A", p: 60 },
-            { v: "48g", l: "Yağ", c: SKY, p: 45 },
+            { v: "78g", l: "Protein", p: 85 },
+            { v: "142g", l: "Karb.", p: 64 },
+            { v: "48g", l: "Yağ", p: 52 },
           ].map((m) => (
             <div key={m.l} className="rounded-2xl bg-white/[0.06] p-3">
               <div className="text-[13px] font-extrabold">{m.v}</div>
@@ -709,29 +739,26 @@ function PhoneDark() {
               <div className="relative mx-auto mt-2 h-10 w-10">
                 <svg viewBox="0 0 36 36" className="h-full w-full -rotate-90">
                   <circle cx="18" cy="18" r="15" stroke="rgba(255,255,255,0.1)" strokeWidth="3" fill="none" />
-                  <circle cx="18" cy="18" r="15" stroke={m.c} strokeWidth="3" fill="none" strokeDasharray={`${m.p} 100`} strokeLinecap="round" />
+                  <circle cx="18" cy="18" r="15" stroke={SAGE} strokeWidth="3" fill="none" strokeDasharray={`${m.p} 100`} strokeLinecap="round" />
                 </svg>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-4 text-[11px] font-bold">Son yüklenenler</div>
+        <div className="mt-4 text-[11px] font-bold">Son taranan</div>
         <div className="mt-2 space-y-2">
-          {[1, 2].map((i) => (
-            <div key={i} className="flex items-center gap-2 rounded-2xl bg-white/[0.06] p-2">
-              <div
-                className="h-9 w-9 rounded-xl bg-cover"
-                style={{
-                  backgroundImage:
-                    "url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=200')",
-                }}
-              />
+          {[
+            { t: "Granola bar", s: "Güvenli", c: SAGE },
+            { t: "Tam buğdaylı ekmek", s: "Uygun değil", c: "#F87171" },
+          ].map((i) => (
+            <div key={i.t} className="flex items-center gap-2 rounded-2xl bg-white/[0.06] p-2">
+              <div className="h-9 w-9 rounded-xl" style={{ backgroundColor: `${i.c}33` }} />
               <div className="flex-1 leading-tight">
-                <div className="text-[11px] font-bold">Somon salatası…</div>
-                <div className="text-[9px] opacity-60">500 kcal · 78g · 78g</div>
+                <div className="text-[11px] font-bold">{i.t}</div>
+                <div className="text-[9px] opacity-60">{i.s}</div>
               </div>
-              <div className="text-[9px] opacity-60">9:00</div>
+              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: i.c }} />
             </div>
           ))}
         </div>
