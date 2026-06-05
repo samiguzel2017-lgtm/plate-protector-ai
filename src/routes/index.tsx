@@ -5,16 +5,11 @@ import { Disclaimer } from "@/components/Disclaimer";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowRight,
-  Camera,
   HeartPulse,
   ShieldCheck,
-  History,
   Sparkles,
-  Search,
   Flame,
   Star,
-  Check,
   Moon,
   ChevronRight,
 } from "lucide-react";
