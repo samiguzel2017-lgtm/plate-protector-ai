@@ -45,7 +45,8 @@ const CHARCOAL = "#1A1F2C";
 const LAVENDER_AMBIENT = "linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 45%, #DBEAFE 100%)";
 
 function Landing() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const pc = phoneCopy(lang);
   return (
     <div className="min-h-screen" style={{ backgroundColor: CANVAS }}>
       <SiteHeader />
