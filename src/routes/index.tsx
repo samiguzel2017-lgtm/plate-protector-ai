@@ -255,7 +255,7 @@ function Landing() {
                 </div>
                 <div className="relative flex items-center justify-center lg:justify-end">
                   <div style={{ transform: "rotate(5deg)" }}>
-                    <PhoneDark />
+                    <PhoneDark copy={pc} />
                   </div>
                 </div>
               </div>
