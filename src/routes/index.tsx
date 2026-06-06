@@ -142,10 +142,10 @@ function Landing() {
             {/* RIGHT — overlapping phones */}
             <div className="relative flex min-h-[600px] items-center justify-center lg:col-span-6">
               <div className="relative" style={{ transform: "rotate(-5deg)" }}>
-                <PhoneScanner />
+                <PhoneScanner copy={pc} />
               </div>
               <div className="absolute right-0 top-10 hidden md:block" style={{ transform: "rotate(6deg)" }}>
-                <PhoneVerdict />
+                <PhoneVerdict copy={pc} />
               </div>
             </div>
           </div>
