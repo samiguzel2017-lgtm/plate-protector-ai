@@ -45,7 +45,8 @@ const CHARCOAL = "#1A1F2C";
 const LAVENDER_AMBIENT = "linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 45%, #DBEAFE 100%)";
 
 function Landing() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const pc = phoneCopy(lang);
   return (
     <div className="min-h-screen" style={{ backgroundColor: CANVAS }}>
       <SiteHeader />
@@ -141,10 +142,10 @@ function Landing() {
             {/* RIGHT — overlapping phones */}
             <div className="relative flex min-h-[600px] items-center justify-center lg:col-span-6">
               <div className="relative" style={{ transform: "rotate(-5deg)" }}>
-                <PhoneScanner />
+                <PhoneScanner copy={pc} />
               </div>
               <div className="absolute right-0 top-10 hidden md:block" style={{ transform: "rotate(6deg)" }}>
-                <PhoneVerdict />
+                <PhoneVerdict copy={pc} />
               </div>
             </div>
           </div>
@@ -159,22 +160,22 @@ function Landing() {
                 style={{ background: `radial-gradient(55% 55% at 50% 50%, ${MINT}55, transparent 70%)` }}
               />
               <div style={{ transform: "rotate(-3deg)" }}>
-                <PhoneAllergy />
+                <PhoneAllergy copy={pc} />
               </div>
 
               {/* Floating allergy chip */}
               <FloatChip
                 className="absolute -left-2 top-12 md:left-6"
                 icon={AlertTriangle}
-                label="Alerjen"
-                value="Gluten"
+                label={pc.allergen}
+                value={pc.gluten}
                 tone="danger"
               />
               <FloatChip
                 className="absolute -right-2 bottom-16 md:right-4"
                 icon={Check}
-                label="Profil uyumlu"
-                value="Laktozsuz"
+                label={pc.profileMatch}
+                value={pc.lactoseFree}
                 tone="safe"
               />
             </div>
@@ -254,7 +255,7 @@ function Landing() {
                 </div>
                 <div className="relative flex items-center justify-center lg:justify-end">
                   <div style={{ transform: "rotate(5deg)" }}>
-                    <PhoneDark />
+                    <PhoneDark copy={pc} />
                   </div>
                 </div>
               </div>
@@ -437,11 +438,105 @@ function FloatChip({
 
 /* ---------- Phone mockups ---------- */
 
+type PhoneCopy = ReturnType<typeof phoneCopy>;
+
+function phoneCopy(lang: "tr" | "en") {
+  const tr = {
+    // scanner
+    scanBarcode: "Barkod tara",
+    tabBarcode: "Barkod",
+    tabMeal: "Yemek",
+    tabLabel: "Etiket",
+    tabGallery: "Galeri",
+    // verdict
+    report: "Analiz Raporu",
+    barcodeShort: "Barkod 869…",
+    productLine1: "Granola bar",
+    productLine2: "fındıklı",
+    safe: "Güvenli",
+    energy: "Enerji",
+    protein: "Protein",
+    fiber: "Lif",
+    salt: "Tuz",
+    profileMatchLabel: "Profil uyumu",
+    // allergy
+    analysis: "Analiz",
+    breadLine1: "Tam buğdaylı",
+    breadLine2: "ekmek",
+    notSuitable: "Uygun değil",
+    glutenContains: "Gluten içerir",
+    glutenDetail: "Çölyak profilin ile uyumsuz",
+    highSodium: "Yüksek sodyum",
+    highSodiumDetail: "100g'da 1.2g tuz",
+    lactose: "Laktoz",
+    lactoseDetail: "Tespit edilmedi",
+    riskScore: "Risk skoru",
+    // float chips
+    allergen: "Alerjen",
+    gluten: "Gluten",
+    profileMatch: "Profil uyumlu",
+    lactoseFree: "Laktozsuz",
+    // dark
+    today: "Bugün",
+    yesterday: "Dün",
+    caloriesLeft: "Kalan kalori",
+    carbs: "Karb.",
+    fat: "Yağ",
+    lastScanned: "Son taranan",
+    granola: "Granola bar",
+    bread: "Tam buğdaylı ekmek",
+  };
+  const en = {
+    scanBarcode: "Scan barcode",
+    tabBarcode: "Barcode",
+    tabMeal: "Meal",
+    tabLabel: "Label",
+    tabGallery: "Gallery",
+    report: "Analysis Report",
+    barcodeShort: "Barcode 869…",
+    productLine1: "Granola bar",
+    productLine2: "hazelnut",
+    safe: "Safe",
+    energy: "Energy",
+    protein: "Protein",
+    fiber: "Fiber",
+    salt: "Salt",
+    profileMatchLabel: "Profile match",
+    analysis: "Analysis",
+    breadLine1: "Whole wheat",
+    breadLine2: "bread",
+    notSuitable: "Not suitable",
+    glutenContains: "Contains gluten",
+    glutenDetail: "Incompatible with celiac profile",
+    highSodium: "High sodium",
+    highSodiumDetail: "1.2g salt per 100g",
+    lactose: "Lactose",
+    lactoseDetail: "Not detected",
+    riskScore: "Risk score",
+    allergen: "Allergen",
+    gluten: "Gluten",
+    profileMatch: "Profile match",
+    lactoseFree: "Lactose-free",
+    today: "Today",
+    yesterday: "Yesterday",
+    caloriesLeft: "Calories left",
+    carbs: "Carbs",
+    fat: "Fat",
+    lastScanned: "Last scanned",
+    granola: "Granola bar",
+    bread: "Whole wheat bread",
+  };
+  return lang === "en" ? en : tr;
+}
+
+const PHONE_FONT = "'Inter', 'Plus Jakarta Sans', system-ui, sans-serif";
+const DISPLAY_FONT = "var(--font-display)";
+
 function PhoneFrame({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
     <div
       className="relative h-[560px] w-[270px] rounded-[2.8rem] p-[6px] shadow-[0_40px_80px_-30px_rgba(15,30,25,0.4)]"
-      style={{ background: "linear-gradient(160deg, #2a2a2a, #0a0a0a)" }}
+      style={{ background: "linear-gradient(160deg, #2a2a2a, #0a0a0a)", fontFamily: PHONE_FONT, fontFeatureSettings: '"cv11","ss01","tnum"' }}
     >
       <div
         className="relative h-full w-full overflow-hidden rounded-[2.45rem]"
@@ -454,10 +549,9 @@ function PhoneFrame({ children, dark = false }: { children: React.ReactNode; dar
   );
 }
 
-function PhoneScanner() {
+function PhoneScanner({ copy }: { copy: PhoneCopy }) {
   return (
     <PhoneFrame dark>
-      {/* Dim camera bg */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-70"
         style={{
@@ -469,9 +563,9 @@ function PhoneScanner() {
 
       {/* Top bar */}
       <div className="absolute inset-x-0 top-12 z-20 flex items-center justify-between px-4">
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-md">
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-medium tracking-tight text-white backdrop-blur-md">
           <ScanLine className="h-3 w-3" style={{ color: SAGE }} />
-          Barkod tara
+          {copy.scanBarcode}
         </div>
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 backdrop-blur-md">
           <Sparkles className="h-3.5 w-3.5 text-white" />
@@ -485,7 +579,6 @@ function PhoneScanner() {
           <span className="absolute -right-1 -top-1 h-6 w-6 rounded-tr-2xl border-r-[3px] border-t-[3px]" style={{ borderColor: SAGE }} />
           <span className="absolute -bottom-1 -left-1 h-6 w-6 rounded-bl-2xl border-b-[3px] border-l-[3px]" style={{ borderColor: SAGE }} />
           <span className="absolute -bottom-1 -right-1 h-6 w-6 rounded-br-2xl border-b-[3px] border-r-[3px]" style={{ borderColor: SAGE }} />
-          {/* Laser */}
           <span
             className="scanner-laser absolute left-3 right-3 top-1/2 h-[2px] rounded-full"
             style={{ backgroundColor: SAGE, boxShadow: `0 0 18px 2px ${SAGE}` }}
@@ -493,28 +586,22 @@ function PhoneScanner() {
         </div>
       </div>
 
-      {/* Pretend barcode lines */}
       <div className="absolute left-12 right-12 top-[42%] z-10 flex h-16 items-center justify-between opacity-90">
         {Array.from({ length: 22 }).map((_, i) => (
-          <span
-            key={i}
-            className="block h-full bg-white"
-            style={{ width: `${1 + ((i * 7) % 4)}px` }}
-          />
+          <span key={i} className="block h-full bg-white" style={{ width: `${1 + ((i * 7) % 4)}px` }} />
         ))}
       </div>
 
       {/* Bottom toolbar */}
       <div className="absolute inset-x-4 bottom-20 z-30 flex items-center gap-1 rounded-full border border-white/15 bg-white/10 px-2 py-2 backdrop-blur-xl">
-        <span className="rounded-full px-3 py-1 text-[10px] font-bold" style={{ backgroundColor: SAGE, color: CHARCOAL }}>
-          Barkod
+        <span className="rounded-full px-3 py-1 text-[10px] font-medium tracking-tight" style={{ backgroundColor: SAGE, color: CHARCOAL }}>
+          {copy.tabBarcode}
         </span>
-        <span className="px-3 text-[10px] font-semibold text-white/75">Yemek</span>
-        <span className="px-3 text-[10px] font-semibold text-white/75">Etiket</span>
-        <span className="ml-auto px-3 text-[10px] font-semibold text-white/75">Galeri</span>
+        <span className="px-3 text-[10px] font-light tracking-tight text-white/75">{copy.tabMeal}</span>
+        <span className="px-3 text-[10px] font-light tracking-tight text-white/75">{copy.tabLabel}</span>
+        <span className="ml-auto px-3 text-[10px] font-light tracking-tight text-white/75">{copy.tabGallery}</span>
       </div>
 
-      {/* Shutter */}
       <div className="absolute inset-x-0 bottom-6 z-30 flex justify-center">
         <div className="h-14 w-14 rounded-full border-[3px] border-white" style={{ backgroundColor: SAGE }} />
       </div>
@@ -522,7 +609,7 @@ function PhoneScanner() {
   );
 }
 
-function PhoneVerdict() {
+function PhoneVerdict({ copy }: { copy: PhoneCopy }) {
   return (
     <PhoneFrame>
       <div
@@ -535,47 +622,45 @@ function PhoneVerdict() {
       <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/45 to-transparent" />
       <div className="absolute inset-x-0 top-12 z-20 flex items-center justify-between px-4 text-white">
         <ChevronRight className="h-4 w-4 rotate-180" />
-        <div className="text-[12px] font-semibold">Analiz Raporu</div>
+        <div className="text-[12px] font-medium tracking-tight">{copy.report}</div>
         <Sparkles className="h-3.5 w-3.5" />
       </div>
 
-      {/* Sheet */}
       <div className="absolute inset-x-0 bottom-0 top-[38%] z-30 rounded-t-[1.8rem] bg-white p-4">
         <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ backgroundColor: LINE }} />
 
         <div className="mb-3 flex items-center justify-between">
           <div>
-            <div className="text-[9px] font-bold uppercase tracking-[0.16em]" style={{ color: INK_SOFT }}>
-              Barkod 869…
+            <div className="text-[9px] font-light uppercase tracking-[0.16em]" style={{ color: INK_SOFT }}>
+              {copy.barcodeShort}
             </div>
-            <div className="text-[15px] font-extrabold leading-tight" style={{ color: INK, fontFamily: "var(--font-display)" }}>
-              Granola bar
+            <div className="text-[15px] font-bold leading-tight tracking-[-0.02em]" style={{ color: INK, fontFamily: DISPLAY_FONT }}>
+              {copy.productLine1}
               <br />
-              fındıklı
+              {copy.productLine2}
             </div>
           </div>
           <span
-            className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-extrabold"
+            className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium tracking-tight"
             style={{ backgroundColor: MINT, color: FOREST }}
           >
-            <Check className="h-3 w-3" /> Güvenli
+            <Check className="h-3 w-3" /> {copy.safe}
           </span>
         </div>
 
-        {/* Macro pills */}
         <div className="grid grid-cols-2 gap-2">
-          <MacroCell icon={Flame} label="Enerji" value="412 kcal" />
-          <MacroCell icon={HeartPulse} label="Protein" value="9.2g" />
-          <MacroCell icon={Leaf} label="Lif" value="6.1g" />
-          <MacroCell icon={ShieldCheck} label="Tuz" value="0.4g" />
+          <MacroCell icon={Flame} label={copy.energy} value="412 kcal" />
+          <MacroCell icon={HeartPulse} label={copy.protein} value="9.2g" />
+          <MacroCell icon={Leaf} label={copy.fiber} value="6.1g" />
+          <MacroCell icon={ShieldCheck} label={copy.salt} value="0.4g" />
         </div>
 
         <div className="mt-3 rounded-2xl border p-3" style={{ borderColor: LINE }}>
           <div className="flex items-center justify-between text-[11px]">
-            <span className="font-semibold" style={{ color: INK }}>
-              Profil uyumu
+            <span className="font-normal tracking-tight" style={{ color: INK }}>
+              {copy.profileMatchLabel}
             </span>
-            <span className="font-extrabold" style={{ color: FOREST }}>
+            <span className="font-medium tabular-nums" style={{ color: FOREST }}>
               9/10
             </span>
           </div>
@@ -598,10 +683,10 @@ function MacroCell({ icon: Icon, label, value }: { icon: any; label: string; val
         <Icon className="h-4 w-4" />
       </span>
       <div className="leading-tight">
-        <div className="text-[9px] uppercase tracking-wider" style={{ color: INK_SOFT }}>
+        <div className="text-[9px] font-light uppercase tracking-[0.12em]" style={{ color: INK_SOFT }}>
           {label}
         </div>
-        <div className="text-[13px] font-extrabold" style={{ color: INK }}>
+        <div className="text-[13px] font-medium tabular-nums tracking-tight" style={{ color: INK }}>
           {value}
         </div>
       </div>
@@ -609,7 +694,7 @@ function MacroCell({ icon: Icon, label, value }: { icon: any; label: string; val
   );
 }
 
-function PhoneAllergy() {
+function PhoneAllergy({ copy }: { copy: PhoneCopy }) {
   return (
     <PhoneFrame>
       <div
@@ -621,7 +706,7 @@ function PhoneAllergy() {
       />
       <div className="absolute inset-x-0 top-12 z-20 flex items-center justify-between px-4 text-white">
         <ChevronRight className="h-4 w-4 rotate-180" />
-        <div className="text-[12px] font-semibold">Analiz</div>
+        <div className="text-[12px] font-medium tracking-tight">{copy.analysis}</div>
         <Sparkles className="h-3.5 w-3.5" />
       </div>
 
@@ -629,32 +714,33 @@ function PhoneAllergy() {
         <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ backgroundColor: LINE }} />
         <div className="mb-3 flex items-start justify-between gap-3">
           <h4
-            className="text-[16px] font-extrabold leading-tight"
-            style={{ color: INK, fontFamily: "var(--font-display)" }}
+            className="text-[16px] font-bold leading-tight tracking-[-0.02em]"
+            style={{ color: INK, fontFamily: DISPLAY_FONT }}
           >
-            Tam buğdaylı
-            <br />ekmek
+            {copy.breadLine1}
+            <br />
+            {copy.breadLine2}
           </h4>
           <span
-            className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-extrabold"
+            className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium tracking-tight"
             style={{ backgroundColor: "#FEE2E2", color: "#991B1B" }}
           >
-            <AlertTriangle className="h-3 w-3" /> Uygun değil
+            <AlertTriangle className="h-3 w-3" /> {copy.notSuitable}
           </span>
         </div>
 
         <div className="space-y-2">
-          <RiskRow tone="danger" label="Gluten içerir" detail="Çölyak profilin ile uyumsuz" />
-          <RiskRow tone="warning" label="Yüksek sodyum" detail="100g'da 1.2g tuz" />
-          <RiskRow tone="safe" label="Laktoz" detail="Tespit edilmedi" />
+          <RiskRow tone="danger" label={copy.glutenContains} detail={copy.glutenDetail} />
+          <RiskRow tone="warning" label={copy.highSodium} detail={copy.highSodiumDetail} />
+          <RiskRow tone="safe" label={copy.lactose} detail={copy.lactoseDetail} />
         </div>
 
         <div className="mt-3 rounded-2xl border p-3" style={{ borderColor: LINE }}>
           <div className="flex items-center justify-between text-[11px]">
-            <span className="font-semibold" style={{ color: INK }}>
-              Risk skoru
+            <span className="font-normal tracking-tight" style={{ color: INK }}>
+              {copy.riskScore}
             </span>
-            <span className="font-extrabold" style={{ color: "#991B1B" }}>3/10</span>
+            <span className="font-medium tabular-nums" style={{ color: "#991B1B" }}>3/10</span>
           </div>
           <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#EFF1EE" }}>
             <div className="h-full rounded-full" style={{ width: "30%", backgroundColor: "#DC2626" }} />
@@ -679,14 +765,14 @@ function RiskRow({ tone, label, detail }: { tone: "safe" | "warning" | "danger";
         <Icon className="h-3.5 w-3.5" />
       </span>
       <div className="leading-tight">
-        <div className="text-[12px] font-bold" style={{ color: INK }}>{label}</div>
-        <div className="text-[10px]" style={{ color: INK_SOFT }}>{detail}</div>
+        <div className="text-[12px] font-medium tracking-tight" style={{ color: INK }}>{label}</div>
+        <div className="text-[10px] font-light tracking-tight" style={{ color: INK_SOFT }}>{detail}</div>
       </div>
     </div>
   );
 }
 
-function PhoneDark() {
+function PhoneDark({ copy }: { copy: PhoneCopy }) {
   return (
     <PhoneFrame dark>
       <div className="absolute inset-0 p-5 pt-12 text-white">
@@ -695,27 +781,27 @@ function PhoneDark() {
             <span className="flex h-7 w-7 items-center justify-center rounded-xl" style={{ backgroundColor: `${SAGE}33`, color: SAGE }}>
               <Leaf className="h-3.5 w-3.5" />
             </span>
-            <span className="font-extrabold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+            <span className="font-bold tracking-[-0.02em]" style={{ fontFamily: DISPLAY_FONT }}>
               Alentra
             </span>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2 py-1 text-[10px]">
+          <span className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-2 py-1 text-[10px] font-medium tabular-nums">
             <Flame className="h-3 w-3" style={{ color: SAGE }} /> 15
           </span>
         </div>
 
         <div className="mt-4 flex items-center gap-3 text-[11px]">
-          <span className="border-b-2 pb-1 font-bold" style={{ borderColor: SAGE }}>Bugün</span>
-          <span className="opacity-50">Dün</span>
+          <span className="border-b-2 pb-1 font-medium tracking-tight" style={{ borderColor: SAGE }}>{copy.today}</span>
+          <span className="font-light tracking-tight opacity-50">{copy.yesterday}</span>
         </div>
 
         <div className="mt-4 rounded-2xl bg-white/[0.06] p-4">
           <div className="flex items-start justify-between">
             <div>
-              <div className="text-[2rem] font-extrabold leading-none" style={{ fontFamily: "var(--font-display)" }}>
+              <div className="text-[2rem] font-bold leading-none tabular-nums tracking-[-0.03em]" style={{ fontFamily: DISPLAY_FONT }}>
                 1.250
               </div>
-              <div className="mt-1 text-[10px] opacity-70">Kalan kalori</div>
+              <div className="mt-1 text-[10px] font-light tracking-tight opacity-70">{copy.caloriesLeft}</div>
             </div>
             <div className="relative h-14 w-14">
               <svg viewBox="0 0 36 36" className="h-full w-full -rotate-90">
@@ -729,13 +815,13 @@ function PhoneDark() {
 
         <div className="mt-3 grid grid-cols-3 gap-2">
           {[
-            { v: "78g", l: "Protein", p: 85 },
-            { v: "142g", l: "Karb.", p: 64 },
-            { v: "48g", l: "Yağ", p: 52 },
+            { v: "78g", l: copy.protein, p: 85 },
+            { v: "142g", l: copy.carbs, p: 64 },
+            { v: "48g", l: copy.fat, p: 52 },
           ].map((m) => (
             <div key={m.l} className="rounded-2xl bg-white/[0.06] p-3">
-              <div className="text-[13px] font-extrabold">{m.v}</div>
-              <div className="text-[9px] opacity-70">{m.l}</div>
+              <div className="text-[13px] font-medium tabular-nums tracking-tight">{m.v}</div>
+              <div className="text-[9px] font-light tracking-tight opacity-70">{m.l}</div>
               <div className="relative mx-auto mt-2 h-10 w-10">
                 <svg viewBox="0 0 36 36" className="h-full w-full -rotate-90">
                   <circle cx="18" cy="18" r="15" stroke="rgba(255,255,255,0.1)" strokeWidth="3" fill="none" />
@@ -746,17 +832,17 @@ function PhoneDark() {
           ))}
         </div>
 
-        <div className="mt-4 text-[11px] font-bold">Son taranan</div>
+        <div className="mt-4 text-[11px] font-medium tracking-tight">{copy.lastScanned}</div>
         <div className="mt-2 space-y-2">
           {[
-            { t: "Granola bar", s: "Güvenli", c: SAGE },
-            { t: "Tam buğdaylı ekmek", s: "Uygun değil", c: "#F87171" },
+            { t: copy.granola, s: copy.safe, c: SAGE },
+            { t: copy.bread, s: copy.notSuitable, c: "#F87171" },
           ].map((i) => (
             <div key={i.t} className="flex items-center gap-2 rounded-2xl bg-white/[0.06] p-2">
               <div className="h-9 w-9 rounded-xl" style={{ backgroundColor: `${i.c}33` }} />
               <div className="flex-1 leading-tight">
-                <div className="text-[11px] font-bold">{i.t}</div>
-                <div className="text-[9px] opacity-60">{i.s}</div>
+                <div className="text-[11px] font-medium tracking-tight">{i.t}</div>
+                <div className="text-[9px] font-light tracking-tight opacity-60">{i.s}</div>
               </div>
               <span className="h-2 w-2 rounded-full" style={{ backgroundColor: i.c }} />
             </div>
@@ -766,3 +852,4 @@ function PhoneDark() {
     </PhoneFrame>
   );
 }
+
