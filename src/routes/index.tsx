@@ -160,22 +160,22 @@ function Landing() {
                 style={{ background: `radial-gradient(55% 55% at 50% 50%, ${MINT}55, transparent 70%)` }}
               />
               <div style={{ transform: "rotate(-3deg)" }}>
-                <PhoneAllergy />
+                <PhoneAllergy copy={pc} />
               </div>
 
               {/* Floating allergy chip */}
               <FloatChip
                 className="absolute -left-2 top-12 md:left-6"
                 icon={AlertTriangle}
-                label="Alerjen"
-                value="Gluten"
+                label={pc.allergen}
+                value={pc.gluten}
                 tone="danger"
               />
               <FloatChip
                 className="absolute -right-2 bottom-16 md:right-4"
                 icon={Check}
-                label="Profil uyumlu"
-                value="Laktozsuz"
+                label={pc.profileMatch}
+                value={pc.lactoseFree}
                 tone="safe"
               />
             </div>
