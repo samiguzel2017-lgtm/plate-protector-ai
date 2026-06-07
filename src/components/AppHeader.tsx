@@ -15,6 +15,7 @@ export function AppHeader() {
   const items = [
     { to: "/dashboard", label: t("nav.dashboard") },
     { to: "/analyze", label: t("nav.analyze") },
+    { to: "/chat", label: "Alentra Chat" },
     { to: "/history", label: t("nav.history") },
     { to: "/profile", label: t("nav.profile") },
   ];
