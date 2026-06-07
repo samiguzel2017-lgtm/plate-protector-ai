@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Send, Sparkles, MessageSquare } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { chatWithAlentra } from "@/lib/chat.functions";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
