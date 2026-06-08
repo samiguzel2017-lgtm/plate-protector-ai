@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Camera, MessageSquare, User, LayoutDashboard } from "lucide-react";
+import { Camera, MessageSquare, User, LayoutDashboard, Apple, Radar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
@@ -9,8 +9,10 @@ export function BottomNav() {
 
   const items = [
     { to: "/dashboard", label: t("nav.dashboard"), Icon: LayoutDashboard },
+    { to: "/diet", label: t("nav.diet"), Icon: Apple },
+    { to: "/simulator", label: t("nav.simulator"), Icon: Radar },
     { to: "/analyze", label: t("nav.analyze"), Icon: Camera },
-    { to: "/chat", label: "Alentra Chat", Icon: MessageSquare },
+    { to: "/chat", label: t("nav.chat"), Icon: MessageSquare },
     { to: "/profile", label: t("nav.profile"), Icon: User },
   ] as const;
 
