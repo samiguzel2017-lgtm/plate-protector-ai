@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { Disclaimer } from "@/components/Disclaimer";
 import { StatusBadge, type Status } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { Camera, ArrowRight, Lightbulb, HeartPulse, Plus } from "lucide-react";
+import { Camera, ArrowRight, Lightbulb, HeartPulse, Plus, Radar, Apple, ShieldAlert, ScanLine } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
