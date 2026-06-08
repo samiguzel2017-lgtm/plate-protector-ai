@@ -59,6 +59,8 @@
   --color-sage: var(--sage);
   --color-mint: var(--mint);
   --color-charcoal: var(--charcoal);
+  --color-neon: var(--neon);
+  --color-cyber: var(--cyber);
 }
 
 :root {
