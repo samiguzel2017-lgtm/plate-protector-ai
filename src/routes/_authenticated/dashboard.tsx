@@ -33,6 +33,19 @@ function Dashboard() {
   const hpEmpty = !hp || (!hp.allergies?.length && !hp.conditions?.length && !hp.diet_preferences?.length);
   const analyses = profileQ.data?.analyses ?? [];
 
+  const [secStats, setSecStats] = useState({ scanned: 0, blocked: 0 });
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("alentra.security.stats");
+      if (raw) {
+        const data = JSON.parse(raw);
+        const today = new Date().toISOString().slice(0, 10);
+        const t = data[today] ?? { scanned: 0, blocked: 0 };
+        setSecStats(t);
+      }
+    } catch {}
+  }, []);
+
   return (
     <div className="container-x py-10 md:py-14">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
@@ -41,10 +54,51 @@ function Dashboard() {
           <h1 className="mt-1 font-serif text-4xl text-foreground">{displayName}</h1>
         </div>
         <Link to="/analyze">
-          <Button className="rounded-full">
+          <Button className="rounded-full neon-glow">
             <Camera className="mr-1.5 h-4 w-4" />
             {t("dash.quick.cta")}
           </Button>
+        </Link>
+      </div>
+
+      {/* Live stats */}
+      <div className="mb-6 grid gap-3 sm:grid-cols-3">
+        <MiniStat icon={<ScanLine className="h-4 w-4" />} label={t("sim.scanned")} value={secStats.scanned} tone="neon" />
+        <MiniStat icon={<ShieldAlert className="h-4 w-4" />} label={t("sim.blocked")} value={secStats.blocked} tone="danger" />
+        <MiniStat icon={<Apple className="h-4 w-4" />} label={t("nav.diet")} value={analyses.length} tone="cyber" />
+      </div>
+
+      {/* Module CTAs */}
+      <div className="mb-6 grid gap-4 md:grid-cols-2">
+        <Link
+          to="/diet"
+          className="group flex items-center justify-between rounded-2xl border border-border bg-surface p-5 transition hover:border-[color-mix(in_oklab,var(--color-neon)_50%,transparent)]"
+        >
+          <div className="flex items-center gap-3">
+            <span className="rounded-xl bg-[color-mix(in_oklab,var(--color-neon)_15%,transparent)] p-2.5 text-[var(--color-neon)]">
+              <Apple className="h-5 w-5" />
+            </span>
+            <div>
+              <div className="font-serif text-lg text-foreground">{t("diet.title")}</div>
+              <div className="text-xs text-muted-foreground">{t("diet.sub")}</div>
+            </div>
+          </div>
+          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-foreground transition" />
+        </Link>
+        <Link
+          to="/simulator"
+          className="group flex items-center justify-between rounded-2xl border border-border bg-surface p-5 transition hover:border-[color-mix(in_oklab,var(--color-cyber)_50%,transparent)]"
+        >
+          <div className="flex items-center gap-3">
+            <span className="rounded-xl bg-[color-mix(in_oklab,var(--color-cyber)_15%,transparent)] p-2.5 text-[var(--color-cyber)]">
+              <Radar className="h-5 w-5" />
+            </span>
+            <div>
+              <div className="font-serif text-lg text-foreground">{t("sim.title")}</div>
+              <div className="text-xs text-muted-foreground">{t("sim.sub")}</div>
+            </div>
+          </div>
+          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-foreground transition" />
         </Link>
       </div>
 
