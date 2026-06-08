@@ -1,68 +1,40 @@
-## Alentra AI — MVP Planı (güncellendi)
+# Büyük Yenileme Planı
 
-Yapay zekâ destekli kişisel gıda güvenliği analiz platformu. İlk sürümde: kullanıcı girişi, sağlık profili, fotoğraf yükleme, Gemini Vision ile analiz, üç seviyeli sonuç ve geçmiş.
+Bu çok kapsamlı bir istek — tek seferde 7 büyük değişiklik var. Önce onayını almak ve birkaç kritik noktayı netleştirmek istiyorum, çünkü uygulamanın şu anki kimliği ile bu istek arasında ciddi çelişkiler var.
 
-### Tasarım & Tonalite (kullanıcı isteklerine göre)
-- **Kurumsal sağlık teknolojisi estetiği**: Sade, profesyonel, modern. Apple/Linear seviyesinde sadelik + medikal yazılım ciddiyeti.
-- **Emoji yok**: Sonuç durumları dahil hiçbir yerde emoji kullanılmayacak. Bunun yerine ince çizgili Lucide ikonları + renk kodlu rozetler (Yeşil/Sarı/Kırmızı) + metin etiketleri ("Güvenli" / "Dikkat" / "Uygun Değil").
-- **Dolu ama dengeli düzen**: Geniş boş alanlar yok; bilgi yoğunluğu yüksek ama nefes alan, simetrik grid yapısı. Her sayfa ekranı anlamlı içerik bloklarıyla doldurulacak (özet kartları, ikincil bilgi panelleri, son aktiviteler vb.).
-- **Yasal disclaimer**: Şu metin landing hero altı, fotoğraf yükleme ekranı ve her analiz sonuç sayfasında görünür şekilde gösterilecek:
-  > "Bu uygulama yalnızca bilgilendirme amaçlıdır; kesinlikle tıbbi bir teşhis, tedavi veya doktor tavsiyesi yerine geçmez. Sağlık durumunuzla ilgili her türlü karar için lütfen mutlaka uzman bir doktora başvurunuz."
-  Ayrıca footer'da her sayfada kalıcı olarak.
-- **Renkler** (`src/styles.css` içinde oklch token'lar): Lacivert `#1F3A5F` primary, Yeşil `#2ECC71` safe, Sarı `#F1C40F` warning, Kırmızı `#E74C3C` danger.
-- **Tipografi**: Inter (UI) + serif aksanlı başlık (örn. Instrument Serif) — güven veren editorial his.
-- **Logo**: Kalkan + yaprak + AI devre konseptli SVG (lacivert/yeşil).
+## Önemli: Uygulamanın kimliği belirsizleşiyor
 
-### Kapsam (bu sürüm)
-- Landing sayfası (hero, özellikler, nasıl çalışır, disclaimer, footer)
-- Email/şifre + Google ile giriş
-- Sağlık profili (alerjiler, hastalıklar, beslenme tercihleri — preset listeler + serbest giriş)
-- Fotoğraf yükleme & AI analiz (ürün etiketi veya yemek)
-- Üç seviyeli sonuç raporu (içerikler, alerjenler, riskler, besin değeri tahmini)
-- Geçmiş analizler listesi + detay
-- TR/EN dil değiştirici (varsayılan TR, LocalStorage'da kalıcı, tüm UI çevirili)
+Şu an proje iki farklı yöne çekiliyor:
+- **Mevcut Alentra**: Sağlık/beslenme koçu, barkod ile gıda analizi, diyet odaklı (madde 1, 5, 6 buna uyuyor)
+- **Yeni istenenler**: Siber güvenlik / plaka tanıma / tehdit engelleme paneli (madde 3, 4, 5 buna uyuyor)
 
-### Kapsam dışı (sonraki sürüm)
-Aile/çocuk profilleri, abonelik paketleri (Stripe), gelişmiş raporlar, OCR-only mod.
+"Sağlık koçu" ile "plaka tarayan siber güvenlik sistemi" aynı uygulamada mantıksız duruyor. **Hangisi ana kimlik?** Cevap vermeden devam etmem doğru olmaz; aksi halde Frankenstein bir ürün çıkar.
 
----
+## Yapılacaklar (onayından sonra)
 
-### Rotalar
-- `/` — Landing
-- `/auth` — Giriş / Kayıt
-- `/_authenticated/dashboard` — Özet: profil snapshot, hızlı analiz CTA, son 5 analiz, ipucu kartı, disclaimer
-- `/_authenticated/profile` — Sağlık profili düzenleme
-- `/_authenticated/analyze` — Fotoğraf yükle + analiz et (disclaimer banner)
-- `/_authenticated/history` — Tüm geçmiş, filtre (Güvenli/Dikkat/Uygun Değil)
-- `/_authenticated/analysis/$id` — Detaylı rapor (disclaimer banner)
+1. **Ultra premium karanlık tema** — `src/styles.css` token'ları derin gece mavisi (#0A0E1A), antrasit yüzeyler, neon yeşil (#39FF14) ve siber mavi (#00E5FF) vurgular. Login ekranı korunur, sadece tema uyumlu hale gelir.
 
-### Veritabanı (Lovable Cloud)
-- `profiles` — user_id, display_name, language ('tr'|'en'), created_at
-- `health_profiles` — user_id, allergies (text[]), conditions (text[]), diet_preferences (text[]), notes
-- `analyses` — id, user_id, image_url, type ('product'|'meal'), status ('safe'|'warning'|'danger'), result (jsonb: ingredients, allergens_detected, risks, nutrition_estimate, summary, recommendations), created_at
-- Storage bucket: `food-images` (private, user-scoped RLS)
-- Tüm tablolarda RLS + `auth.uid()` policy + GRANT statements
-- Yeni kullanıcıda profile + boş health_profile auto-create trigger
+2. **AI Diyet Asistanı paneli** (`/diet`) — Lovable AI Gateway (`google/gemini-3-flash-preview`) ile günlük kalori hesabı, öğün önerileri ve kişisel diyet programı üreten server function. Kullanıcının `health_profiles` verilerini kullanır.
 
-### Backend
-- `analyzeImage` server fn (`requireSupabaseAuth`): kullanıcı sağlık profilini alır, Lovable AI Gateway → `google/gemini-3-flash-preview` (vision) çağırır, yapılandırılmış JSON (Zod ile) döner, `analyses` tablosuna kaydeder.
-- Sistem promptu: profili dikkate al, seçili dile yanıt ver, üç seviyeli risk değerlendir, hiçbir yerde tıbbi teşhis koyma, sadece bilgilendirme yap.
+3. **AI Analiz Paneli (Dashboard)** — Login sonrası ana sayfada Recharts ile grafikler, "Bugün Taranan", "Engellenen Tehditler" gibi canlı istatistikler. **NOT: Bu kısım sadece plaka/güvenlik kimliği seçilirse anlamlı.**
 
-### Entegrasyonlar
-- Lovable Cloud (auth + DB + storage)
-- Lovable AI Gateway (Gemini 3 Flash vision)
-- Google OAuth (`supabase--configure_social_auth`)
+4. **Canlı Plaka Simülatörü** — Radar SVG animasyonu, rastgele TR plakaları, AI değerlendirmesi. **NOT: Sadece güvenlik kimliği seçilirse.**
 
-### i18n
-- `src/lib/i18n.ts` — TR/EN sözlükler, basit `t()` hook, dil context'i, LocalStorage persistance, header'da dil değiştirici. Disclaimer metni iki dilde.
+5. **Sohbet düzeltmesi** — Loop'un sebebi muhtemelen sistem prompt'unun aynı kalıpta cevap üretmesi. Sistem prompt'unu zenginleştir, geçmiş mesajları doğru biçimde modele yolla, `temperature`/varyasyon ekle, her cevabın bağlama göre farklı olmasını sağla.
 
-### Uygulama sırası
-1. Lovable Cloud etkinleştir, AI key, Google OAuth
-2. Tasarım token'ları (oklch), tipografi, logo SVG, i18n altyapısı
-3. Landing + footer (disclaimer dahil)
-4. Auth sayfası + `_authenticated` layout
-5. DB migration (tablolar + RLS + trigger + storage bucket)
-6. Profil sayfası
-7. `analyzeImage` server fn + analyze sayfası
-8. Sonuç detay + history + dashboard
-9. Polish, simetri/yoğunluk kontrolü, emoji denetimi, disclaimer denetimi
+6. **Barkod tarayıcı sıfırlama** — `@zxing/browser` ile gerçek kamera barkod algılama, Open Food Facts API + AI fallback (ürün bulunamazsa AI mantıklı bir simülasyon üretir).
+
+7. **Dinamik dil desteği** — `i18next` + `react-i18next` kurulumu. TR/EN/DE çeviri dosyaları (`src/locales/`). Tüm sabit string'ler `t('key')` ile değiştirilir. Header'a dil seçici eklenir, seçim `localStorage`'a yazılır.
+
+## Senden netleştirmem gerekenler
+
+1. **Uygulamanın ana teması ne?**
+   - (A) Sadece sağlık/beslenme (Alentra) → plaka simülatörü ve "tehdit engelleme" kaldırılır
+   - (B) Sadece siber güvenlik / plaka tanıma → diyet asistanı ve barkod kaldırılır
+   - (C) Gerçekten ikisi birden (tek uygulamada iki ayrı modül) → menüden geçiş
+
+2. **Diller**: TR + EN yeterli mi, yoksa DE/FR/ES de eklensin mi?
+
+3. **Plaka simülatörü gerçek bir veri kaynağı mı kullanacak, yoksa tamamen simülasyon mu?** (Gerçek plaka tanıma API'si entegrasyonu ayrı bir iştir.)
+
+Bu üç soruyu cevapla, ardından planı kesinleştirip tek seferde uygulayayım.
