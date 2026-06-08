@@ -71,7 +71,7 @@ function AuthPage() {
   };
 
   return (
-    <div className="grid min-h-screen lg:grid-cols-[1fr_1.05fr]">
+    <div className="dark ultra-dark grid min-h-screen bg-background text-foreground lg:grid-cols-[1fr_1.05fr]">
       {/* Left brand panel */}
       <div className="relative hidden flex-col justify-between overflow-hidden bg-primary p-10 text-primary-foreground lg:flex">
         <Link to="/"><AlentraLogo className="[&_span]:text-primary-foreground" /></Link>
