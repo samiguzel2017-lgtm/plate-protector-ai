@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_authenticated")({
     return { user: data.user };
   },
   component: () => (
-    <div className="dark ultra-dark flex min-h-screen flex-col bg-background text-foreground">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <AppHeader />
       <main className="flex-1 pb-20 md:pb-0">
         <Outlet />

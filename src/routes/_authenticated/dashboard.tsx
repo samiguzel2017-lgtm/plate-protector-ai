@@ -229,12 +229,3 @@ function Row({ label, items }: { label: string; items: string[] }) {
   );
 }
 
-function MiniStat({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: number; tone: "neon" | "danger" | "cyber" }) {
-  const color = tone === "neon" ? "var(--color-neon)" : tone === "danger" ? "var(--color-danger)" : "var(--color-cyber)";
-  return (
-    <div className="rounded-2xl border border-border bg-surface p-4">
-      <div className="mb-1 flex items-center gap-1.5 text-xs text-muted-foreground">{icon}<span>{label}</span></div>
-      <div className="font-serif text-2xl" style={{ color }}>{value}</div>
-    </div>
-  );
-}
