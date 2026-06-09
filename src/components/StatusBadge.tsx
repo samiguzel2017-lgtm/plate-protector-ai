@@ -10,24 +10,42 @@ export function StatusBadge({ status, size = "md" }: { status: Status; size?: "s
     safe: {
       label: t("result.safe"),
       Icon: CheckCircle2,
-      cls: "bg-safe-soft text-[oklch(0.4_0.12_148)] border-[oklch(0.78_0.12_148)]",
+      style: {
+        color: "#ffffff",
+        background: "linear-gradient(135deg, #00ff88 0%, #00cc66 100%)",
+        borderColor: "#00ff88",
+        boxShadow: "0 0 12px -2px #00ff88, inset 0 0 8px -2px rgba(255,255,255,0.3)",
+      },
     },
     warning: {
       label: t("result.warning"),
       Icon: AlertTriangle,
-      cls: "bg-warning-soft text-[oklch(0.4_0.1_75)] border-[oklch(0.82_0.14_85)]",
+      style: {
+        color: "#ffffff",
+        background: "linear-gradient(135deg, #ff9500 0%, #ff6a00 100%)",
+        borderColor: "#ff9500",
+        boxShadow: "0 0 12px -2px #ff9500, inset 0 0 8px -2px rgba(255,255,255,0.3)",
+      },
     },
     danger: {
       label: t("result.danger"),
       Icon: ShieldAlert,
-      cls: "bg-danger-soft text-[oklch(0.45_0.18_27)] border-[oklch(0.7_0.18_27)]",
+      style: {
+        color: "#ffffff",
+        background: "linear-gradient(135deg, #ff3366 0%, #cc0033 100%)",
+        borderColor: "#ff3366",
+        boxShadow: "0 0 12px -2px #ff3366, inset 0 0 8px -2px rgba(255,255,255,0.3)",
+      },
     },
   } as const;
   const m = map[status];
   const sizeCls = size === "lg" ? "px-4 py-2 text-sm" : size === "sm" ? "px-2 py-0.5 text-[10px]" : "px-2.5 py-1 text-xs";
   const iconCls = size === "lg" ? "h-4 w-4" : size === "sm" ? "h-3 w-3" : "h-3.5 w-3.5";
   return (
-    <span className={cn("inline-flex items-center gap-1.5 rounded-full border font-medium uppercase tracking-wide", sizeCls, m.cls)}>
+    <span
+      className={cn("inline-flex items-center gap-1.5 rounded-full border font-bold uppercase tracking-wider", sizeCls)}
+      style={m.style}
+    >
       <m.Icon className={iconCls} aria-hidden="true" />
       {m.label}
     </span>

@@ -46,7 +46,7 @@ const LAVENDER_AMBIENT = "linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 45%, #DBEA
 
 function Landing() {
   const { t, lang } = useI18n();
-  const pc = phoneCopy(lang);
+  const pc = phoneCopy(lang === "tr" ? "tr" : "en");
   return (
     <div className="min-h-screen" style={{ backgroundColor: CANVAS }}>
       <SiteHeader />

@@ -1,6 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { AlentraLogo } from "./AlentraLogo";
 import { LangSwitch } from "./LangSwitch";
+import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,7 +16,6 @@ export function AppHeader() {
   const items = [
     { to: "/dashboard", label: t("nav.dashboard") },
     { to: "/diet", label: t("nav.diet") },
-    { to: "/simulator", label: t("nav.simulator") },
     { to: "/analyze", label: t("nav.analyze") },
     { to: "/chat", label: t("nav.chat") },
     { to: "/history", label: t("nav.history") },
@@ -51,6 +51,7 @@ export function AppHeader() {
           })}
         </nav>
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <LangSwitch />
           <Button variant="ghost" size="sm" onClick={signOut} className="gap-1.5">
             <LogOut className="h-4 w-4" />

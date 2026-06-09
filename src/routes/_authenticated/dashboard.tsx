@@ -6,7 +6,8 @@ import { useI18n } from "@/lib/i18n";
 import { Disclaimer } from "@/components/Disclaimer";
 import { StatusBadge, type Status } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { Camera, ArrowRight, Lightbulb, HeartPulse, Plus, Radar, Apple, ShieldAlert, ScanLine } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Camera, ArrowRight, Lightbulb, HeartPulse, Plus, Apple, Droplets, Activity } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
@@ -33,18 +34,25 @@ function Dashboard() {
   const hpEmpty = !hp || (!hp.allergies?.length && !hp.conditions?.length && !hp.diet_preferences?.length);
   const analyses = profileQ.data?.analyses ?? [];
 
-  const [secStats, setSecStats] = useState({ scanned: 0, blocked: 0 });
+  const [water, setWater] = useState(0);
+  const waterGoal = 8;
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("alentra.security.stats");
-      if (raw) {
-        const data = JSON.parse(raw);
-        const today = new Date().toISOString().slice(0, 10);
-        const t = data[today] ?? { scanned: 0, blocked: 0 };
-        setSecStats(t);
-      }
+      const today = new Date().toISOString().slice(0, 10);
+      const raw = localStorage.getItem("alentra.water." + today);
+      if (raw) setWater(Number(raw) || 0);
     } catch {}
   }, []);
+  const bumpWater = (delta: number) => {
+    const next = Math.max(0, Math.min(waterGoal + 4, water + delta));
+    setWater(next);
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      localStorage.setItem("alentra.water." + today, String(next));
+    } catch {}
+  };
+
+  const healthScore = Math.min(100, Math.round((analyses.length * 12) + (water / waterGoal) * 30 + (hpEmpty ? 0 : 25) + 20));
 
   return (
     <div className="container-x py-10 md:py-14">
@@ -61,15 +69,56 @@ function Dashboard() {
         </Link>
       </div>
 
-      {/* Live stats */}
-      <div className="mb-6 grid gap-3 sm:grid-cols-3">
-        <MiniStat icon={<ScanLine className="h-4 w-4" />} label={t("sim.scanned")} value={secStats.scanned} tone="neon" />
-        <MiniStat icon={<ShieldAlert className="h-4 w-4" />} label={t("sim.blocked")} value={secStats.blocked} tone="danger" />
-        <MiniStat icon={<Apple className="h-4 w-4" />} label={t("nav.diet")} value={analyses.length} tone="cyber" />
+      {/* Premium widgets */}
+      <div className="mb-6 grid gap-4 md:grid-cols-2">
+        <div className="rounded-2xl border border-border bg-surface p-5 cyber-border">
+          <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
+            <Activity className="h-4 w-4 text-[var(--color-neon)]" />
+            {t("dash.score.t")}
+          </div>
+          <div className="flex items-center gap-5">
+            <div className="relative h-24 w-24">
+              <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
+                <circle cx="50" cy="50" r="42" stroke="color-mix(in oklab, var(--color-border) 80%, transparent)" strokeWidth="8" fill="none" />
+                <circle
+                  cx="50" cy="50" r="42" stroke="var(--color-neon)" strokeWidth="8" fill="none"
+                  strokeDasharray={`${(healthScore / 100) * 264} 264`} strokeLinecap="round"
+                  style={{ filter: "drop-shadow(0 0 6px var(--color-neon))" }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center font-serif text-2xl text-foreground">{healthScore}</div>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {hpEmpty ? t("dash.profile.empty") : t("dash.tip.d")}
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-border bg-surface p-5">
+          <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
+            <Droplets className="h-4 w-4 text-[var(--color-cyber)]" />
+            {t("dash.water.t")}
+          </div>
+          <div className="mb-3 flex items-end gap-2">
+            <span className="font-serif text-3xl text-foreground">{water}</span>
+            <span className="text-sm text-muted-foreground">/ {waterGoal} {t("dash.water.unit")}</span>
+          </div>
+          <div className="mb-3 flex gap-1">
+            {Array.from({ length: waterGoal }).map((_, i) => (
+              <div
+                key={i}
+                className={cn("h-6 flex-1 rounded-md transition-all", i < water ? "bg-[var(--color-cyber)] shadow-[0_0_8px_-2px_var(--color-cyber)]" : "bg-secondary")}
+              />
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={() => bumpWater(-1)}>−1</Button>
+            <Button size="sm" onClick={() => bumpWater(1)} className="flex-1 neon-glow">+1 {t("dash.water.unit")}</Button>
+          </div>
+        </div>
       </div>
 
-      {/* Module CTAs */}
-      <div className="mb-6 grid gap-4 md:grid-cols-2">
+      <div className="mb-6">
         <Link
           to="/diet"
           className="group flex items-center justify-between rounded-2xl border border-border bg-surface p-5 transition hover:border-[color-mix(in_oklab,var(--color-neon)_50%,transparent)]"
@@ -81,21 +130,6 @@ function Dashboard() {
             <div>
               <div className="font-serif text-lg text-foreground">{t("diet.title")}</div>
               <div className="text-xs text-muted-foreground">{t("diet.sub")}</div>
-            </div>
-          </div>
-          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-foreground transition" />
-        </Link>
-        <Link
-          to="/simulator"
-          className="group flex items-center justify-between rounded-2xl border border-border bg-surface p-5 transition hover:border-[color-mix(in_oklab,var(--color-cyber)_50%,transparent)]"
-        >
-          <div className="flex items-center gap-3">
-            <span className="rounded-xl bg-[color-mix(in_oklab,var(--color-cyber)_15%,transparent)] p-2.5 text-[var(--color-cyber)]">
-              <Radar className="h-5 w-5" />
-            </span>
-            <div>
-              <div className="font-serif text-lg text-foreground">{t("sim.title")}</div>
-              <div className="text-xs text-muted-foreground">{t("sim.sub")}</div>
             </div>
           </div>
           <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-foreground transition" />
@@ -195,12 +229,3 @@ function Row({ label, items }: { label: string; items: string[] }) {
   );
 }
 
-function MiniStat({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: number; tone: "neon" | "danger" | "cyber" }) {
-  const color = tone === "neon" ? "var(--color-neon)" : tone === "danger" ? "var(--color-danger)" : "var(--color-cyber)";
-  return (
-    <div className="rounded-2xl border border-border bg-surface p-4">
-      <div className="mb-1 flex items-center gap-1.5 text-xs text-muted-foreground">{icon}<span>{label}</span></div>
-      <div className="font-serif text-2xl" style={{ color }}>{value}</div>
-    </div>
-  );
-}
