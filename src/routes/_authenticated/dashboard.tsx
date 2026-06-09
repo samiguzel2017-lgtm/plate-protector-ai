@@ -6,6 +6,7 @@ import { useI18n } from "@/lib/i18n";
 import { Disclaimer } from "@/components/Disclaimer";
 import { StatusBadge, type Status } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Camera, ArrowRight, Lightbulb, HeartPulse, Plus, Apple, Droplets, Activity } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
