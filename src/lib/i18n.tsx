@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-export type Lang = "tr" | "en";
+export type Lang = "tr" | "en" | "ar";
 
 type Dict = Record<string, string>;
 
@@ -17,7 +17,6 @@ const tr: Dict = {
   "nav.history": "Geçmiş",
   "nav.chat": "Sohbet",
   "nav.diet": "Diyet Asistanı",
-  "nav.simulator": "Plaka Radarı",
   "nav.signin": "Giriş Yap",
   "nav.signup": "Kayıt Ol",
   "nav.signout": "Çıkış Yap",
@@ -29,7 +28,6 @@ const tr: Dict = {
   "hero.title": "Alentra AI ile tanışın: Sadece bir fotoğrafla sağlığınızı koruyun.",
   "hero.sub": "Sağlık profilinize göre kişiselleştirilmiş gıda analizi. Etiketi veya yemeği fotoğraflayın; alerjenler, içerikler ve besin değerleri saniyeler içinde ekranınıza gelsin.",
   "hero.social": "Binlerce kullanıcı tarafından tercih edildi ve",
-
 
   "feat.title": "Sağlığınızı koruyan dört temel yetenek",
   "feat.profile.t": "Kişisel Sağlık Profili",
@@ -50,7 +48,7 @@ const tr: Dict = {
   "how.3.d": "Renk kodlu sonuç ve detaylı içerik raporu birkaç saniyede elinizde.",
 
   "disclaimer.title": "Yasal Uyarı",
-  "disclaimer.body": "Bu uygulama yalnızca bilgilendirme amaçlıdır; kesinlikle tıbbi bir teşhis, tedavi veya doktor tavsiyesi yerine geçmez. Sağlık durumunuzla ilgili her türlü karar için lütfen mutlaka uzman bir doktora başvurunuz.",
+  "disclaimer.body": "Bu uygulama yalnızca bilgilendirme amaçlıdır. Tıbbi teşhis veya tedavi sağlamaz. Alerjiler, kronik hastalıklar ve özel sağlık durumlarında doktor veya diyetisyen tavsiyesi alınmalıdır.",
 
   "footer.rights": "Tüm hakları saklıdır.",
   "footer.product": "Ürün",
@@ -86,6 +84,9 @@ const tr: Dict = {
   "dash.recent.view": "Tümünü gör",
   "dash.tip.t": "Daha iyi sonuç için ipucu",
   "dash.tip.d": "İçerik etiketini net ve düz çekin; aydınlık ortamda gölgesiz fotoğraflar en doğru sonucu verir.",
+  "dash.score.t": "Günlük Sağlık Puanı",
+  "dash.water.t": "Akıllı Su Takibi",
+  "dash.water.unit": "bardak",
 
   "prof.title": "Sağlık Profili",
   "prof.sub": "Bilgileriniz yalnızca size aittir. Her analiz otomatik olarak bu profili dikkate alır.",
@@ -163,14 +164,11 @@ const tr: Dict = {
   "diet.stat.target": "Hedef Kalori",
   "diet.tips": "İpuçları",
 
-  "sim.title": "Canlı Plaka Simülatörü",
-  "sim.sub": "Radar yapay zekayla çalışır — şüpheli plakaları otomatik engeller.",
-  "sim.start": "Canlı Tarama Başlat",
-  "sim.stop": "Taramayı Durdur",
-  "sim.scanned": "Taranan",
-  "sim.blocked": "Engellenen",
-  "sim.feed": "Canlı Akış",
-  "sim.empty": "Tarama başlayınca olaylar burada görünecek.",
+  "chat.voice.start": "Sesli mesaj başlat",
+  "chat.voice.stop": "Sesli mesajı durdur",
+  "chat.voice.speak": "Cevabı sesli oku",
+  "chat.voice.stopSpeak": "Sesi durdur",
+  "chat.voice.unsupported": "Tarayıcınız sesli girişi desteklemiyor.",
 };
 
 const en: Dict = {
@@ -186,7 +184,6 @@ const en: Dict = {
   "nav.history": "History",
   "nav.chat": "Chat",
   "nav.diet": "Diet Coach",
-  "nav.simulator": "Plate Radar",
   "nav.signin": "Sign In",
   "nav.signup": "Sign Up",
   "nav.signout": "Sign Out",
@@ -198,7 +195,6 @@ const en: Dict = {
   "hero.title": "Meet Alentra AI: Protect your health with just a photo.",
   "hero.sub": "Personalized food analysis tailored to your health profile. Snap a label or meal and see allergens, ingredients and nutrition in seconds.",
   "hero.social": "Trusted by thousands of users, rated",
-
 
   "feat.title": "Four capabilities that protect your health",
   "feat.profile.t": "Personal Health Profile",
@@ -219,7 +215,7 @@ const en: Dict = {
   "how.3.d": "Color-coded verdict and detailed report in seconds.",
 
   "disclaimer.title": "Medical Disclaimer",
-  "disclaimer.body": "This application is for informational purposes only and is not a substitute for professional medical advice, diagnosis or treatment. Always consult a qualified healthcare provider for any health-related decisions.",
+  "disclaimer.body": "This application is for informational purposes only. It does not provide medical diagnosis or treatment. For allergies, chronic conditions and special health needs, consult a qualified doctor or dietitian.",
 
   "footer.rights": "All rights reserved.",
   "footer.product": "Product",
@@ -255,6 +251,9 @@ const en: Dict = {
   "dash.recent.view": "View all",
   "dash.tip.t": "Tip for better results",
   "dash.tip.d": "Shoot the ingredient label straight and in good light — clean shots produce the most accurate analyses.",
+  "dash.score.t": "Daily Health Score",
+  "dash.water.t": "Smart Water Tracker",
+  "dash.water.unit": "glasses",
 
   "prof.title": "Health Profile",
   "prof.sub": "Your information stays private and powers every analysis.",
@@ -332,17 +331,58 @@ const en: Dict = {
   "diet.stat.target": "Target calories",
   "diet.tips": "Tips",
 
-  "sim.title": "Live Plate Simulator",
-  "sim.sub": "AI-powered radar — suspicious plates are flagged in real time.",
-  "sim.start": "Start Live Scan",
-  "sim.stop": "Stop Scan",
-  "sim.scanned": "Scanned",
-  "sim.blocked": "Blocked",
-  "sim.feed": "Live Feed",
-  "sim.empty": "Events will appear here once scanning begins.",
+  "chat.voice.start": "Start voice input",
+  "chat.voice.stop": "Stop voice input",
+  "chat.voice.speak": "Read answer aloud",
+  "chat.voice.stopSpeak": "Stop voice",
+  "chat.voice.unsupported": "Voice input is not supported in this browser.",
 };
 
-const dicts: Record<Lang, Dict> = { tr, en };
+const ar: Dict = {
+  "brand.name": "Alentra AI",
+  "brand.tagline": "صوّر، اعرف، ابقَ آمنًا.",
+  "brand.intro": "مساعد ذكي شخصي لسلامة الغذاء والتغذية.",
+
+  "nav.features": "المزايا",
+  "nav.how": "كيف يعمل",
+  "nav.dashboard": "لوحة التحكم",
+  "nav.profile": "الملف الصحي",
+  "nav.analyze": "تحليل",
+  "nav.history": "السجل",
+  "nav.chat": "المحادثة",
+  "nav.diet": "مدرب التغذية",
+  "nav.signin": "تسجيل الدخول",
+  "nav.signup": "إنشاء حساب",
+  "nav.signout": "تسجيل الخروج",
+  "nav.getstarted": "ابدأ مجانًا",
+
+  "hero.title": "تعرّف على Alentra AI: احمِ صحتك بصورة واحدة.",
+  "hero.sub": "تحليل غذائي مخصص حسب ملفك الصحي. صوّر الملصق أو الوجبة وستظهر المسببات للحساسية والمكونات والقيم الغذائية خلال ثوانٍ.",
+
+  "disclaimer.title": "إخلاء مسؤولية طبية",
+  "disclaimer.body": "هذا التطبيق لأغراض إعلامية فقط ولا يقدم تشخيصًا أو علاجًا طبيًا. استشر طبيبًا مختصًا في حالات الحساسية والأمراض المزمنة.",
+
+  "dash.welcome": "أهلاً بك",
+  "dash.quick.cta": "ابدأ التحليل",
+  "dash.recent.t": "آخر التحاليل",
+  "dash.recent.empty": "لا توجد تحاليل بعد.",
+  "dash.recent.view": "عرض الكل",
+  "dash.score.t": "نقاط الصحة اليومية",
+  "dash.water.t": "تتبع الماء الذكي",
+  "dash.water.unit": "كوب",
+
+  "result.safe": "آمن",
+  "result.warning": "تنبيه",
+  "result.danger": "غير مناسب",
+
+  "chat.voice.start": "بدء الإدخال الصوتي",
+  "chat.voice.stop": "إيقاف الإدخال الصوتي",
+  "chat.voice.speak": "اقرأ الإجابة بصوت",
+  "chat.voice.stopSpeak": "إيقاف الصوت",
+  "chat.voice.unsupported": "المتصفح لا يدعم الإدخال الصوتي.",
+};
+
+const dicts: Record<Lang, Dict> = { tr, en, ar };
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (key: string) => string };
 const I18nContext = createContext<Ctx | null>(null);
@@ -353,9 +393,15 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem("alentra-lang");
-      if (stored === "tr" || stored === "en") setLangState(stored);
+      if (stored === "tr" || stored === "en" || stored === "ar") setLangState(stored);
     } catch {}
   }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  }, [lang]);
 
   const setLang = (l: Lang) => {
     setLangState(l);
@@ -365,7 +411,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const value = useMemo<Ctx>(() => ({
     lang,
     setLang,
-    t: (key: string) => dicts[lang][key] ?? dicts.en[key] ?? key,
+    t: (key: string) => dicts[lang][key] ?? dicts.en[key] ?? dicts.tr[key] ?? key,
   }), [lang]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
