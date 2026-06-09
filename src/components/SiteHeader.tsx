@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { AlentraLogo } from "./AlentraLogo";
 import { LangSwitch } from "./LangSwitch";
+import { ThemeToggle } from "./ThemeToggle";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
@@ -18,6 +19,7 @@ export function SiteHeader() {
         </nav>
         <div className="flex items-center gap-2.5">
           <LangSwitch />
+          <ThemeToggle />
           <Link to="/auth" className="hidden sm:block">
             <Button variant="ghost" size="sm">{t("nav.signin")}</Button>
           </Link>
