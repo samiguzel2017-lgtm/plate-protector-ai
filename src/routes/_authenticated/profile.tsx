@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { Disclaimer } from "@/components/Disclaimer";
@@ -25,12 +25,15 @@ function ProfilePage() {
   const qc = useQueryClient();
 
   const q = useQuery({
-    queryKey: ["profile-edit"],
+    queryKey: ["profile-edit", user.id],
+    staleTime: 30_000,
     queryFn: async () => {
-      const [{ data: p }, { data: hp }] = await Promise.all([
+      const [{ data: p, error: e1 }, { data: hp, error: e2 }] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
         supabase.from("health_profiles").select("*").eq("user_id", user.id).maybeSingle(),
       ]);
+      if (e1) throw e1;
+      if (e2) throw e2;
       return { profile: p, health: hp };
     },
   });
@@ -40,32 +43,40 @@ function ProfilePage() {
   const [conditions, setConditions] = useState<string[]>([]);
   const [diet, setDiet] = useState<string[]>([]);
   const [notes, setNotes] = useState("");
+  const hydrated = useRef(false);
 
   useEffect(() => {
-    if (q.data) {
-      setName(q.data.profile?.display_name ?? "");
-      setAllergies(q.data.health?.allergies ?? []);
-      setConditions(q.data.health?.conditions ?? []);
-      setDiet(q.data.health?.diet_preferences ?? []);
-      setNotes(q.data.health?.notes ?? "");
-    }
+    if (!q.data || hydrated.current) return;
+    hydrated.current = true;
+    setName(q.data.profile?.display_name ?? "");
+    setAllergies(q.data.health?.allergies ?? []);
+    setConditions(q.data.health?.conditions ?? []);
+    setDiet(q.data.health?.diet_preferences ?? []);
+    setNotes(q.data.health?.notes ?? "");
   }, [q.data]);
 
   const save = useMutation({
     mutationFn: async () => {
-      const { error: e1 } = await supabase.from("profiles").update({ display_name: name }).eq("id", user.id);
+      const { error: e1 } = await supabase
+        .from("profiles")
+        .upsert({ id: user.id, display_name: name.trim() }, { onConflict: "id" });
       if (e1) throw e1;
       const { error: e2 } = await supabase
         .from("health_profiles")
-        .upsert({ user_id: user.id, allergies, conditions, diet_preferences: diet, notes });
+        .upsert(
+          { user_id: user.id, allergies, conditions, diet_preferences: diet, notes },
+          { onConflict: "user_id" },
+        );
       if (e2) throw e2;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success(t("prof.saved"));
+      await qc.invalidateQueries({ queryKey: ["profile-edit", user.id] });
       qc.invalidateQueries({ queryKey: ["dash-profile"] });
     },
-    onError: (e: any) => toast.error(e.message ?? t("common.error")),
+    onError: (e: any) => toast.error(e?.message ?? t("common.error")),
   });
+
 
   return (
     <div className="container-x py-10 md:py-14">
