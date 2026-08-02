@@ -168,19 +168,19 @@
   --mint: oklch(0.6 0.09 152);
   --charcoal: oklch(0.18 0.02 265);
 
-  --safe: oklch(0.72 0.14 152);
+  --safe: oklch(0.70 0.11 152);
   --safe-foreground: oklch(0.18 0.02 265);
   --safe-soft: oklch(0.32 0.07 152);
 
-  --warning: oklch(0.82 0.14 80);
+  --warning: oklch(0.78 0.10 82);
   --warning-foreground: oklch(0.2 0.03 70);
   --warning-soft: oklch(0.32 0.07 80);
 
-  --danger: oklch(0.68 0.2 27);
+  --danger: oklch(0.64 0.14 24);
   --danger-foreground: oklch(0.99 0 0);
   --danger-soft: oklch(0.3 0.08 25);
 
-  --destructive: oklch(0.68 0.2 27);
+  --destructive: oklch(0.64 0.14 24);
   --destructive-foreground: oklch(0.99 0 0);
 
   --border: oklch(1 0 0 / 8%);
@@ -219,7 +219,7 @@
   --popover: oklch(0.16 0.02 260);
   --popover-foreground: oklch(0.98 0.005 220);
 
-  --primary: oklch(0.85 0.22 145);
+  --primary: oklch(0.76 0.12 152);
   --primary-foreground: oklch(0.12 0.018 260);
   --forest: oklch(0.55 0.13 152);
 
@@ -229,31 +229,31 @@
   --muted: oklch(0.22 0.024 260);
   --muted-foreground: oklch(0.76 0.015 220);
 
-  --accent: oklch(0.78 0.18 220);
+  --accent: oklch(0.66 0.09 220);
   --accent-foreground: oklch(0.14 0.018 260);
 
-  --sage: oklch(0.82 0.18 148);
-  --mint: oklch(0.78 0.18 220);
+  --sage: oklch(0.76 0.12 150);
+  --mint: oklch(0.68 0.09 220);
   --charcoal: oklch(0.11 0.016 260);
 
-  --safe: oklch(0.85 0.22 145);
+  --safe: oklch(0.74 0.13 152);
   --safe-foreground: oklch(0.14 0.018 260);
-  --safe-soft: oklch(0.3 0.1 145);
+  --safe-soft: oklch(0.3 0.06 152);
 
-  --warning: oklch(0.82 0.18 80);
+  --warning: oklch(0.78 0.11 82);
   --warning-foreground: oklch(0.14 0.018 80);
-  --warning-soft: oklch(0.32 0.09 80);
+  --warning-soft: oklch(0.32 0.055 82);
 
-  --danger: oklch(0.7 0.24 18);
+  --danger: oklch(0.64 0.15 22);
   --danger-foreground: oklch(0.99 0 0);
-  --danger-soft: oklch(0.32 0.12 18);
+  --danger-soft: oklch(0.32 0.07 22);
 
-  --destructive: oklch(0.7 0.24 18);
+  --destructive: oklch(0.64 0.15 22);
   --destructive-foreground: oklch(0.99 0 0);
 
-  --border: oklch(0.78 0.18 220 / 16%);
+  --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 8%);
-  --ring: oklch(0.85 0.22 145);
+  --ring: oklch(0.76 0.12 152);
 
   --neon: oklch(0.80 0.14 150);
   --cyber: oklch(0.72 0.10 220);
@@ -275,7 +275,7 @@
 }
 
 .ultra-dark .neon-glow {
-  box-shadow: 0 0 24px -4px var(--color-neon), 0 0 64px -16px var(--color-cyber);
+  box-shadow: 0 0 18px -8px var(--color-neon), 0 0 42px -22px var(--color-cyber);
 }
 
 .ultra-dark .cyber-border {
