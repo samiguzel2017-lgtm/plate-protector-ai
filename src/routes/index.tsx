@@ -627,7 +627,7 @@ function PhoneVerdict({ copy }: { copy: PhoneCopy }) {
         <Sparkles className="h-3.5 w-3.5" />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 top-[38%] z-30 rounded-t-[1.8rem] p-4" style={{ backgroundColor: PANEL }}">
+      <div className="absolute inset-x-0 bottom-0 top-[38%] z-30 rounded-t-[1.8rem] p-4" style={{ backgroundColor: PANEL }}>
         <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ backgroundColor: LINE }} />
 
         <div className="mb-3 flex items-center justify-between">
@@ -711,7 +711,7 @@ function PhoneAllergy({ copy }: { copy: PhoneCopy }) {
         <Sparkles className="h-3.5 w-3.5" />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 top-[34%] z-30 rounded-t-[1.8rem] p-4" style={{ backgroundColor: PANEL }}">
+      <div className="absolute inset-x-0 bottom-0 top-[34%] z-30 rounded-t-[1.8rem] p-4" style={{ backgroundColor: PANEL }}>
         <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ backgroundColor: LINE }} />
         <div className="mb-3 flex items-start justify-between gap-3">
           <h4
