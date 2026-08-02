@@ -34,6 +34,8 @@ export const Route = createFileRoute("/")({
 /* Unified Forest & Sage palette */
 const FOREST = "var(--lp-forest)";
 const FOREST_FG = "var(--lp-forest-fg)";
+const ON_DARK = "#FFFFFF";
+const CTA_ACCENT = "var(--lp-cta-accent)";
 const MOSS = "var(--lp-moss)";
 const SAGE = "#52B788";
 const MINT = "#B7E4C7";
@@ -228,7 +230,7 @@ function Landing() {
                 <div>
                   <span
                     className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em]"
-                    style={{ backgroundColor: CHARCOAL, color: FOREST_FG }}
+                    style={{ backgroundColor: CHARCOAL, color: ON_DARK }}
                   >
                     <Moon className="h-3 w-3" /> Karanlık Mod
                   </span>
@@ -248,7 +250,7 @@ function Landing() {
                       <Button
                         size="lg"
                         className="h-12 rounded-2xl px-7 text-[15px] font-semibold"
-                        style={{ backgroundColor: CHARCOAL, color: FOREST_FG }}
+                        style={{ backgroundColor: CHARCOAL, color: ON_DARK }}
                       >
                         Şimdi dene
                       </Button>
@@ -326,7 +328,7 @@ function Landing() {
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   Bugün başla.{" "}
-                  <span style={{ color: SAGE }}>Bilinçli ye.</span>
+                  <span style={{ color: CTA_ACCENT }}>Bilinçli ye.</span>
                 </h2>
                 <p className="mt-3 max-w-lg text-sm opacity-85">{t("hero.sub")}</p>
               </div>
