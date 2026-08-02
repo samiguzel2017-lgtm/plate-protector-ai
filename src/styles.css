@@ -136,6 +136,9 @@
   --lp-danger-bg: #F8DEDE;
   --lp-danger-fg: #8A2A2A;
   --lp-track: #EFF1EE;
+  --lp-forest: #1B4332;
+  --lp-forest-fg: #FFFFFF;
+  --lp-moss: #2D6A4F;
 }
 
 .dark {
@@ -203,6 +206,9 @@
   --lp-danger-bg: oklch(0.32 0.07 22);
   --lp-danger-fg: oklch(0.90 0.06 25);
   --lp-track: oklch(1 0 0 / 10%);
+  --lp-forest: oklch(0.80 0.11 152);
+  --lp-forest-fg: oklch(0.18 0.02 262);
+  --lp-moss: oklch(0.78 0.10 152);
 }
 
 /* Ultra-premium cyber dark: charcoal #0B0F19 + neon accents */
@@ -271,6 +277,9 @@
   --lp-danger-bg: oklch(0.32 0.07 22);
   --lp-danger-fg: oklch(0.90 0.06 25);
   --lp-track: oklch(1 0 0 / 10%);
+  --lp-forest: oklch(0.80 0.11 152);
+  --lp-forest-fg: oklch(0.18 0.02 262);
+  --lp-moss: oklch(0.78 0.10 152);
 }
 
 .ultra-dark .neon-glow {

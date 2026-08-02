@@ -32,8 +32,9 @@ export const Route = createFileRoute("/")({
 });
 
 /* Unified Forest & Sage palette */
-const FOREST = "#1B4332";
-const MOSS = "#2D6A4F";
+const FOREST = "var(--lp-forest)";
+const FOREST_FG = "var(--lp-forest-fg)";
+const MOSS = "var(--lp-moss)";
 const SAGE = "#52B788";
 const MINT = "#B7E4C7";
 const CANVAS = "var(--lp-canvas)";
@@ -111,7 +112,7 @@ function Landing() {
                   <Button
                     size="lg"
                     className="h-12 rounded-2xl px-7 text-[15px] font-semibold shadow-[0_12px_30px_-12px_rgba(27,67,50,0.45)]"
-                    style={{ backgroundColor: FOREST, color: "#fff" }}
+                    style={{ backgroundColor: FOREST, color: FOREST_FG }}
                   >
                     Ücretsiz Başla
                     <ChevronRight className="ml-1 h-4 w-4" />
@@ -227,7 +228,7 @@ function Landing() {
                 <div>
                   <span
                     className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em]"
-                    style={{ backgroundColor: CHARCOAL, color: "#fff" }}
+                    style={{ backgroundColor: CHARCOAL, color: FOREST_FG }}
                   >
                     <Moon className="h-3 w-3" /> Karanlık Mod
                   </span>
@@ -247,7 +248,7 @@ function Landing() {
                       <Button
                         size="lg"
                         className="h-12 rounded-2xl px-7 text-[15px] font-semibold"
-                        style={{ backgroundColor: CHARCOAL, color: "#fff" }}
+                        style={{ backgroundColor: CHARCOAL, color: FOREST_FG }}
                       >
                         Şimdi dene
                       </Button>
@@ -286,7 +287,7 @@ function Landing() {
               >
                 <div
                   className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl text-lg font-extrabold"
-                  style={{ backgroundColor: FOREST, color: "#fff", fontFamily: "var(--font-display)" }}
+                  style={{ backgroundColor: FOREST, color: FOREST_FG, fontFamily: "var(--font-display)" }}
                 >
                   {n}
                 </div>
@@ -308,7 +309,7 @@ function Landing() {
         <section className="container-x pb-24">
           <div
             className="relative overflow-hidden rounded-[2.5rem] p-10 md:p-16"
-            style={{ backgroundColor: FOREST, color: "#fff" }}
+            style={{ backgroundColor: FOREST, color: FOREST_FG }}
           >
             <div
               className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full"
@@ -368,7 +369,7 @@ function FeatureBlock({
       className="rounded-3xl border p-6 transition-shadow"
       style={{
         borderColor: highlighted ? "color-mix(in oklab, var(--lp-safe-fg) 22%, var(--lp-line))" : LINE,
-        backgroundColor: highlighted ? "#FFFFFF" : CARD,
+        backgroundColor: highlighted ? PANEL : CARD,
         boxShadow: highlighted ? "0 24px 60px -30px rgba(27,67,50,0.18)" : "none",
       }}
     >
