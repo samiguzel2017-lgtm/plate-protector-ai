@@ -29,11 +29,11 @@ export function AppHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-md">
-      <div className="container-x flex h-16 items-center justify-between gap-4">
-        <Link to="/dashboard" className="flex items-center">
+      <div className="container-x flex h-16 items-center gap-3">
+        <Link to="/dashboard" className="flex shrink-0 items-center">
           <AlentraLogo />
         </Link>
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="mx-auto hidden items-center gap-1 md:flex">
           {items.map((i) => {
             const active = path === i.to;
             return (
@@ -50,32 +50,19 @@ export function AppHeader() {
             );
           })}
         </nav>
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
+        <div className="ml-auto flex shrink-0 items-center gap-1.5">
           <LangSwitch />
-          <Button variant="ghost" size="sm" onClick={signOut} className="gap-1.5">
+          <ThemeToggle />
+          <Button variant="ghost" size="icon" onClick={signOut} aria-label={t("nav.signout")} className="h-8 w-8 lg:hidden">
             <LogOut className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("nav.signout")}</span>
+          </Button>
+          <Button variant="ghost" size="sm" onClick={signOut} className="hidden gap-1.5 lg:inline-flex">
+            <LogOut className="h-4 w-4" />
+            {t("nav.signout")}
           </Button>
         </div>
       </div>
-      <nav className="container-x flex items-center gap-1 overflow-x-auto pb-2 md:hidden">
-        {items.map((i) => {
-          const active = path === i.to;
-          return (
-            <Link
-              key={i.to}
-              to={i.to}
-              className={cn(
-                "shrink-0 rounded-full px-3 py-1.5 text-xs transition-colors",
-                active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground",
-              )}
-            >
-              {i.label}
-            </Link>
-          );
-        })}
-      </nav>
     </header>
   );
 }
+
