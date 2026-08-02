@@ -36,13 +36,14 @@ const FOREST = "#1B4332";
 const MOSS = "#2D6A4F";
 const SAGE = "#52B788";
 const MINT = "#B7E4C7";
-const CANVAS = "#F8F9FA";
-const CARD = "#FBFBFA";
-const INK = "#1A1F2C";
-const INK_SOFT = "#4B5563";
-const LINE = "#E5E7E4";
+const CANVAS = "var(--lp-canvas)";
+const CARD = "var(--lp-card)";
+const PANEL = "var(--lp-panel)";
+const INK = "var(--lp-ink)";
+const INK_SOFT = "var(--lp-ink-soft)";
+const LINE = "var(--lp-line)";
 const CHARCOAL = "#1A1F2C";
-const LAVENDER_AMBIENT = "linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 45%, #DBEAFE 100%)";
+const LAVENDER_AMBIENT = "var(--lp-ambient)";
 
 function Landing() {
   const { t, lang } = useI18n();
@@ -65,7 +66,7 @@ function Landing() {
             <div className="lg:col-span-6">
               <span
                 className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]"
-                style={{ borderColor: LINE, color: MOSS, backgroundColor: "#fff" }}
+                style={{ borderColor: LINE, color: MOSS, backgroundColor: PANEL }}
               >
                 <Leaf className="h-3.5 w-3.5" />
                 Kişisel Gıda Güvenliği
@@ -121,7 +122,7 @@ function Landing() {
                     size="lg"
                     variant="outline"
                     className="h-12 rounded-2xl border-2 px-7 text-[15px] font-semibold"
-                    style={{ borderColor: LINE, color: INK, backgroundColor: "#fff" }}
+                    style={{ borderColor: LINE, color: INK, backgroundColor: PANEL }}
                   >
                     Nasıl Çalışır
                   </Button>
@@ -333,7 +334,7 @@ function Landing() {
                   <Button
                     size="lg"
                     className="h-12 rounded-2xl px-7 text-[15px] font-semibold"
-                    style={{ backgroundColor: "#fff", color: FOREST }}
+                    style={{ backgroundColor: PANEL, color: FOREST }}
                   >
                     Ücretsiz Başla
                     <ChevronRight className="ml-1 h-4 w-4" />
@@ -366,7 +367,7 @@ function FeatureBlock({
     <div
       className="rounded-3xl border p-6 transition-shadow"
       style={{
-        borderColor: highlighted ? "#D8E5DC" : LINE,
+        borderColor: highlighted ? "color-mix(in oklab, var(--lp-safe-fg) 22%, var(--lp-line))" : LINE,
         backgroundColor: highlighted ? "#FFFFFF" : CARD,
         boxShadow: highlighted ? "0 24px 60px -30px rgba(27,67,50,0.18)" : "none",
       }}
@@ -408,15 +409,15 @@ function FloatChip({
   tone: "safe" | "warning" | "danger";
 }) {
   const map = {
-    safe: { fg: FOREST, bg: MINT },
-    warning: { fg: "#92400E", bg: "#FEF3C7" },
-    danger: { fg: "#991B1B", bg: "#FEE2E2" },
+    safe: { fg: "var(--lp-safe-fg)", bg: "var(--lp-safe-bg)" },
+    warning: { fg: "var(--lp-warn-fg)", bg: "var(--lp-warn-bg)" },
+    danger: { fg: "var(--lp-danger-fg)", bg: "var(--lp-danger-bg)" },
   } as const;
   const c = map[tone];
   return (
     <div
-      className={`z-20 flex items-center gap-2.5 rounded-2xl border bg-white py-2 pl-2 pr-3.5 shadow-xl ${className}`}
-      style={{ borderColor: LINE }}
+      className={`z-20 flex items-center gap-2.5 rounded-2xl border py-2 pl-2 pr-3.5 shadow-xl ${className}`}
+      style={{ borderColor: LINE, backgroundColor: PANEL }}
     >
       <span
         className="flex h-8 w-8 items-center justify-center rounded-xl"
@@ -626,7 +627,7 @@ function PhoneVerdict({ copy }: { copy: PhoneCopy }) {
         <Sparkles className="h-3.5 w-3.5" />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 top-[38%] z-30 rounded-t-[1.8rem] bg-white p-4">
+      <div className="absolute inset-x-0 bottom-0 top-[38%] z-30 rounded-t-[1.8rem] p-4" style={{ backgroundColor: PANEL }}">
         <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ backgroundColor: LINE }} />
 
         <div className="mb-3 flex items-center justify-between">
@@ -642,7 +643,7 @@ function PhoneVerdict({ copy }: { copy: PhoneCopy }) {
           </div>
           <span
             className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium tracking-tight"
-            style={{ backgroundColor: MINT, color: FOREST }}
+            style={{ backgroundColor: "var(--lp-safe-bg)", color: "var(--lp-safe-fg)" }}
           >
             <Check className="h-3 w-3" /> {copy.safe}
           </span>
@@ -664,7 +665,7 @@ function PhoneVerdict({ copy }: { copy: PhoneCopy }) {
               9/10
             </span>
           </div>
-          <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#EFF1EE" }}>
+          <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--lp-track)" }}>
             <div className="h-full rounded-full" style={{ width: "90%", backgroundColor: SAGE }} />
           </div>
         </div>
@@ -710,7 +711,7 @@ function PhoneAllergy({ copy }: { copy: PhoneCopy }) {
         <Sparkles className="h-3.5 w-3.5" />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 top-[34%] z-30 rounded-t-[1.8rem] bg-white p-4">
+      <div className="absolute inset-x-0 bottom-0 top-[34%] z-30 rounded-t-[1.8rem] p-4" style={{ backgroundColor: PANEL }}">
         <div className="mx-auto mb-3 h-1 w-10 rounded-full" style={{ backgroundColor: LINE }} />
         <div className="mb-3 flex items-start justify-between gap-3">
           <h4
@@ -723,7 +724,7 @@ function PhoneAllergy({ copy }: { copy: PhoneCopy }) {
           </h4>
           <span
             className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium tracking-tight"
-            style={{ backgroundColor: "#FEE2E2", color: "#991B1B" }}
+            style={{ backgroundColor: "var(--lp-danger-bg)", color: "var(--lp-danger-fg)" }}
           >
             <AlertTriangle className="h-3 w-3" /> {copy.notSuitable}
           </span>
@@ -740,10 +741,10 @@ function PhoneAllergy({ copy }: { copy: PhoneCopy }) {
             <span className="font-normal tracking-tight" style={{ color: INK }}>
               {copy.riskScore}
             </span>
-            <span className="font-medium tabular-nums" style={{ color: "#991B1B" }}>3/10</span>
+            <span className="font-medium tabular-nums" style={{ color: "var(--lp-danger-fg)" }}>3/10</span>
           </div>
-          <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#EFF1EE" }}>
-            <div className="h-full rounded-full" style={{ width: "30%", backgroundColor: "#DC2626" }} />
+          <div className="mt-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--lp-track)" }}>
+            <div className="h-full rounded-full" style={{ width: "30%", backgroundColor: "var(--lp-danger-fg)" }} />
           </div>
         </div>
       </div>
@@ -753,9 +754,9 @@ function PhoneAllergy({ copy }: { copy: PhoneCopy }) {
 
 function RiskRow({ tone, label, detail }: { tone: "safe" | "warning" | "danger"; label: string; detail: string }) {
   const map = {
-    safe: { bg: MINT, fg: FOREST, icon: Check },
-    warning: { bg: "#FEF3C7", fg: "#92400E", icon: AlertTriangle },
-    danger: { bg: "#FEE2E2", fg: "#991B1B", icon: AlertTriangle },
+    safe: { bg: "var(--lp-safe-bg)", fg: "var(--lp-safe-fg)", icon: Check },
+    warning: { bg: "var(--lp-warn-bg)", fg: "var(--lp-warn-fg)", icon: AlertTriangle },
+    danger: { bg: "var(--lp-danger-bg)", fg: "var(--lp-danger-fg)", icon: AlertTriangle },
   } as const;
   const c = map[tone];
   const Icon = c.icon;
