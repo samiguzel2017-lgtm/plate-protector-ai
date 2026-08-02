@@ -17,16 +17,20 @@ export function SiteHeader() {
           <a href="#features" className="hover:text-foreground">{t("nav.features")}</a>
           <a href="#how" className="hover:text-foreground">{t("nav.how")}</a>
         </nav>
-        <div className="flex items-center gap-2.5">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
           <LangSwitch />
           <ThemeToggle />
           <Link to="/auth" className="hidden sm:block">
             <Button variant="ghost" size="sm">{t("nav.signin")}</Button>
           </Link>
           <Link to="/auth">
-            <Button size="sm" className="rounded-full">{t("nav.getstarted")}</Button>
+            <Button size="sm" className="rounded-full">
+              <span className="hidden sm:inline">{t("nav.getstarted")}</span>
+              <span className="sm:hidden">{t("nav.signin")}</span>
+            </Button>
           </Link>
         </div>
+
       </div>
     </header>
   );
