@@ -72,18 +72,18 @@ function Landing() {
                 style={{ borderColor: LINE, color: MOSS, backgroundColor: PANEL }}
               >
                 <Leaf className="h-3.5 w-3.5" />
-                Kişisel Gıda Güvenliği
+                {t("lp.badge")}
               </span>
 
               <h1
                 className="mt-7 text-[2.75rem] font-extrabold leading-[1.02] tracking-[-0.035em] md:text-[4.25rem] lg:text-[5.25rem]"
                 style={{ color: INK, fontFamily: "var(--font-display)" }}
               >
-                Fotoğrafını çek,
+                {t("lp.hero.1")}
                 <br />
-                <span style={{ color: FOREST }}>sağlığını</span>{" "}
+                <span style={{ color: FOREST }}>{t("lp.hero.2")}</span>{" "}
                 <span className="relative inline-block">
-                  koru.
+                  {t("lp.hero.3")}
                   <svg
                     className="absolute -bottom-2 left-0 w-full"
                     height="14"
@@ -116,7 +116,7 @@ function Landing() {
                     className="h-12 rounded-2xl px-7 text-[15px] font-semibold shadow-[0_12px_30px_-12px_rgba(27,67,50,0.45)]"
                     style={{ backgroundColor: FOREST, color: FOREST_FG }}
                   >
-                    Ücretsiz Başla
+                    {t("lp.cta.free")}
                     <ChevronRight className="ml-1 h-4 w-4" />
                   </Button>
                 </Link>
@@ -127,7 +127,7 @@ function Landing() {
                     className="h-12 rounded-2xl border-2 px-7 text-[15px] font-semibold"
                     style={{ borderColor: LINE, color: INK, backgroundColor: PANEL }}
                   >
-                    Nasıl Çalışır
+                    {t("lp.cta.how")}
                   </Button>
                 </a>
               </div>
@@ -135,10 +135,10 @@ function Landing() {
               {/* Trust micro */}
               <div className="mt-10 flex items-center gap-6 text-[13px] font-medium" style={{ color: INK_SOFT }}>
                 <span className="inline-flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4" style={{ color: MOSS }} /> Profile özel analiz
+                  <ShieldCheck className="h-4 w-4" style={{ color: MOSS }} /> {t("lp.trust.1")}
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <ScanLine className="h-4 w-4" style={{ color: MOSS }} /> Barkod & QR desteği
+                  <ScanLine className="h-4 w-4" style={{ color: MOSS }} /> {t("lp.trust.2")}
                 </span>
               </div>
             </div>
@@ -189,31 +189,31 @@ function Landing() {
                 className="text-[11px] font-bold uppercase tracking-[0.18em]"
                 style={{ color: MOSS }}
               >
-                ÖZELLİKLER
+                {t("lp.feat.eyebrow")}
               </span>
               <h2
                 className="text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.03em] md:text-[3rem]"
                 style={{ color: INK, fontFamily: "var(--font-display)" }}
               >
-                Profiline göre düşünen
+                {t("lp.feat.h.1")}
                 <br />
-                <span style={{ color: FOREST }}>gerçek</span> bir asistan.
+                <span style={{ color: FOREST }}>{t("lp.feat.h.2")}</span> {t("lp.feat.h.3")}
               </h2>
               <FeatureBlock
                 icon={HeartPulse}
-                title="Kişisel sağlık profili"
-                desc="Alerjiler, kronik durumlar ve beslenme tercihleri tek bir yerde. Her analiz otomatik olarak sana göre çalışır."
+                title={t("lp.feat.1.t")}
+                desc={t("lp.feat.1.d")}
                 highlighted
               />
               <FeatureBlock
                 icon={Camera}
-                title="Fotoğraftan anında analiz"
-                desc="Etiketi veya yemeği fotoğrafla, yapay zekâ içerikleri tanır ve riskleri saniyeler içinde özetler."
+                title={t("lp.feat.2.t")}
+                desc={t("lp.feat.2.d")}
               />
               <FeatureBlock
                 icon={ScanLine}
-                title="Barkod & QR ile evrensel veri"
-                desc="Open Food Facts üzerinden milyonlarca ürünü tara; profiline göre Yeşil / Sarı / Kırmızı kararı al."
+                title={t("lp.feat.3.t")}
+                desc={t("lp.feat.3.d")}
               />
             </div>
           </div>
@@ -232,18 +232,18 @@ function Landing() {
                     className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em]"
                     style={{ backgroundColor: CHARCOAL, color: ON_DARK }}
                   >
-                    <Moon className="h-3 w-3" /> Karanlık Mod
+                    <Moon className="h-3 w-3" /> {t("lp.dark.badge")}
                   </span>
                   <h2
                     className="mt-5 text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.03em] md:text-[3.25rem]"
                     style={{ color: INK, fontFamily: "var(--font-display)" }}
                   >
-                    Premium takip deneyimi,
+                    {t("lp.dark.h.1")}
                     <br />
-                    <span style={{ color: FOREST }}>tüm gün rahat gözler için.</span>
+                    <span style={{ color: FOREST }}>{t("lp.dark.h.2")}</span>
                   </h2>
                   <p className="mt-5 max-w-md text-[15px] leading-relaxed" style={{ color: INK_SOFT }}>
-                    Gün boyu kalori, makro ve risk takibi. Düşük ışıkta bile yormayan karanlık arayüz; profiline göre filtrelenmiş net göstergeler.
+                    {t("lp.dark.p")}
                   </p>
                   <div className="mt-7">
                     <Link to="/auth">
@@ -252,7 +252,7 @@ function Landing() {
                         className="h-12 rounded-2xl px-7 text-[15px] font-semibold"
                         style={{ backgroundColor: CHARCOAL, color: ON_DARK }}
                       >
-                        Şimdi dene
+                        {t("lp.dark.cta")}
                       </Button>
                     </Link>
                   </div>
@@ -271,7 +271,7 @@ function Landing() {
         <section id="how" className="container-x py-24">
           <div className="mb-12 max-w-2xl">
             <span className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: MOSS }}>
-              NASIL ÇALIŞIR
+              {t("lp.how.eyebrow")}
             </span>
             <h2
               className="mt-3 text-[2.25rem] font-extrabold tracking-[-0.03em] md:text-[3rem]"
@@ -327,8 +327,8 @@ function Landing() {
                   className="text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.03em] md:text-[3.5rem]"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
-                  Bugün başla.{" "}
-                  <span style={{ color: CTA_ACCENT }}>Bilinçli ye.</span>
+                  {t("lp.final.1")}{" "}
+                  <span style={{ color: CTA_ACCENT }}>{t("lp.final.2")}</span>
                 </h2>
                 <p className="mt-3 max-w-lg text-sm opacity-85">{t("hero.sub")}</p>
               </div>
@@ -339,7 +339,7 @@ function Landing() {
                     className="h-12 rounded-2xl px-7 text-[15px] font-semibold"
                     style={{ backgroundColor: PANEL, color: FOREST }}
                   >
-                    Ücretsiz Başla
+                    {t("lp.cta.free")}
                     <ChevronRight className="ml-1 h-4 w-4" />
                   </Button>
                 </Link>

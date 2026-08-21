@@ -5,6 +5,7 @@ import { lovable } from "@/integrations/lovable";
 import { useI18n } from "@/lib/i18n";
 import { AlentraLogo } from "@/components/AlentraLogo";
 import { LangSwitch } from "@/components/LangSwitch";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Disclaimer } from "@/components/Disclaimer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -71,7 +72,7 @@ function AuthPage() {
   };
 
   return (
-    <div className="dark ultra-dark grid min-h-screen bg-background text-foreground lg:grid-cols-[1fr_1.05fr]">
+    <div className="grid min-h-screen bg-background text-foreground lg:grid-cols-[1fr_1.05fr]">
       {/* Left brand panel */}
       <div className="relative hidden flex-col justify-between overflow-hidden bg-primary p-10 text-primary-foreground lg:flex">
         <Link to="/"><AlentraLogo className="[&_span]:text-primary-foreground" /></Link>
@@ -89,7 +90,10 @@ function AuthPage() {
           <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
             <ArrowLeft className="h-4 w-4" /> {t("brand.name")}
           </Link>
-          <LangSwitch />
+          <div className="flex items-center gap-2">
+            <LangSwitch />
+            <ThemeToggle />
+          </div>
         </div>
         <div className="flex flex-1 items-center justify-center px-5 pb-10">
           <div className="w-full max-w-sm space-y-6">

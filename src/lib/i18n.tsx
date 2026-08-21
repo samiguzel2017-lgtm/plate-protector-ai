@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-export type Lang = "tr" | "en" | "ar";
+export type Lang = "tr" | "en";
 
 type Dict = Record<string, string>;
 
@@ -169,6 +169,33 @@ const tr: Dict = {
   "chat.voice.speak": "Cevabı sesli oku",
   "chat.voice.stopSpeak": "Sesi durdur",
   "chat.voice.unsupported": "Tarayıcınız sesli girişi desteklemiyor.",
+
+  "lp.badge": "Kişisel Gıda Güvenliği",
+  "lp.hero.1": "Fotoğrafını çek,",
+  "lp.hero.2": "sağlığını",
+  "lp.hero.3": "koru.",
+  "lp.trust.1": "Profile özel analiz",
+  "lp.trust.2": "Barkod & QR desteği",
+  "lp.cta.free": "Ücretsiz Başla",
+  "lp.cta.how": "Nasıl Çalışır",
+  "lp.feat.eyebrow": "ÖZELLİKLER",
+  "lp.feat.h.1": "Profiline göre düşünen",
+  "lp.feat.h.2": "gerçek",
+  "lp.feat.h.3": "bir asistan.",
+  "lp.feat.1.t": "Kişisel sağlık profili",
+  "lp.feat.1.d": "Alerjiler, kronik durumlar ve beslenme tercihleri tek bir yerde. Her analiz otomatik olarak sana göre çalışır.",
+  "lp.feat.2.t": "Fotoğraftan anında analiz",
+  "lp.feat.2.d": "Etiketi veya yemeği fotoğrafla; yapay zekâ içerikleri tanır ve riskleri saniyeler içinde özetler.",
+  "lp.feat.3.t": "Barkod & QR ile evrensel veri",
+  "lp.feat.3.d": "Open Food Facts üzerinden milyonlarca ürünü tara; profiline göre Yeşil / Sarı / Kırmızı kararı al.",
+  "lp.dark.badge": "Karanlık Mod",
+  "lp.dark.h.1": "Premium takip deneyimi,",
+  "lp.dark.h.2": "tüm gün rahat gözler için.",
+  "lp.dark.p": "Gün boyu kalori, makro ve risk takibi. Düşük ışıkta bile yormayan karanlık arayüz; profiline göre filtrelenmiş net göstergeler.",
+  "lp.dark.cta": "Şimdi dene",
+  "lp.how.eyebrow": "NASIL ÇALIŞIR",
+  "lp.final.1": "Bugün başla.",
+  "lp.final.2": "Bilinçli ye.",
 };
 
 const en: Dict = {
@@ -336,53 +363,36 @@ const en: Dict = {
   "chat.voice.speak": "Read answer aloud",
   "chat.voice.stopSpeak": "Stop voice",
   "chat.voice.unsupported": "Voice input is not supported in this browser.",
+
+  "lp.badge": "Personal Food Safety",
+  "lp.hero.1": "Snap a photo,",
+  "lp.hero.2": "protect",
+  "lp.hero.3": "your health.",
+  "lp.trust.1": "Profile-aware analysis",
+  "lp.trust.2": "Barcode & QR support",
+  "lp.cta.free": "Get Started Free",
+  "lp.cta.how": "How it works",
+  "lp.feat.eyebrow": "FEATURES",
+  "lp.feat.h.1": "An assistant that thinks",
+  "lp.feat.h.2": "with",
+  "lp.feat.h.3": "your profile.",
+  "lp.feat.1.t": "Personal health profile",
+  "lp.feat.1.d": "Allergies, chronic conditions and dietary preferences in one place. Every analysis adapts to you automatically.",
+  "lp.feat.2.t": "Instant photo analysis",
+  "lp.feat.2.d": "Snap a label or a meal; the AI recognises ingredients and summarises the risks in seconds.",
+  "lp.feat.3.t": "Universal barcode & QR data",
+  "lp.feat.3.d": "Scan millions of products via Open Food Facts and get a Green / Yellow / Red verdict for your profile.",
+  "lp.dark.badge": "Dark Mode",
+  "lp.dark.h.1": "A premium tracking experience,",
+  "lp.dark.h.2": "easy on the eyes all day.",
+  "lp.dark.p": "Track calories, macros and risks all day. A dark interface that stays comfortable in low light, with clear indicators filtered by your profile.",
+  "lp.dark.cta": "Try it now",
+  "lp.how.eyebrow": "HOW IT WORKS",
+  "lp.final.1": "Start today.",
+  "lp.final.2": "Eat consciously.",
 };
 
-const ar: Dict = {
-  "brand.name": "Alentra AI",
-  "brand.tagline": "صوّر، اعرف، ابقَ آمنًا.",
-  "brand.intro": "مساعد ذكي شخصي لسلامة الغذاء والتغذية.",
-
-  "nav.features": "المزايا",
-  "nav.how": "كيف يعمل",
-  "nav.dashboard": "لوحة التحكم",
-  "nav.profile": "الملف الصحي",
-  "nav.analyze": "تحليل",
-  "nav.history": "السجل",
-  "nav.chat": "المحادثة",
-  "nav.diet": "مدرب التغذية",
-  "nav.signin": "تسجيل الدخول",
-  "nav.signup": "إنشاء حساب",
-  "nav.signout": "تسجيل الخروج",
-  "nav.getstarted": "ابدأ مجانًا",
-
-  "hero.title": "تعرّف على Alentra AI: احمِ صحتك بصورة واحدة.",
-  "hero.sub": "تحليل غذائي مخصص حسب ملفك الصحي. صوّر الملصق أو الوجبة وستظهر المسببات للحساسية والمكونات والقيم الغذائية خلال ثوانٍ.",
-
-  "disclaimer.title": "إخلاء مسؤولية طبية",
-  "disclaimer.body": "هذا التطبيق لأغراض إعلامية فقط ولا يقدم تشخيصًا أو علاجًا طبيًا. استشر طبيبًا مختصًا في حالات الحساسية والأمراض المزمنة.",
-
-  "dash.welcome": "أهلاً بك",
-  "dash.quick.cta": "ابدأ التحليل",
-  "dash.recent.t": "آخر التحاليل",
-  "dash.recent.empty": "لا توجد تحاليل بعد.",
-  "dash.recent.view": "عرض الكل",
-  "dash.score.t": "نقاط الصحة اليومية",
-  "dash.water.t": "تتبع الماء الذكي",
-  "dash.water.unit": "كوب",
-
-  "result.safe": "آمن",
-  "result.warning": "تنبيه",
-  "result.danger": "غير مناسب",
-
-  "chat.voice.start": "بدء الإدخال الصوتي",
-  "chat.voice.stop": "إيقاف الإدخال الصوتي",
-  "chat.voice.speak": "اقرأ الإجابة بصوت",
-  "chat.voice.stopSpeak": "إيقاف الصوت",
-  "chat.voice.unsupported": "المتصفح لا يدعم الإدخال الصوتي.",
-};
-
-const dicts: Record<Lang, Dict> = { tr, en, ar };
+const dicts: Record<Lang, Dict> = { tr, en };
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (key: string) => string };
 const I18nContext = createContext<Ctx | null>(null);
@@ -393,14 +403,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem("alentra-lang");
-      if (stored === "tr" || stored === "en" || stored === "ar") setLangState(stored);
+      if (stored === "tr" || stored === "en") setLangState(stored);
     } catch {}
   }, []);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
     document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = "ltr";
   }, [lang]);
 
   const setLang = (l: Lang) => {
@@ -411,7 +421,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const value = useMemo<Ctx>(() => ({
     lang,
     setLang,
-    t: (key: string) => dicts[lang][key] ?? dicts.en[key] ?? dicts.tr[key] ?? key,
+    t: (key: string) => dicts[lang][key] ?? dicts.en[key] ?? key,
   }), [lang]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
