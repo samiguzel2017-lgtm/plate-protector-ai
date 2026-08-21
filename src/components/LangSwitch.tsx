@@ -5,7 +5,7 @@ export function LangSwitch({ className }: { className?: string }) {
   const { lang, setLang } = useI18n();
   return (
     <div className={cn("inline-flex shrink-0 items-center rounded-full border border-border bg-surface p-0.5 text-[10px] font-medium sm:text-xs", className)}>
-      {(["tr", "en", "ar"] as const).map((l: Lang) => (
+      {(["tr", "en"] as const).map((l: Lang) => (
         <button
           key={l}
           type="button"
