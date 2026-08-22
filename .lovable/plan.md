@@ -1,40 +1,41 @@
-# Büyük Yenileme Planı
+# Diyet asistanı, barkod tarama, sohbet dili ve arayüz akıcılığı
 
-Bu çok kapsamlı bir istek — tek seferde 7 büyük değişiklik var. Önce onayını almak ve birkaç kritik noktayı netleştirmek istiyorum, çünkü uygulamanın şu anki kimliği ile bu istek arasında ciddi çelişkiler var.
+## 1. Diyet asistanı hatası ve yeni özellikler
 
-## Önemli: Uygulamanın kimliği belirsizleşiyor
+Hatanın nedeni doğrulandı: `src/lib/diet.functions.ts` hâlâ katı şema zorlamalı üretim (`Output.object`) kullanıyor; model şemayı birebir tutturamadığında "No object generated" hatası fırlıyor. Projede zaten toleranslı bir ayrıştırıcı var (`src/lib/diet-plan.server.ts`) ama hiçbir yerden çağrılmıyor.
 
-Şu an proje iki farklı yöne çekiliyor:
-- **Mevcut Alentra**: Sağlık/beslenme koçu, barkod ile gıda analizi, diyet odaklı (madde 1, 5, 6 buna uyuyor)
-- **Yeni istenenler**: Siber güvenlik / plaka tanıma / tehdit engelleme paneli (madde 3, 4, 5 buna uyuyor)
+Yapılacaklar:
+- Diyet fonksiyonunu düz metin üretimine çevirip yanıtı toleranslı ayrıştırıcıdan geçirmek; eksik alanları hesaplanan değerlerle (BMR/TDEE/hedef kalori, makro dağılımı) tamamlamak. Böylece plan her koşulda üretilir.
+- Model yanıt vermezse bile kullanıcıya boş ekran değil, hesaplanmış kalori/makro hedefleri ve şablon öğün önerileri gösterilecek.
+- Yeni giriş alanları: hedef süre/tempo (yavaş–normal–hızlı), öğün sayısı (3–6), su hedefi, egzersiz sıklığı, sevmediği/kaçındığı besinler, mutfak tercihi. Sağlık profilindeki alerji/hastalık/diyet verileri otomatik dikkate alınmaya devam eder.
+- Yeni çıktılar: makro yüzdeleri ve halka/bar görselleştirmesi, öğün başına makro dağılımı, alışveriş listesi, hidrasyon hedefi, "planı kopyala" ve "yeniden üret" aksiyonları.
+- Tüm yeni metinler TR/EN sözlüğe eklenir; hata durumunda anlaşılır uyarı gösterilir.
 
-"Sağlık koçu" ile "plaka tarayan siber güvenlik sistemi" aynı uygulamada mantıksız duruyor. **Hangisi ana kimlik?** Cevap vermeden devam etmem doğru olmaz; aksi halde Frankenstein bir ürün çıkar.
+## 2. Barkod tarama
 
-## Yapılacaklar (onayından sonra)
+- Kamera tarayıcısında (`src/components/BarcodeScanner.tsx`) güvenilirlik iyileştirmeleri: kamera izni/HTTPS/desteklenmeyen cihaz durumları için ayrı ve anlaşılır hata mesajları, arka/ön kamera geçişi, ışık (torch) düğmesi, tarama kutusunun kadraja göre ölçeklenmesi, aynı barkodu iki kez göndermeme koruması.
+- Manuel barkod girişi alanı: kamera çalışmadığında kullanıcı numarayı elle yazıp analiz alabilir.
+- Ürün veritabanında bulunamazsa akış artık hata ile bitmiyor: kullanıcıya "fotoğrafla analiz et" seçeneği ve ürün adı/etiket fotoğrafıyla yapay zekâ analizine geçiş sunulur.
+- Analiz ekranındaki tarama/analiz durum mesajları TR/EN olarak tamamlanır.
 
-1. **Ultra premium karanlık tema** — `src/styles.css` token'ları derin gece mavisi (#0A0E1A), antrasit yüzeyler, neon yeşil (#39FF14) ve siber mavi (#00E5FF) vurgular. Login ekranı korunur, sadece tema uyumlu hale gelir.
+## 3. Sohbet dili
 
-2. **AI Diyet Asistanı paneli** (`/diet`) — Lovable AI Gateway (`google/gemini-3-flash-preview`) ile günlük kalori hesabı, öğün önerileri ve kişisel diyet programı üreten server function. Kullanıcının `health_profiles` verilerini kullanır.
+- Sohbet ekranında kalan Arapça dal metinleri temizlenir (dil artık yalnızca TR/EN).
+- Her istekte arayüz dili sunucuya gönderilir ve sistem talimatına "geçmiş mesajların dili ne olursa olsun yanıtı SEÇİLİ dilde yaz" kuralı eklenir; böylece İngilizce'ye geçince yanıtlar İngilizce, Türkçe'ye geçince Türkçe olur.
+- Dil değiştiğinde aktif sohbetteki karşılama mesajı ve arayüz etiketleri de o dile döner.
 
-3. **AI Analiz Paneli (Dashboard)** — Login sonrası ana sayfada Recharts ile grafikler, "Bugün Taranan", "Engellenen Tehditler" gibi canlı istatistikler. **NOT: Bu kısım sadece plaka/güvenlik kimliği seçilirse anlamlı.**
+## 4. Arayüz mimarisi ve animasyonlar (UI/UX)
 
-4. **Canlı Plaka Simülatörü** — Radar SVG animasyonu, rastgele TR plakaları, AI değerlendirmesi. **NOT: Sadece güvenlik kimliği seçilirse.**
+- Ortak hareket dili: sayfa/bölüm geçişlerinde yumuşak fade+yukarı kayma, kart ve buton hover/press durumlarında ölçek ve gölge geçişleri, iskelet (skeleton) yükleme durumları, sayaç değerlerinde yumuşak artış animasyonu — hepsi tema token'ları üzerinden.
+- Erişilebilirlik: `prefers-reduced-motion` desteği, klavye odak halkaları, dokunma hedeflerinin en az 44px olması.
+- Düzen düzeni: diyet, sohbet, analiz ve panel ekranlarında hizalama, boşluk ve tipografi ölçeğinin tek bir ritme oturtulması; taşan/çakışan başlık ve butonların düzeltilmesi.
+- Renk finesi: kalan parlak neon vurguların yumuşatılması, açık/koyu temada kontrast kontrolü.
 
-5. **Sohbet düzeltmesi** — Loop'un sebebi muhtemelen sistem prompt'unun aynı kalıpta cevap üretmesi. Sistem prompt'unu zenginleştir, geçmiş mesajları doğru biçimde modele yolla, `temperature`/varyasyon ekle, her cevabın bağlama göre farklı olmasını sağla.
+## Teknik notlar
 
-6. **Barkod tarayıcı sıfırlama** — `@zxing/browser` ile gerçek kamera barkod algılama, Open Food Facts API + AI fallback (ürün bulunamazsa AI mantıklı bir simülasyon üretir).
-
-7. **Dinamik dil desteği** — `i18next` + `react-i18next` kurulumu. TR/EN/DE çeviri dosyaları (`src/locales/`). Tüm sabit string'ler `t('key')` ile değiştirilir. Header'a dil seçici eklenir, seçim `localStorage`'a yazılır.
-
-## Senden netleştirmem gerekenler
-
-1. **Uygulamanın ana teması ne?**
-   - (A) Sadece sağlık/beslenme (Alentra) → plaka simülatörü ve "tehdit engelleme" kaldırılır
-   - (B) Sadece siber güvenlik / plaka tanıma → diyet asistanı ve barkod kaldırılır
-   - (C) Gerçekten ikisi birden (tek uygulamada iki ayrı modül) → menüden geçiş
-
-2. **Diller**: TR + EN yeterli mi, yoksa DE/FR/ES de eklensin mi?
-
-3. **Plaka simülatörü gerçek bir veri kaynağı mı kullanacak, yoksa tamamen simülasyon mu?** (Gerçek plaka tanıma API'si entegrasyonu ayrı bir iştir.)
-
-Bu üç soruyu cevapla, ardından planı kesinleştirip tek seferde uygulayayım.
+- `src/lib/diet.functions.ts`: `Output.object` kaldırılır, `parseDietPlan` kullanılır; şema `diet-plan.server.ts` içinde genişletilir (opsiyonel alanlar + varsayılanlar). Sunucu fonksiyonu dosyası ince sarmalayıcı olarak kalır, yardımcı mantık `.server.ts` içinde durur.
+- `src/routes/_authenticated/diet.tsx`: yeni form alanları, sonuç görselleştirmeleri, hata/boş durumları.
+- `src/components/BarcodeScanner.tsx` + `src/lib/barcode.functions.ts` + `src/routes/_authenticated/analyze.tsx`: manuel giriş, kamera kontrolleri, bulunamayan ürün için fotoğraf analizine yönlendirme.
+- `src/lib/chat.functions.ts` + `src/routes/_authenticated/chat.tsx`: dil kilidi kuralı, Arapça kalıntılarının temizliği.
+- `src/styles.css`: animasyon yardımcıları (`@utility`) ve reduced-motion varyantı; sabit renk yerine token kullanımı sürdürülür.
+- `src/lib/i18n.tsx`: tüm yeni metinler için TR/EN anahtarları.
