@@ -55,7 +55,7 @@ function Dashboard() {
   const healthScore = Math.min(100, Math.round((analyses.length * 12) + (water / waterGoal) * 30 + (hpEmpty ? 0 : 25) + 20));
 
   return (
-    <div className="container-x py-10 md:py-14">
+    <div className="container-x anim-rise py-10 md:py-14">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-sm text-muted-foreground">{t("dash.welcome")}</p>

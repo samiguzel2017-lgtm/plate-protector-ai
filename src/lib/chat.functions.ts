@@ -60,12 +60,17 @@ STRICT RULES:
 - Give numeric ranges (calories, grams, portions) when relevant.
 (variation: ${variationSeed})`;
 
+    const languageLock =
+      lang === "tr"
+        ? `\n\nDİL KİLİDİ (en yüksek öncelik): Kullanıcının önceki mesajları veya senin önceki cevapların hangi dilde olursa olsun, BU cevabı tamamen Türkçe yaz. Başka bir dil kullanma.`
+        : `\n\nLANGUAGE LOCK (highest priority): Regardless of the language of previous user messages or your own previous replies, write THIS reply entirely in English. Do not use any other language.`;
+
     const gateway = createLovableAiGatewayProvider(apiKey);
     const model = gateway("google/gemini-3-flash-preview");
 
     const result = await generateText({
       model,
-      system,
+      system: system + languageLock,
       temperature: 0.95,
       messages: data.messages.map((m) => ({ role: m.role, content: m.content })),
     });

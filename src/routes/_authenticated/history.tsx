@@ -37,7 +37,7 @@ function HistoryPage() {
   ];
 
   return (
-    <div className="container-x py-10 md:py-14">
+    <div className="container-x anim-rise py-10 md:py-14">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <h1 className="font-serif text-4xl text-foreground">{t("history.title")}</h1>
         <div className="inline-flex rounded-full border border-border bg-surface p-0.5">
