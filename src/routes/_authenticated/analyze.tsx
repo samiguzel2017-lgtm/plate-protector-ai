@@ -82,7 +82,14 @@ function AnalyzePage() {
       const res = await barcodeFn({ data: { barcode: code, language: lang } });
       navigate({ to: "/analysis/$id", params: { id: res.id } });
     } catch (err: any) {
-      toast.error(err?.message ?? t("common.error"));
+      const msg: string = err?.message ?? t("common.error");
+      if (/bulunamad|not found/i.test(msg)) {
+        toast.error(t("analyze.barcode.notfound"), {
+          action: { label: t("analyze.barcode.usePhoto"), onClick: () => setMode("product") },
+        });
+      } else {
+        toast.error(msg);
+      }
       setScanBusy(false);
     }
   };
@@ -90,7 +97,7 @@ function AnalyzePage() {
   const tabs: { id: Mode; label: string; icon: any }[] = [
     { id: "product", label: t("analyze.type.product"), icon: Upload },
     { id: "meal", label: t("analyze.type.meal"), icon: Camera },
-    { id: "barcode", label: "Barkod", icon: ScanLine },
+    { id: "barcode", label: t("analyze.type.barcode"), icon: ScanLine },
   ];
 
   return (
@@ -101,7 +108,7 @@ function AnalyzePage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <div className="rounded-3xl border border-border bg-surface p-6 md:p-8">
+        <div className="anim-rise rounded-3xl border border-border bg-surface p-6 md:p-8">
           <div className="mb-6">
             <Label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("analyze.type")}
@@ -115,7 +122,7 @@ function AnalyzePage() {
                     key={tp.id}
                     type="button"
                     onClick={() => { setMode(tp.id); onPick(null); }}
-                    className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                    className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
                       active ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -131,7 +138,7 @@ function AnalyzePage() {
             <BarcodeScanner
               onDetected={onBarcode}
               busy={scanBusy}
-              statusText="Open Food Facts'tan ürün getiriliyor..."
+              statusText={t("analyze.barcode.status")}
             />
           ) : !preview ? (
             <div
@@ -150,7 +157,7 @@ function AnalyzePage() {
                 <Button variant="outline" size="sm" className="rounded-full" onClick={() => {
                   if (fileRef.current) { fileRef.current.setAttribute("capture", "environment"); fileRef.current.click(); }
                 }}>
-                  <Camera className="mr-1.5 h-3.5 w-3.5" />Kamera
+                  <Camera className="mr-1.5 h-3.5 w-3.5" />{t("analyze.camera")}
                 </Button>
               </div>
               <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => onPick(e.target.files?.[0] ?? null)} />
