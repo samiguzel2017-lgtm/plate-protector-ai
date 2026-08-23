@@ -21,18 +21,16 @@ const STORAGE_KEY = "alentra.chat.sessions.v2";
 const ACTIVE_KEY = "alentra.chat.active.v2";
 
 const toServerLang = (l: Lang): "tr" | "en" => (l === "tr" ? "tr" : "en");
-const voiceLocale = (l: Lang) => (l === "tr" ? "tr-TR" : l === "ar" ? "ar-SA" : "en-US");
+const voiceLocale = (l: Lang) => (l === "tr" ? "tr-TR" : "en-US");
 
 function makeSession(lang: Lang): Session {
   const greet =
     lang === "tr"
       ? "Merhaba! Ben Alentra AI. Beslenme, alerji, içerik analizi veya sağlıklı yaşam konusunda ne sormak istersin?"
-      : lang === "ar"
-      ? "مرحبًا! أنا Alentra AI. اسألني عن التغذية أو الحساسية أو تحليل المكونات."
       : "Hi! I'm Alentra AI. Ask me anything about nutrition, allergies, ingredient analysis or healthy living.";
   return {
     id: `s_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`,
-    title: lang === "tr" ? "Yeni Sohbet" : lang === "ar" ? "محادثة جديدة" : "New Chat",
+    title: lang === "tr" ? "Yeni Sohbet" : "New Chat",
     messages: [{ role: "assistant", content: greet }],
     updatedAt: Date.now(),
   };
@@ -208,7 +206,7 @@ function ChatPage() {
         <aside className="hidden md:flex flex-col rounded-2xl border border-border bg-surface p-3">
           <Button onClick={newSession} className="rounded-full neon-glow" size="sm">
             <Plus className="mr-1.5 h-4 w-4" />
-            {lang === "tr" ? "Yeni Sohbet" : lang === "ar" ? "محادثة جديدة" : "New Chat"}
+            {lang === "tr" ? "Yeni Sohbet" : "New Chat"}
           </Button>
           <div className="mt-3 flex-1 overflow-y-auto space-y-1">
             {sessions.map((s) => (
@@ -247,7 +245,7 @@ function ChatPage() {
               <div>
                 <div className="text-sm font-semibold text-foreground">Alentra AI</div>
                 <div className="text-[10px] text-muted-foreground">
-                  {lang === "tr" ? "Kişisel sağlık & beslenme koçu" : lang === "ar" ? "مدرب شخصي للصحة والتغذية" : "Personal health & nutrition coach"}
+                  {lang === "tr" ? "Kişisel sağlık & beslenme koçu" : "Personal health & nutrition coach"}
                 </div>
               </div>
             </div>
@@ -270,7 +268,7 @@ function ChatPage() {
             {sending && (
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                {lang === "tr" ? "Düşünüyor..." : lang === "ar" ? "يفكر..." : "Thinking..."}
+                {lang === "tr" ? "Düşünüyor..." : "Thinking..."}
               </div>
             )}
           </div>
@@ -304,7 +302,7 @@ function ChatPage() {
                     void send();
                   }
                 }}
-                placeholder={lang === "tr" ? "Bir şey sor..." : lang === "ar" ? "اسأل أي شيء..." : "Ask anything..."}
+                placeholder={lang === "tr" ? "Bir şey sor..." : "Ask anything..."}
                 rows={1}
                 className="flex-1 resize-none bg-transparent px-2 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none max-h-32"
               />
