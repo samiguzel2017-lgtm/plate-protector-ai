@@ -79,7 +79,7 @@ function ProfilePage() {
 
 
   return (
-    <div className="container-x py-10 md:py-14">
+    <div className="container-x anim-rise py-10 md:py-14">
       <div className="mb-8 max-w-2xl">
         <h1 className="font-serif text-4xl text-foreground">{t("prof.title")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">{t("prof.sub")}</p>

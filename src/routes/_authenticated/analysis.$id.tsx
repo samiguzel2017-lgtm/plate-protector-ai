@@ -40,7 +40,7 @@ function AnalysisDetail() {
   const r = q.data.result as any;
 
   return (
-    <div className="container-x py-10 md:py-14">
+    <div className="container-x anim-rise py-10 md:py-14">
       <Link to="/dashboard" className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
         <ArrowLeft className="h-4 w-4" /> {t("result.back")}
       </Link>
