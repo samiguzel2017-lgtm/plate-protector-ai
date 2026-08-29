@@ -11,7 +11,7 @@ export function AlentraLogo({ className, withWordmark = true }: { className?: st
       />
       {withWordmark && (
         <span className="font-serif text-xl tracking-tight text-foreground">
-          Alentra<span className="text-[oklch(0.55_0.12_148)]">.</span>AI
+          Alentra<span className="text-primary">.</span>AI
         </span>
       )}
     </div>
