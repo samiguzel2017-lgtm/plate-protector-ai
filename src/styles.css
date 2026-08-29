@@ -314,19 +314,48 @@
   .font-serif {
     font-family: var(--font-display);
     font-feature-settings: "cv11", "ss01";
-    letter-spacing: -0.025em;
-    font-weight: 700;
+    letter-spacing: -0.022em;
+    font-weight: 620;
   }
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.022em;
+    font-weight: 620;
+  }
+
+  h1 { letter-spacing: -0.03em; }
+
+  /* Elegant, subtle micro-interactions on interactive elements */
+  button, a, [role="button"], [role="tab"], input, textarea, select {
+    transition:
+      background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.2s ease,
+      transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) {
+    button:hover, [role="button"]:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  button:active, [role="button"]:active {
+    transform: scale(0.985);
+  }
+
+  input:focus-visible, textarea:focus-visible, select:focus-visible {
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-ring) 16%, transparent);
   }
 }
 
 @utility container-x {
   @apply mx-auto w-full max-w-7xl px-5 md:px-8;
 }
+
 
 @keyframes laser-scan {
   0%   { transform: translateY(-90%); opacity: 0.2; }
