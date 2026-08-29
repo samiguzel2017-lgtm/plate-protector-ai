@@ -179,7 +179,7 @@ function Dashboard() {
         <div className="space-y-5">
           <div className="rounded-2xl border border-border bg-surface p-6">
             <div className="mb-4 flex items-center gap-2">
-              <HeartPulse className="h-4 w-4 text-[oklch(0.55_0.12_148)]" />
+              <HeartPulse className="h-4 w-4 text-primary" />
               <h3 className="font-serif text-xl text-foreground">{t("dash.profile.t")}</h3>
             </div>
             {hpEmpty ? (

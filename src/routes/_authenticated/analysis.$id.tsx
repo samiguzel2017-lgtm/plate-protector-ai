@@ -98,7 +98,7 @@ function Section({ title, items, tone }: { title: string; items: string[]; tone?
         <ul className="space-y-2">
           {items.map((it, i) => (
             <li key={i} className="flex items-start gap-2.5 text-sm">
-              <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${tone === "danger" ? "bg-[oklch(0.65_0.2_27)]" : tone === "warning" ? "bg-[oklch(0.7_0.16_85)]" : "bg-[oklch(0.55_0.12_148)]"}`} />
+              <span className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${tone === "danger" ? "bg-danger" : tone === "warning" ? "bg-warning" : "bg-safe"}`} />
               <span className="text-foreground">{it}</span>
             </li>
           ))}
