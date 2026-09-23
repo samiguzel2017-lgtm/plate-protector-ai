@@ -28,8 +28,8 @@ export function AppHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-md">
-      <div className="container-x flex h-16 items-center gap-3">
+    <header className="sticky top-0 z-40 hidden border-b border-border/60 bg-background/85 backdrop-blur-xl md:block">
+      <div className="container-x flex h-[72px] items-center gap-3">
         <Link to="/dashboard" className="flex shrink-0 items-center">
           <AlentraLogo />
         </Link>
@@ -41,8 +41,8 @@ export function AppHeader() {
                 key={i.to}
                 to={i.to}
                 className={cn(
-                  "rounded-full px-3.5 py-1.5 text-sm transition-colors",
-                  active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                   "rounded-full px-4 py-2 text-sm transition-all duration-300",
+                   active ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-card hover:text-foreground",
                 )}
               >
                 {i.label}

@@ -7,11 +7,11 @@ export function AlentraLogo({ className, withWordmark = true }: { className?: st
       <img
         src={logoAsset.url}
         alt="Alentra AI"
-        className="h-8 w-8 rounded-lg object-contain"
+        className="h-8 w-8 rounded-xl object-contain"
       />
       {withWordmark && (
-        <span className="font-serif text-xl tracking-tight text-foreground">
-          Alentra<span className="text-[oklch(0.55_0.12_148)]">.</span>AI
+        <span className="font-display text-lg font-semibold text-foreground">
+          Alentra<span className="text-primary">.</span>AI
         </span>
       )}
     </div>

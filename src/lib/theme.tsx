@@ -8,7 +8,7 @@ const ThemeContext = createContext<Ctx | null>(null);
 const STORAGE_KEY = "alentra-theme";
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+  const [theme, setThemeState] = useState<Theme>("light");
 
   useEffect(() => {
     try {
