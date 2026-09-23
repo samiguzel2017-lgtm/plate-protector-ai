@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Camera, MessageSquare, User, LayoutDashboard, Apple } from "lucide-react";
+import { ScanLine, MessageCircle, UserRound, House, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
@@ -8,19 +8,19 @@ export function BottomNav() {
   const { t } = useI18n();
 
   const items = [
-    { to: "/dashboard", label: t("nav.dashboard"), Icon: LayoutDashboard },
-    { to: "/diet", label: t("nav.diet"), Icon: Apple },
-    { to: "/analyze", label: t("nav.analyze"), Icon: Camera },
-    { to: "/chat", label: t("nav.chat"), Icon: MessageSquare },
-    { to: "/profile", label: t("nav.profile"), Icon: User },
+    { to: "/dashboard", label: t("nav.dashboard"), Icon: House },
+    { to: "/diet", label: t("nav.diet"), Icon: Utensils },
+    { to: "/analyze", label: t("nav.analyze"), Icon: ScanLine },
+    { to: "/chat", label: t("nav.chat"), Icon: MessageCircle },
+    { to: "/profile", label: t("nav.profile"), Icon: UserRound },
   ] as const;
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/95 backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border/70 bg-card/95 backdrop-blur-xl md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <ul className="mx-auto flex max-w-md items-stretch justify-around px-2 py-1.5">
+      <ul className="mx-auto flex max-w-md items-stretch justify-around px-2 pb-2 pt-2">
         {items.map(({ to, label, Icon }) => {
           const active = path === to;
           return (
@@ -28,11 +28,11 @@ export function BottomNav() {
               <Link
                 to={to}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[10px] font-medium tracking-tight transition-colors",
+                   "relative flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl py-1.5 text-[10px] font-medium transition-all duration-300",
                   active ? "text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <Icon className={cn("h-[22px] w-[22px] transition-transform", active && "scale-110")} strokeWidth={active ? 2.4 : 2} />
+                 <Icon className={cn("h-[22px] w-[22px] transition-transform duration-300", active && "-translate-y-0.5")} strokeWidth={active ? 2.3 : 1.8} />
                 <span>{label}</span>
               </Link>
             </li>
