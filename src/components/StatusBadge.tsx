@@ -41,7 +41,7 @@ export function StatusBadge({ status, size = "md" }: { status: Status; size?: "s
   const iconCls = size === "lg" ? "h-4 w-4" : size === "sm" ? "h-3 w-3" : "h-3.5 w-3.5";
   return (
     <span
-      className={cn("inline-flex items-center gap-1.5 rounded-full border font-bold uppercase tracking-wider", sizeCls)}
+      className={cn("inline-flex items-center gap-1.5 rounded-full border font-medium", sizeCls)}
       style={m.style}
     >
       <m.Icon className={iconCls} aria-hidden="true" />

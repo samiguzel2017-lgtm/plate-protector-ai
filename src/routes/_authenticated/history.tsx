@@ -7,6 +7,12 @@ import { StatusBadge, type Status } from "@/components/StatusBadge";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/history")({
+  head: () => ({ meta: [
+    { title: "Analiz Geçmişi — Alentra AI" },
+    { name: "description", content: "Geçmiş gıda ve öğün analizlerinizi görüntüleyin." },
+    { property: "og:title", content: "Analiz Geçmişi — Alentra AI" },
+    { property: "og:description", content: "Geçmiş gıda ve öğün analizlerinizi görüntüleyin." },
+  ] }),
   component: HistoryPage,
 });
 
@@ -37,10 +43,10 @@ function HistoryPage() {
   ];
 
   return (
-    <div className="container-x anim-rise py-10 md:py-14">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <div className="container-x anim-rise py-7 md:py-12">
+      <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:flex sm:flex-wrap sm:justify-between">
         <h1 className="font-serif text-4xl text-foreground">{t("history.title")}</h1>
-        <div className="inline-flex rounded-full border border-border bg-surface p-0.5">
+         <div className="inline-flex max-w-full overflow-x-auto rounded-full border border-card bg-card p-1 shadow-sm">
           {filters.map((f) => (
             <button key={f.k} onClick={() => setFilter(f.k)} className={cn("rounded-full px-3.5 py-1.5 text-xs font-medium", filter === f.k ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground")}>
               {f.label}
@@ -50,14 +56,14 @@ function HistoryPage() {
       </div>
 
       {items.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border bg-surface p-16 text-center text-sm text-muted-foreground">
+         <div className="rounded-[28px] border border-card/80 bg-card p-16 text-center text-sm text-muted-foreground shadow-sm">
           {t("history.empty")}
         </div>
       ) : (
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((a) => (
             <li key={a.id}>
-              <Link to="/analysis/$id" params={{ id: a.id }} className="block h-full rounded-2xl border border-border bg-surface p-5 transition-shadow hover:shadow-[0_10px_30px_-15px_oklch(0.3_0.06_255_/_0.3)]">
+               <Link to="/analysis/$id" params={{ id: a.id }} className="card-hover block h-full rounded-[24px] border border-card/80 bg-card p-5 shadow-sm">
                 <div className="mb-4 flex items-start justify-between gap-3">
                   <p className="font-serif text-lg leading-tight text-foreground">{a.title ?? "—"}</p>
                   <StatusBadge status={a.status as Status} size="sm" />

@@ -12,6 +12,12 @@ import { X, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/profile")({
+  head: () => ({ meta: [
+    { title: "Sağlık Profili — Alentra AI" },
+    { name: "description", content: "Alerji, sağlık durumu ve beslenme tercihlerinizi yönetin." },
+    { property: "og:title", content: "Sağlık Profili — Alentra AI" },
+    { property: "og:description", content: "Alerji, sağlık durumu ve beslenme tercihlerinizi yönetin." },
+  ] }),
   component: ProfilePage,
 });
 
@@ -79,15 +85,15 @@ function ProfilePage() {
 
 
   return (
-    <div className="container-x anim-rise py-10 md:py-14">
-      <div className="mb-8 max-w-2xl">
+    <div className="container-x anim-rise py-7 md:py-12">
+      <div className="mb-6 max-w-2xl">
         <h1 className="font-serif text-4xl text-foreground">{t("prof.title")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">{t("prof.sub")}</p>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
         <div className="space-y-5">
-          <div className="rounded-2xl border border-border bg-surface p-6">
+           <div className="rounded-[26px] border border-card/80 bg-card p-6 shadow-sm">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label htmlFor="dname">{t("prof.name")}</Label>
@@ -100,7 +106,7 @@ function ProfilePage() {
           <TagSection label={t("prof.conditions")} values={conditions} setValues={setConditions} presets={CONDITION_PRESETS} t={t} />
           <TagSection label={t("prof.diet")} values={diet} setValues={setDiet} presets={DIET_PRESETS} t={t} />
 
-          <div className="rounded-2xl border border-border bg-surface p-6">
+           <div className="rounded-[26px] border border-card/80 bg-card p-6 shadow-sm">
             <Label htmlFor="notes" className="mb-2 block">{t("prof.notes")}</Label>
             <Textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t("prof.notes.ph")} rows={4} />
           </div>
@@ -133,7 +139,7 @@ function TagSection({ label, values, setValues, presets, t }: { label: string; v
     if (e.key === "Enter") { e.preventDefault(); add(input); }
   };
   return (
-    <div className="rounded-2xl border border-border bg-surface p-6">
+    <div className="rounded-[26px] border border-card/80 bg-card p-6 shadow-sm">
       <Label className="mb-3 block font-serif text-base">{label}</Label>
       <div className="mb-3 flex flex-wrap gap-1.5">
         {values.map((v) => (

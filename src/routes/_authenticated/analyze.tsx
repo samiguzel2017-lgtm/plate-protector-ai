@@ -13,6 +13,12 @@ import { Camera, Upload, X, Loader2, ScanLine } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/analyze")({
+  head: () => ({ meta: [
+    { title: "Gıda Analizi — Alentra AI" },
+    { name: "description", content: "Fotoğraf, ürün etiketi veya barkod ile kişisel gıda analizi yapın." },
+    { property: "og:title", content: "Gıda Analizi — Alentra AI" },
+    { property: "og:description", content: "Fotoğraf, ürün etiketi veya barkod ile kişisel gıda analizi yapın." },
+  ] }),
   component: AnalyzePage,
 });
 
@@ -101,19 +107,20 @@ function AnalyzePage() {
   ];
 
   return (
-    <div className="container-x py-10 md:py-14">
-      <div className="mb-8 max-w-2xl">
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">{t("analyze.title")}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{t("analyze.sub")}</p>
+    <div className="container-x py-7 md:py-12">
+      <div className="mb-6 max-w-2xl anim-rise">
+        <p className="mb-1 text-sm text-muted-foreground">{t("nav.analyze")}</p>
+        <h1 className="max-w-lg text-3xl font-semibold leading-tight text-foreground md:text-4xl">{t("analyze.title")}</h1>
+        <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">{t("analyze.sub")}</p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <div className="anim-rise rounded-3xl border border-border bg-surface p-6 md:p-8">
+      <div className="grid gap-5 lg:grid-cols-[1.45fr_0.75fr]">
+        <div className="anim-rise rounded-[28px] border border-card/80 bg-card p-4 shadow-sm md:p-7">
           <div className="mb-6">
             <Label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {t("analyze.type")}
             </Label>
-            <div className="inline-flex rounded-full border border-border bg-surface-muted p-1">
+            <div className="grid w-full grid-cols-3 rounded-2xl bg-secondary p-1">
               {tabs.map((tp) => {
                 const Icon = tp.icon;
                 const active = mode === tp.id;
@@ -123,7 +130,7 @@ function AnalyzePage() {
                     type="button"
                     onClick={() => { setMode(tp.id); onPick(null); }}
                     className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                      active ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                      active ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     <Icon className="h-3.5 w-3.5" />
@@ -144,9 +151,9 @@ function AnalyzePage() {
             <div
               onDrop={handleDrop}
               onDragOver={(e) => e.preventDefault()}
-              className="flex flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-border bg-surface-muted/40 p-12 text-center"
+               className="flex min-h-64 flex-col items-center justify-center gap-4 rounded-[24px] bg-secondary/65 p-8 text-center md:p-12"
             >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-card text-primary shadow-sm soft-float">
                 <Upload className="h-6 w-6" />
               </div>
               <p className="text-sm font-medium text-foreground">{t("analyze.dropzone")}</p>
@@ -178,7 +185,7 @@ function AnalyzePage() {
         </div>
 
         <div className="space-y-5">
-          <div className="rounded-3xl border border-border bg-surface-muted/60 p-6">
+           <div className="rounded-[24px] border border-card/80 bg-card p-6 shadow-sm">
             <h3 className="text-base font-bold tracking-tight text-foreground">{t("dash.tip.t")}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t("dash.tip.d")}</p>
           </div>

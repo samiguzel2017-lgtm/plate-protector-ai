@@ -8,6 +8,12 @@ import { Disclaimer } from "@/components/Disclaimer";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/analysis/$id")({
+  head: () => ({ meta: [
+    { title: "Analiz Sonucu — Alentra AI" },
+    { name: "description", content: "Kişisel gıda güvenliği ve beslenme analizi sonucunuz." },
+    { property: "og:title", content: "Analiz Sonucu — Alentra AI" },
+    { property: "og:description", content: "Kişisel gıda güvenliği ve beslenme analizi sonucunuz." },
+  ] }),
   component: AnalysisDetail,
 });
 
@@ -40,7 +46,7 @@ function AnalysisDetail() {
   const r = q.data.result as any;
 
   return (
-    <div className="container-x anim-rise py-10 md:py-14">
+    <div className="container-x anim-rise py-7 md:py-12">
       <Link to="/dashboard" className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
         <ArrowLeft className="h-4 w-4" /> {t("result.back")}
       </Link>
@@ -48,10 +54,10 @@ function AnalysisDetail() {
       <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
         {/* Image + status */}
         <div className="space-y-4">
-          <div className="overflow-hidden rounded-2xl border border-border bg-surface-muted">
+           <div className="overflow-hidden rounded-[28px] border border-card/80 bg-card shadow-sm">
             {imgUrl ? <img src={imgUrl} alt={q.data.title ?? ""} className="w-full object-cover" /> : <div className="aspect-square animate-pulse bg-surface-muted" />}
           </div>
-          <div className="rounded-2xl border border-border bg-surface p-5">
+           <div className="rounded-[28px] border border-card/80 bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs uppercase tracking-widest text-muted-foreground">{new Date(q.data.created_at).toLocaleString()}</p>
               <StatusBadge status={q.data.status as Status} size="lg" />
@@ -69,7 +75,7 @@ function AnalysisDetail() {
           <Section title={t("result.recommendations")} items={r?.recommendations ?? []} />
 
           {r?.nutrition_estimate && (
-            <div className="rounded-2xl border border-border bg-surface p-6">
+             <div className="rounded-[26px] border border-card/80 bg-card p-6 shadow-sm">
               <h3 className="mb-4 font-serif text-lg text-foreground">{t("result.nutrition")}</h3>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <NutritionTile label={t("result.calories")} value={r.nutrition_estimate.calories} />
@@ -90,7 +96,7 @@ function AnalysisDetail() {
 function Section({ title, items, tone }: { title: string; items: string[]; tone?: "danger" | "warning" }) {
   const { t } = useI18n();
   return (
-    <div className="rounded-2xl border border-border bg-surface p-6">
+    <div className="rounded-[26px] border border-card/80 bg-card p-6 shadow-sm">
       <h3 className="mb-3 font-serif text-lg text-foreground">{title}</h3>
       {items.length === 0 ? (
         <p className="text-sm text-muted-foreground">{t("result.none")}</p>
