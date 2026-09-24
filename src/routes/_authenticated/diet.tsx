@@ -11,11 +11,17 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/diet")({
+  head: () => ({ meta: [
+    { title: "Diyet Asistanı — Alentra AI" },
+    { name: "description", content: "Sağlık profilinize göre kişisel günlük beslenme planı oluşturun." },
+    { property: "og:title", content: "Diyet Asistanı — Alentra AI" },
+    { property: "og:description", content: "Sağlık profilinize göre kişisel günlük beslenme planı oluşturun." },
+  ] }),
   component: DietPage,
 });
 
 const selectClass =
-  "h-10 w-full rounded-md border border-input bg-background px-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "h-11 w-full rounded-2xl border border-input bg-card px-4 text-sm transition-all focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/20";
 
 function DietPage() {
   const { t, lang } = useI18n();
@@ -64,9 +70,9 @@ function DietPage() {
   };
 
   return (
-    <div className="container-x py-10 md:py-14">
-      <div className="mb-8 flex items-center gap-3 anim-rise">
-        <div className="rounded-2xl bg-[color-mix(in_oklab,var(--color-neon)_18%,transparent)] p-3 ring-1 ring-[color-mix(in_oklab,var(--color-neon)_45%,transparent)]">
+    <div className="container-x py-7 md:py-12">
+      <div className="mb-6 flex items-center gap-3 anim-rise">
+        <div className="rounded-full bg-card p-3 shadow-sm">
           <Apple className="h-6 w-6 text-[var(--color-neon)]" />
         </div>
         <div>
@@ -75,9 +81,9 @@ function DietPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_1.4fr]">
+      <div className="grid gap-5 lg:grid-cols-[1fr_1.4fr]">
         {/* Form */}
-        <div className="anim-rise rounded-2xl border border-border bg-surface p-6 cyber-border">
+        <div className="anim-rise rounded-[28px] border border-card/80 bg-card p-6 shadow-sm">
           <h2 className="mb-4 font-serif text-lg text-foreground">{t("diet.form.title")}</h2>
           <div className="grid grid-cols-2 gap-4">
             <Field label={t("diet.age")}><Input type="number" value={age} onChange={(e) => setAge(+e.target.value)} /></Field>
@@ -145,7 +151,7 @@ function DietPage() {
         {/* Result */}
         <div className="space-y-4">
           {!plan && !mut.isPending && (
-            <div className="anim-rise rounded-2xl border border-dashed border-border bg-surface/40 p-10 text-center text-sm text-muted-foreground">
+             <div className="anim-rise rounded-[28px] border border-card/80 bg-card p-10 text-center text-sm text-muted-foreground shadow-sm">
               {t("diet.empty")}
             </div>
           )}
@@ -169,7 +175,7 @@ function DietPage() {
                 <Stat icon={<Droplets className="h-4 w-4" />} label={t("diet.water")} value={`${(plan.hydrationMl / 1000).toFixed(1)}`} unit="L" />
               </div>
 
-              <div className="rounded-2xl border border-border bg-surface p-5">
+               <div className="rounded-[26px] border border-card/80 bg-card p-5 shadow-sm">
                 <p className="text-sm leading-relaxed text-foreground">{plan.summary}</p>
 
                 <div className="mt-5 space-y-3">
@@ -192,7 +198,7 @@ function DietPage() {
                 {plan.meals.map((m, i) => (
                   <div
                     key={i}
-                    className="anim-rise card-hover rounded-2xl border border-border bg-surface p-5"
+                     className="anim-rise card-hover rounded-[26px] border border-card/80 bg-card p-5 shadow-sm"
                     style={{ animationDelay: `${i * 70}ms` }}
                   >
                     <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
@@ -221,7 +227,7 @@ function DietPage() {
               </div>
 
               {plan.shoppingList.length > 0 && (
-                <div className="rounded-2xl border border-border bg-surface p-5">
+                 <div className="rounded-[26px] border border-card/80 bg-card p-5 shadow-sm">
                   <h3 className="mb-3 flex items-center gap-2 font-medium text-foreground">
                     <ShoppingBasket className="h-4 w-4 text-[var(--color-neon)]" />{t("diet.shopping")}
                   </h3>
@@ -234,7 +240,7 @@ function DietPage() {
               )}
 
               {plan.tips.length > 0 && (
-                <div className="rounded-2xl border border-border bg-surface-muted/50 p-5">
+                 <div className="rounded-[26px] border border-card/80 bg-card p-5 shadow-sm">
                   <h3 className="mb-2 font-medium text-foreground">{t("diet.tips")}</h3>
                   <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
                     {plan.tips.map((tip, i) => (<li key={i}>{tip}</li>))}
@@ -260,7 +266,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function Stat({ icon, label, value, unit }: { icon: React.ReactNode; label: string; value: string; unit?: string }) {
   return (
-    <div className="card-hover rounded-2xl border border-border bg-surface p-4">
+    <div className="card-hover rounded-[22px] border border-card/80 bg-card p-4 shadow-sm">
       <div className="mb-1 flex items-center gap-1.5 text-xs text-muted-foreground">{icon}<span className="truncate">{label}</span></div>
       <div className="font-serif text-xl text-foreground">
         {value}

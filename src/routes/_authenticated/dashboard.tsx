@@ -10,6 +10,12 @@ import { cn } from "@/lib/utils";
 import { Camera, ArrowRight, Lightbulb, HeartPulse, Plus, Apple, Droplets, Activity } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
+  head: () => ({ meta: [
+    { title: "Ana Sayfa — Alentra AI" },
+    { name: "description", content: "Kişisel sağlık puanınızı, su takibinizi ve son analizlerinizi görüntüleyin." },
+    { property: "og:title", content: "Ana Sayfa — Alentra AI" },
+    { property: "og:description", content: "Kişisel sağlık puanınızı, su takibinizi ve son analizlerinizi görüntüleyin." },
+  ] }),
   component: Dashboard,
 });
 
@@ -55,11 +61,11 @@ function Dashboard() {
   const healthScore = Math.min(100, Math.round((analyses.length * 12) + (water / waterGoal) * 30 + (hpEmpty ? 0 : 25) + 20));
 
   return (
-    <div className="container-x anim-rise py-10 md:py-14">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
-        <div>
+    <div className="container-x anim-rise py-7 md:py-12">
+      <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:flex sm:flex-wrap sm:justify-between">
+        <div className="min-w-0">
           <p className="text-sm text-muted-foreground">{t("dash.welcome")}</p>
-          <h1 className="mt-1 font-serif text-4xl text-foreground">{displayName}</h1>
+          <h1 className="mt-1 truncate text-3xl font-semibold text-foreground md:text-4xl">{displayName}</h1>
         </div>
         <Link to="/analyze">
           <Button className="rounded-full neon-glow">
@@ -71,7 +77,7 @@ function Dashboard() {
 
       {/* Premium widgets */}
       <div className="mb-6 grid gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-border bg-surface p-5 cyber-border">
+         <div className="rounded-[26px] border border-card/80 bg-card p-5 shadow-sm">
           <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
             <Activity className="h-4 w-4 text-[var(--color-neon)]" />
             {t("dash.score.t")}
@@ -94,7 +100,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-border bg-surface p-5">
+         <div className="rounded-[26px] border border-card/80 bg-card p-5 shadow-sm">
           <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
             <Droplets className="h-4 w-4 text-[var(--color-cyber)]" />
             {t("dash.water.t")}
@@ -121,7 +127,7 @@ function Dashboard() {
       <div className="mb-6">
         <Link
           to="/diet"
-          className="group flex items-center justify-between rounded-2xl border border-border bg-surface p-5 transition hover:border-[color-mix(in_oklab,var(--color-neon)_50%,transparent)]"
+           className="group flex items-center justify-between rounded-[26px] border border-card/80 bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
         >
           <div className="flex items-center gap-3">
             <span className="rounded-xl bg-[color-mix(in_oklab,var(--color-neon)_15%,transparent)] p-2.5 text-[var(--color-neon)]">
@@ -139,7 +145,7 @@ function Dashboard() {
       <div className="grid gap-5 lg:grid-cols-[1.6fr_1fr]">
         {/* Left: quick analyze + recent */}
         <div className="space-y-5">
-          <Link to="/analyze" className="group block overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary to-[oklch(0.28_0.07_255)] p-7 text-primary-foreground transition-shadow hover:shadow-[0_24px_50px_-24px_oklch(0.28_0.07_255_/_0.6)]">
+          <Link to="/analyze" className="group block overflow-hidden rounded-[26px] border border-primary/20 bg-primary p-7 text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-lg">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <p className="text-xs uppercase tracking-widest opacity-70">{t("dash.quick.t")}</p>
@@ -151,7 +157,7 @@ function Dashboard() {
             </div>
           </Link>
 
-          <div className="rounded-2xl border border-border bg-surface">
+          <div className="overflow-hidden rounded-[26px] border border-card/80 bg-card shadow-sm">
             <div className="flex items-center justify-between border-b border-border p-5">
               <h3 className="font-serif text-xl text-foreground">{t("dash.recent.t")}</h3>
               <Link to="/history" className="text-xs text-muted-foreground hover:text-foreground">{t("dash.recent.view")}</Link>
@@ -177,7 +183,7 @@ function Dashboard() {
 
         {/* Right: profile + tip */}
         <div className="space-y-5">
-          <div className="rounded-2xl border border-border bg-surface p-6">
+           <div className="rounded-[26px] border border-card/80 bg-card p-6 shadow-sm">
             <div className="mb-4 flex items-center gap-2">
               <HeartPulse className="h-4 w-4 text-[oklch(0.55_0.12_148)]" />
               <h3 className="font-serif text-xl text-foreground">{t("dash.profile.t")}</h3>
@@ -197,7 +203,7 @@ function Dashboard() {
             )}
           </div>
 
-          <div className="rounded-2xl border border-border bg-surface-muted/60 p-6">
+           <div className="rounded-[26px] border border-card/80 bg-card p-6 shadow-sm">
             <div className="mb-2 flex items-center gap-2">
               <Lightbulb className="h-4 w-4 text-[oklch(0.6_0.14_85)]" />
               <h3 className="font-medium text-foreground">{t("dash.tip.t")}</h3>

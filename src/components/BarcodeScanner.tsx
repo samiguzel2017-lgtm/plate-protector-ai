@@ -133,7 +133,7 @@ export function BarcodeScanner({ onDetected, onCancel, busy, statusText }: Props
     } | null;
     if (!s?.applyVideoConstraints) return;
     try {
-      await s.applyVideoConstraints({ advanced: [{ torch: !torchOn }] } as MediaTrackConstraints);
+      await s.applyVideoConstraints({ advanced: [{ torch: !torchOn }] } as unknown as MediaTrackConstraints);
       setTorchOn((v) => !v);
     } catch {
       setErr(t("analyze.barcode.torchFail"));

@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export function Disclaimer({ className }: { variant?: "default" | "compact" | "inline"; className?: string }) {
   const { t } = useI18n();
   return (
-    <p className={cn("text-[11px] font-light leading-relaxed text-muted-foreground/80", className)}>
+    <p className={cn("rounded-2xl border border-card/80 bg-secondary/70 px-4 py-3 text-[11px] font-light leading-relaxed text-muted-foreground", className)}>
       <span className="font-medium text-foreground/80">{t("disclaimer.title")}: </span>
       {t("disclaimer.body")}
     </p>

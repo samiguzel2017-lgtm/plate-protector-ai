@@ -14,7 +14,12 @@ import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Giriş — Alentra AI" }] }),
+  head: () => ({ meta: [
+    { title: "Giriş — Alentra AI" },
+    { name: "description", content: "Alentra AI hesabınıza giriş yapın veya ücretsiz hesap oluşturun." },
+    { property: "og:title", content: "Giriş — Alentra AI" },
+    { property: "og:description", content: "Alentra AI hesabınıza giriş yapın veya ücretsiz hesap oluşturun." },
+  ] }),
   component: AuthPage,
 });
 
@@ -72,16 +77,15 @@ function AuthPage() {
   };
 
   return (
-    <div className="grid min-h-screen bg-background text-foreground lg:grid-cols-[1fr_1.05fr]">
+    <div className="grid min-h-screen bg-background text-foreground lg:grid-cols-[0.9fr_1.1fr]">
       {/* Left brand panel */}
-      <div className="relative hidden flex-col justify-between overflow-hidden bg-primary p-10 text-primary-foreground lg:flex">
+       <div className="relative hidden flex-col justify-between overflow-hidden bg-primary p-12 text-primary-foreground lg:flex">
         <Link to="/"><AlentraLogo className="[&_span]:text-primary-foreground" /></Link>
         <div className="space-y-5">
           <h2 className="font-serif text-4xl leading-tight">{t("hero.title")}</h2>
           <p className="max-w-md text-sm opacity-80">{t("hero.sub")}</p>
         </div>
         <p className="font-serif italic opacity-70">{t("brand.tagline")}</p>
-        <div className="absolute -right-32 -bottom-32 h-80 w-80 rounded-full bg-[oklch(0.5_0.12_230)] opacity-40 blur-3xl" />
       </div>
 
       {/* Right form */}
@@ -96,7 +100,7 @@ function AuthPage() {
           </div>
         </div>
         <div className="flex flex-1 items-center justify-center px-5 pb-10">
-          <div className="w-full max-w-sm space-y-6">
+           <div className="w-full max-w-md space-y-6 rounded-[30px] border border-card/80 bg-card p-7 shadow-sm sm:p-9">
             <div>
               <h1 className="font-serif text-3xl text-foreground">
                 {mode === "signin" ? t("auth.title") : t("auth.title.signup")}
